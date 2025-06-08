@@ -1,0 +1,28 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme -->
+    <style name="Base.Theme.PetCareMobileForStaff" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Nền button không bị tint -->
+        <item name="materialButtonStyle">@style/NoTintButtonStyle</item>
+
+        <!-- Theme cho FloatingActionButton -->
+        <item name="floatingActionButtonStyle">@style/NoTintFABStyle</item>
+    </style>
+
+    <!-- Application theme -->
+    <style name="Theme.PetCareMobileForStaff" parent="Base.Theme.PetCareMobileForStaff" />
+
+    <!-- Button style không có tint -->
+    <style name="NoTintButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTintMode">src_in</item>
+        <item name="backgroundTint">@null</item> <!-- Không dùng transparent -->
+        <item name="rippleColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- FloatingActionButton style không có tint -->
+    <style name="NoTintFABStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">?attr/colorPrimary</item>
+        <item name="elevation">6dp</item>
+        <item name="pressedTranslationZ">12dp</item>
+    </style>
+</resources>

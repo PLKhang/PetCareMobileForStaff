@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/bottom_nav_background"/>
+    <pathData android:pathData="M0,0 H100 V80 C50,30 50,30 0,80 Z"/>
+</shape>

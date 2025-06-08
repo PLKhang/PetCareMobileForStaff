@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/homePageFragment">
+
+    <!-- Home -->
+    <fragment
+        android:id="@+id/homePageFragment"
+        android:name="com.petcare.staff.ui.home.fragment.HomePageFragment"
+        android:label="Home">
+        <action
+            android:id="@+id/action_home_to_appointmentList"
+            app:destination="@id/appointmentListFragment" />
+        <action
+            android:id="@+id/action_home_to_customerList"
+            app:destination="@id/customerListFragment" />
+        <action
+            android:id="@+id/action_home_to_inventory"
+            app:destination="@id/inventoryFragment" />
+        <action
+            android:id="@+id/action_home_to_userProfile"
+            app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_home_to_notification"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_home_to_createBill"
+            app:destination="@id/createBillFragment" />
+    </fragment>
+
+    <!-- Appointment -->
+    <fragment
+        android:id="@+id/appointmentListFragment"
+        android:name="com.petcare.staff.ui.appointment.fragment.AppointmentListFragment"
+        android:label="Appointments">
+        <action
+            android:id="@+id/action_appointment_to_detail"
+            app:destination="@id/appointmentDetailFragment" />
+    </fragment>
+
+    <!-- Appointment detail-->
+    <fragment
+        android:id="@+id/appointmentDetailFragment"
+        android:name="com.petcare.staff.ui.appointment.fragment.AppointmentDetailFragment"
+        android:label="Appointment Detail">
+        <action
+            android:id="@+id/action_appointmentDetail_to_selectProduct"
+            app:destination="@id/selectProductFragment" />
+        <action
+            android:id="@+id/action_appointmentDetail_to_selectService"
+            app:destination="@id/selectServiceFragment" />
+        <action
+            android:id="@+id/action_appointmentDetail_to_checkout"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
+
+    <!-- Billing -->
+    <fragment
+        android:id="@+id/createBillFragment"
+        android:name="com.petcare.staff.ui.billing.fragment.CreateBillFragment"
+        android:label="Create Bill">
+        <action
+            android:id="@+id/action_createBill_to_selectProduct"
+            app:destination="@id/selectProductFragment" />
+        <action
+            android:id="@+id/action_createBill_to_selectService"
+            app:destination="@id/selectServiceFragment" />
+        <action
+            android:id="@+id/action_createBill_to_checkout"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
+
+    <!--    Select Product-->
+    <fragment
+        android:id="@+id/selectProductFragment"
+        android:name="com.petcare.staff.ui.billing.fragment.SelectProductFragment"
+        android:label="Select Product" />
+
+    <!--    Select Service-->
+    <fragment
+        android:id="@+id/selectServiceFragment"
+        android:name="com.petcare.staff.ui.billing.fragment.SelectServiceFragment"
+        android:label="Select Service" />
+
+    <!--    Checkout-->
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.petcare.staff.ui.billing.fragment.CheckoutFragment"
+        android:label="Checkout" />
+
+    <!-- Customer -->
+    <fragment
+        android:id="@+id/customerListFragment"
+        android:name="com.petcare.staff.ui.customer.fragment.CustomerListFragment"
+        android:label="Customers">
+        <action
+            android:id="@+id/action_customerList_to_detail"
+            app:destination="@id/customerDetailFragment" />
+        <action
+            android:id="@+id/action_customerList_to_addNewCustomer"
+            app:destination="@id/addNewCustomerFragment" />
+    </fragment>
+
+    <!--    Customer detail-->
+    <fragment
+        android:id="@+id/customerDetailFragment"
+        android:name="com.petcare.staff.ui.customer.fragment.CustomerDetailFragment"
+        android:label="Customer Detail">
+        <action
+            android:id="@+id/action_customerDetail_to_petDetail"
+            app:destination="@id/petDetailFragment" />
+        <action
+            android:id="@+id/action_customerDetail_to_addNewPet"
+            app:destination="@id/addNewPetFragment" />
+        <action
+            android:id="@+id/action_customerDetail_to_billDetail"
+            app:destination="@+id/billDetailFragment" />
+        <action
+            android:id="@+id/action_customerDetail_to_createBill"
+            app:destination="@+id/createBillFragment" />
+    </fragment>
+
+    <!--    Add new customer-->
+    <fragment
+        android:id="@+id/addNewCustomerFragment"
+        android:name="com.petcare.staff.ui.customer.fragment.AddNewCustomerFragment"
+        android:label="Add Customer" />
+
+    <!--    Add new pet-->
+    <fragment
+        android:id="@+id/addNewPetFragment"
+        android:name="com.petcare.staff.ui.pet.fragment.AddNewPetFragment"
+        android:label="Add Pet" />
+
+    <!--    Bill detail-->
+    <fragment
+        android:id="@+id/billDetailFragment"
+        android:name="com.petcare.staff.ui.billing.fragment.BillDetailFragment"
+        android:label="Bill Detail" />
+
+    <!--    Pet detail-->
+    <fragment
+        android:id="@+id/petDetailFragment"
+        android:name="com.petcare.staff.ui.pet.fragment.PetDetailFragment"
+        android:label="Pet Detail">
+        <action
+            android:id="@+id/action_petDetail_to_addMedicalRecord"
+            app:destination="@id/addMedicalRecordFragment" />
+        <action
+            android:id="@+id/action_petDetail_to_addVaccineRecord"
+            app:destination="@id/addVaccineRecordFragment" />
+        <action
+            android:id="@+id/action_petDetail_to_medicalRecordDetail"
+            app:destination="@id/medicalRecordDetail" />
+        <action
+            android:id="@+id/action_petDetail_to_vaccineRecordDetail"
+            app:destination="@id/vaccineRecordDetail" />
+    </fragment>
+
+    <!--    Add new medical record-->
+    <fragment
+        android:id="@+id/addMedicalRecordFragment"
+        android:name="com.petcare.staff.ui.pet.fragment.AddMedicalRecordFragment"
+        android:label="Add Medical Record" />
+
+    <!--    Add new vaccine record-->
+    <fragment
+        android:id="@+id/addVaccineRecordFragment"
+        android:name="com.petcare.staff.ui.pet.fragment.AddVaccineRecordFragment"
+        android:label="Add Vaccine Record" />
+
+    <!--    Medical record detail-->
+    <fragment
+        android:id="@+id/medicalRecordDetail"
+        android:name="com.petcare.staff.ui.pet.fragment.MedicalRecordDetailFragment"
+        android:label="Medical Record Detail" />
+
+    <!--    Vaccine record detail-->
+    <fragment
+        android:id="@+id/vaccineRecordDetail"
+        android:name="com.petcare.staff.ui.pet.fragment.VaccineRecordDetailFragment"
+        android:label="Vaccine Record Detail" />
+
+    <!-- Inventory -->
+    <fragment
+        android:id="@+id/inventoryFragment"
+        android:name="com.petcare.staff.ui.inventory.fragment.InventoryFragment"
+        android:label="Inventory" />
+
+    <!-- User Profile -->
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.petcare.staff.ui.userprofile.fragment.UserProfileFragment"
+        android:label="Profile" />
+
+    <!-- Notifications -->
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.petcare.staff.ui.home.fragment.NotificationFragment"
+        android:label="Notifications" />
+
+</navigation>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Top profile -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:elevation="4dp"
+            android:padding="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background">
+
+                <FrameLayout
+                    android:id="@+id/image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/draw_image_view"
+                    android:clipToOutline="true"
+                    android:padding="1dp">
+
+                    <ImageView
+                        android:id="@+id/petImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/temp_avatar" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/image"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/petName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Name: Lucky"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/petSpecies"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Dog: Poodle"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/petBirth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Birth: 22/12/2023"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/petWeight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Weight: 5.2Kg"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnEditInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/draw_enable_button"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="0dp"
+                    android:text="Edit Info"
+                    android:textColor="@color/txt_button" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Pets section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/headerMedicalRecord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/draw_background_list_header"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp">
+
+                <TextView
+                    android:id="@+id/titleMedicalRecord"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Medical Records"
+                    android:textColor="@color/txt_title"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnToggleMedicalRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/draw_enable_button"
+                    android:minWidth="0dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_chevron_right"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/listOfMedicalRecords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:background="@drawable/draw_background_list_item"
+                android:visibility="gone">
+
+                <!-- Sample item 1 -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerMedicalRecords"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/draw_background_list_item" />
+
+                <!-- Footer -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtAddMedicalRecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:paddingHorizontal="8dp"
+                        android:text="Add Record"
+                        android:textColor="@color/txt_button" />
+
+                    <TextView
+                        android:id="@+id/txtShowMoreMedicalRecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="8dp"
+                        android:text="|     Show more"
+                        android:textColor="@color/txt_button" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Vaccination section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/headerVaccination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/draw_background_list_header"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp">
+
+                <TextView
+                    android:id="@+id/titleVaccination"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Vaccination"
+                    android:textColor="@color/txt_title"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
+
+                <ImageButton
+                    android:id="@+id/btnToggleVaccination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/draw_enable_button"
+                    android:minWidth="0dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_chevron_right"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/listOfVaccination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:background="@drawable/draw_background_list_item"
+                android:visibility="gone">
+
+                <!-- Sample item 2 -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerVaccination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/draw_background_list_item" />
+
+                <!-- Footer -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtAddVaccination"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:paddingHorizontal="8dp"
+                        android:text="Add Record"
+                        android:textColor="@color/txt_button" />
+
+                    <TextView
+                        android:id="@+id/txtShowMoreVaccination"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="8dp"
+                        android:text="|     Show more"
+                        android:textColor="@color/txt_button" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

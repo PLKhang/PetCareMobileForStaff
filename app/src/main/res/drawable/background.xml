@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Nền chính với màu gradient -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#FFDEE9"
+                android:endColor="#B5FFFC"
+                android:angle="45"/>
+<!--            <corners android:radius="16dp" />-->
+        </shape>
+    </item>
+
+    <!-- Lớp bóng mờ nhẹ (nếu muốn tạo chiều sâu) -->
+    <item android:left="0dp" android:top="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#33000000" /> <!-- màu đen trong suốt -->
+<!--            <corners android:radius="16dp" />-->
+        </shape>
+    </item>
+
+</layer-list>

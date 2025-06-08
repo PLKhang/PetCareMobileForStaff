@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <!--Text-->
+    <color name="txt_tint">#48A6A7</color>
+    <color name="txt_normal">#050B0C</color>
+    <color name="txt_button">#006A71</color>
+    <color name="txt_title">#2A4252</color>
+    <color name="txt_input">#050B0C</color>
+    <color name="txt_stroke">#153232</color>
+
+    <!--Background-->
+    <color name="background">#48A6A7</color>
+    <color name="bg_item">#F2EFE7</color>
+    <color name="bg_list_item">#9ACBD0</color>
+    <color name="bg_edit_text">#F2EFE7</color>
+    <color name="bg_toolbar">#F2EFE7</color>
+    <!--Button-->
+    <color name="btn_enable">#9ACBD0</color>
+    <color name="btn_disable">#CEC6C8</color>
+    <color name="btn_stroke">#006a71</color>
+    <!--Icon-->
+    <color name="icon">#050B0C</color>
+
+    <!-- Màu nền của Bottom Navigation -->
+    <color name="bottom_nav_background">#F2EFE7</color>
+    <!-- Màu khi được chọn -->
+    <color name="color_nav_selected">#00796B</color>
+    <!-- Màu khi không được chọn -->
+    <color name="color_nav_unselected">#90CAF9</color>
+</resources>

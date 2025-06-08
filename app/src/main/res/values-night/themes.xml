@@ -1,0 +1,14 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.PetCareMobileForStaff" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Nền button không bị tint -->
+        <item name="materialButtonStyle">@style/NoTintButtonStyle</item>
+    </style>
+
+    <style name="NoTintButtonStyle" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="backgroundTint">@android:color/transparent</item> <!-- Cả 2 để chắc chắn -->
+    </style>
+</resources>

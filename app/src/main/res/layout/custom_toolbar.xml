@@ -1,0 +1,63 @@
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/bg_toolbar"
+    android:elevation="4dp"
+    android:padding="8dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <!-- Custom View Inside Toolbar -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+        <!-- Nút Menu hoặc Back -->
+        <ImageView
+            android:id="@+id/btnNav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Navigation Button" />
+
+        <!-- Tên Fragment -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fragment Name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/txt_title"
+            android:layout_toEndOf="@id/btnNav"
+            android:layout_marginStart="15dp"
+            android:layout_centerVertical="true" />
+
+        <!-- Logo cửa hàng -->
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_animal"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Logo" />
+
+        <!-- Tên chi nhánh -->
+        <TextView
+            android:id="@+id/tvBranch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Branch X"
+            android:textSize="20sp"
+            android:textColor="@color/txt_button"
+            android:layout_toStartOf="@id/imgLogo"
+            android:layout_marginEnd="8dp"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+</androidx.appcompat.widget.Toolbar>

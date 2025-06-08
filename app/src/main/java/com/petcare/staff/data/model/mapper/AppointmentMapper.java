@@ -1,0 +1,137 @@
+package com.petcare.staff.data.model.mapper;
+
+import android.content.Context;
+
+import com.petcare.staff.data.model.api.appointment.AppointmentDetailResponse;
+import com.petcare.staff.data.model.api.appointment.AppointmentResponse;
+import com.petcare.staff.data.model.api.appointment.AppointmentServiceDetail;
+import com.petcare.staff.data.model.api.appointment.AppointmentStatus;
+import com.petcare.staff.data.model.api.appointment.CreateAppointmentRequest;
+import com.petcare.staff.data.model.api.appointment.OrderItem;
+import com.petcare.staff.data.model.api.appointment.ServiceResponse;
+import com.petcare.staff.data.model.api.appointment.UpdateAppointmentStatusRequest;
+import com.petcare.staff.data.model.ui.Appointment;
+import com.petcare.staff.data.model.ui.Order;
+import com.petcare.staff.data.model.ui.Product;
+import com.petcare.staff.data.model.ui.Service;
+import com.petcare.staff.data.model.ui.SimplifiedAppointment;
+import com.petcare.staff.utils.DateTime;
+import com.petcare.staff.utils.SharedPrefManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AppointmentMapper {
+    public static Service toService(ServiceResponse response) {
+        return new Service(
+                String.valueOf(response.getId()),
+                response.getName(),
+                response.getDescription(),
+                response.getPrice(),
+                response.getImage_url()
+        );
+    }
+
+    public static List<Service> toServiceList(List<ServiceResponse> responses) {
+        List<Service> services = new ArrayList<>();
+        for (ServiceResponse response : responses) {
+            services.add(toService(response));
+        }
+        return services;
+    }
+
+    public static SimplifiedAppointment toSimplifiedAppointment(AppointmentResponse response) {
+        // Convert scheduled_time Iso String to DateTime using your utils.DateTime class
+        DateTime time = DateTime.parse(response.getScheduled_time());
+
+        return new SimplifiedAppointment(
+                String.valueOf(response.getId()),
+                String.valueOf(response.getCustomer_id()),
+                String.valueOf(response.getEmployee_id()),
+                String.valueOf(response.getBranch_id()),
+                time,
+                response.getStatus(),
+                response.getNote(),
+                response.getCustomer_address(),
+                response.getTotal()
+        );
+    }
+
+    public static List<SimplifiedAppointment> toSimplifiedAppointmentList(List<AppointmentResponse> responses) {
+        List<SimplifiedAppointment> appointments = new ArrayList<>();
+        for (AppointmentResponse appointment : responses) {
+            appointments.add(toSimplifiedAppointment(appointment));
+        }
+        return appointments;
+    }
+
+    public static Appointment toAppointmentDetail(AppointmentDetailResponse response) {
+        // Convert scheduled_time Iso String to DateTime using your utils.DateTime class
+        DateTime time = DateTime.parse(response.getAppointment().getScheduled_time());
+        DateTime order_created = DateTime.parse(response.getOrder().getCreated_at());
+        DateTime order_updated = DateTime.parse(response.getOrder().getUpdated_at());
+
+        // String to enum
+        AppointmentStatus status = AppointmentStatus.valueOf(response.getAppointment().getStatus().toUpperCase());
+
+        List<Product> products = new ArrayList<>();
+        for (OrderItem product : response.getOrder().getItems()) {
+            products.add(new Product(
+                    String.valueOf(product.getProduct_id()),
+                    product.getProduct_type(),
+                    product.getQuantity()));
+
+        }
+
+        List<Service> services = new ArrayList<>();
+        for (AppointmentServiceDetail service : response.getDetails()) {
+            services.add(new Service(
+                    String.valueOf(service.getService_id()),
+                    service.getQuantity()
+            ));
+        }
+
+        return new Appointment(
+                String.valueOf(response.getAppointment().getId()),
+                new Order(
+                        String.valueOf(response.getOrder().getId()),
+                        String.valueOf(response.getOrder().getCustomer_id()),
+                        String.valueOf(response.getOrder().getBranch_id()),
+                        response.getOrder().getTotal_price(),
+                        order_created,
+                        order_updated,
+                        products),
+                response.getAppointment().getCustomer_address(),
+                time,
+                status,
+                response.getAppointment().getNote(),
+                response.getAppointment().getTotal(),
+                services
+        );
+    }
+
+    public static CreateAppointmentRequest toCreateAppointmentRequest(Context context, Appointment appointment) {
+        List<CreateAppointmentRequest.ServiceItem> services = new ArrayList<>();
+        for (Service service : appointment.getServices()) {
+            services.add(new CreateAppointmentRequest.ServiceItem(
+                    Integer.parseInt(service.getId()),
+                    service.getQuantity()
+            ));
+        }
+        return new CreateAppointmentRequest(
+                Integer.parseInt(appointment.getCustomerId()),
+                appointment.getCustomerAddress(),
+                appointment.getScheduledTime().toIsoString(),
+                services,
+                appointment.getNote(),
+                SharedPrefManager.getBranchId(context)
+        );
+    }
+
+    public static UpdateAppointmentStatusRequest toUpdateAppointmentRequest(Appointment appointment) {
+        return new UpdateAppointmentStatusRequest(
+                String.valueOf(appointment.getId()),
+                appointment.getStatus()
+        );
+    }
+}

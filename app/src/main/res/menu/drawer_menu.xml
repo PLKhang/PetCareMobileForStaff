@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:title="Home"
+            android:icon="@drawable/ic_home"/>
+        <item
+            android:id="@+id/appointment"
+            android:title="Appointment"
+            android:icon="@drawable/ic_schedule"/>
+        <item
+            android:id="@+id/bill"
+            android:title="Create Bill"
+            android:icon="@drawable/ic_receipt"/>
+        <item
+            android:id="@+id/inventory"
+            android:title="Inventory"
+            android:icon="@drawable/ic_inventory"/>
+    </group>
+    <group android:checkableBehavior="single">
+
+        <item android:title="Profile">
+            <menu>
+                <item
+                    android:id="@+id/nav_Profile"
+                    android:title="Your Profile"
+                    android:icon="@drawable/ic_person"/>
+                <item
+                    android:id="@+id/nav_Logout"
+                    android:title="Logout"
+                    android:icon="@drawable/ic_logout"/>
+            </menu>
+        </item>
+    </group>
+</menu>
