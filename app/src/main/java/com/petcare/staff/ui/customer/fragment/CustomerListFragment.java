@@ -98,6 +98,6 @@ public class CustomerListFragment extends Fragment {
             }
         );
         selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
-        selectedCustomerVM.resetSelectedCustomer();
+        selectedCustomerVM.clear();
     }
 }

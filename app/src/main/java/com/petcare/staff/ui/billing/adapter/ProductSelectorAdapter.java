@@ -108,11 +108,27 @@ public class ProductSelectorAdapter extends RecyclerView.Adapter<ProductSelector
                         .error(R.drawable.error_image)
                         .into(image);
             }
-            btnAdd.setText(selectedProducts.contains(product) ? "REMOVE" : "ADD");
+            boolean isExited = false;
+            for (Product p: selectedProducts)
+            {
+                if (p.getId().equals(product.getId())){
+                    isExited = true;
+                    break;
+                }
+            }
+            btnAdd.setText(isExited ? "REMOVE" : "ADD");
             btnAdd.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onAddClick(product);
-                    btnAdd.setText(selectedProducts.contains(product) ? "REMOVE" : "ADD");
+                    boolean existed = false;
+                    for (Product p: selectedProducts)
+                    {
+                        if (p.getId().equals(product.getId())){
+                            existed = true;
+                            break;
+                        }
+                    }
+                    btnAdd.setText(existed ? "REMOVE" : "ADD");
                 }
             });
         }

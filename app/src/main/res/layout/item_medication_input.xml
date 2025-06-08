@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/draw_background_item"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/draw_background_item"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <!-- Tên thuốc -->
+        <EditText
+            android:id="@+id/et_med_name"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/draw_edit_text"
+            android:hint="Tên thuốc"
+            android:inputType="textCapWords"
+            android:paddingStart="10dp"
+            android:textSize="14sp" />
+
+        <!-- Liều lượng -->
+        <EditText
+            android:id="@+id/et_med_dosage"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/draw_edit_text"
+            android:hint="Liều lượng (vd: 2 viên/ngày)"
+            android:inputType="text"
+            android:paddingStart="10dp"
+            android:textSize="14sp" />
+
+        <!-- Ngày bắt đầu và kết thúc -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/et_start_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/draw_edit_text"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:focusable="false"
+                android:hint="Ngày bắt đầu"
+                android:inputType="date"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="0dp"
+                android:textSize="14sp" />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/et_end_date"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/draw_edit_text"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:focusable="false"
+                android:hint="Ngày kết thúc"
+                android:inputType="date"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="0dp"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Nút Xóa -->
+        <Button
+            android:id="@+id/btn_delete_medication"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#D32F2F"
+            android:text="Xoá"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -61,5 +61,4 @@ public class AppointmentAdapter extends BaseExpandableAdapter<SimplifiedAppointm
             });
         }
     }
-
 }

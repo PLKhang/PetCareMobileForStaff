@@ -16,14 +16,16 @@ import java.util.List;
 public class OrderMapper {
     public static Order toOrder(OrderResponse response) {
         DateTime order_created = DateTime.parse(response.getCreated_at());
+        DateTime order_updated = DateTime.parse(response.getUpdated_at());
         List<Product> products = toProductList(response.getItems());
         return new Order(
-                String.valueOf(response.getOrder_id()),
+                String.valueOf(response.getId()),
                 String.valueOf(response.getCustomer_id()),
                 String.valueOf(response.getBranch_id()),
                 String.valueOf(response.getAppointment_id()),
-                response.getStatus(),
+                response.getTotal_price(),
                 order_created,
+                order_updated,
                 products
         );
     }
@@ -67,10 +69,10 @@ public class OrderMapper {
         return items;
     }
 
-    public static CreateOrderRequest toCreateOrderRequest(int branch_id, Order order) {
+    public static CreateOrderRequest toCreateOrderRequest(Order order) {
         return new CreateOrderRequest(
                 Integer.parseInt(order.getCustomer_id()),
-                branch_id,
+                Integer.parseInt(order.getBranch_id()),
                 Integer.parseInt(order.getAppointment_id()),
                 toOrderItemRequestList(order.getProducts())
         );

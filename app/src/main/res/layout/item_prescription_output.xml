@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_prescription_item"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/draw_background_item"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/txtPrescriptTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prescription 1"
+        android:layout_gravity="center"
+        android:textColor="@color/txt_normal"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1" />
+    <!-- Medication button -->
+    <Button
+        android:id="@+id/btnPrescriptionDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:paddingVertical="0dp"
+        android:background="@drawable/draw_enable_button"
+        android:textColor="@color/txt_button"
+        android:layout_gravity="center"
+        android:text="View details" />
+
+
+</LinearLayout>

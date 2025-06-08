@@ -45,4 +45,28 @@ public class DateTime {
         dateTimeFormat.setTimeZone(TimeZone.getDefault());
         return dateTimeFormat.format(date);
     }
+
+    public static DateTime toDate(String dateString) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+            dateFormat.setTimeZone(TimeZone.getDefault());
+            java.util.Date parsedDate = dateFormat.parse(dateString);
+            return new DateTime(parsedDate);
+        } catch (ParseException e) {
+            throw new RuntimeException("Invalid date format: " + dateString);
+        }
+    }
+
+    public static DateTime fromDateAndTime(String dateString, String timeString) {
+        try {
+            String combined = dateString + " " + timeString; // "dd/MM/yyyy HH:mm"
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+            dateTimeFormat.setTimeZone(TimeZone.getDefault());
+            java.util.Date parsedDate = dateTimeFormat.parse(combined);
+            return new DateTime(parsedDate);
+        } catch (ParseException e) {
+            throw new RuntimeException("Invalid date or time format: " + dateString + " " + timeString);
+        }
+    }
+
 }

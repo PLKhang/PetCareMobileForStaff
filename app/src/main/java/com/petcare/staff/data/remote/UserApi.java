@@ -28,7 +28,7 @@ public interface UserApi {
     Call<UserResponse> getCurrentUser();
 
     @GET("api/v1/users/{id}")
-    Call<UserResponse> getUserInfoById(@Path("id") int id);
+    Call<UserByIdResponse> getUserInfoById(@Path("id") int id);
 
     @GET("api/v1/user/email")
     Call<UserResponse> getUserInfoByEmail(@Query("email") String email);

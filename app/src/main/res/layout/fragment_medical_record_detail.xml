@@ -1,14 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.pet.fragment.MedicalRecordDetailFragment">
+    android:background="@color/background"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/prescriptionContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <!-- Vet selector -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="Vet"
+            android:textColor="@color/txt_normal"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/vetName"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/draw_edit_text"
+            android:focusable="false"
+            android:gravity="center|start"
+            android:paddingHorizontal="10dp"
+            android:text="Le Phuc Khang"
+            android:textColor="@color/txt_input"
+            android:textSize="16sp" />
+
+        <!-- Diagnosis -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="Diagnosis"
+            android:textColor="@color/txt_input"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/etDiagnose"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/draw_edit_text"
+            android:gravity="center|start"
+            android:hint="Enter diagnosis"
+            android:textColor="@color/txt_input"
+            android:paddingHorizontal="10dp" />
+
+        <!-- Date -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="Date"
+            android:textColor="@color/txt_normal"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/etDate"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/draw_edit_text"
+            android:drawableEnd="@drawable/ic_calendar"
+            android:focusable="false"
+            android:gravity="center|start"
+            android:hint="Select date"
+            android:inputType="date"
+            android:paddingHorizontal="10dp" />
+
+        <!-- Notes -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="Note"
+            android:textColor="@color/txt_normal"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/etNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/draw_edit_text"
+            android:gravity="top"
+            android:hint="Note"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:paddingHorizontal="10dp"
+            android:paddingTop="5dp" />
+
+        <!-- Prescription title + add button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prescription list:"
+                android:textColor="@color/txt_normal"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <!-- Container for dynamic prescriptions -->
+        <LinearLayout
+            android:id="@+id/prescription_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical" />
+    </LinearLayout>
+</ScrollView>

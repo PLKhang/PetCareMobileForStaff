@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.NavOptions;
@@ -24,7 +25,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.petcare.staff.data.model.ui.User;
+import com.petcare.staff.data.repository.UserRepository;
 import com.petcare.staff.ui.activity.LoginActivity;
+import com.petcare.staff.ui.userprofile.viewmodel.UserProfileViewModel;
 import com.petcare.staff.utils.SharedPrefManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        UserProfileViewModel userProfileViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
+        userProfileViewModel.loadCurrentUser(); //load user từ repository và lưu vào LiveData
 
         // Set up NavController
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
@@ -71,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         bot_nav_notification = findViewById(R.id.bot_nav_notification);
         bot_nav_profile = findViewById(R.id.bot_nav_profile);
 
+
         // Custom bottom navigation
         setBottomNavigationItemSelectedListener();
 
@@ -78,8 +84,19 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
 
-        // Mặc định mở HomeFragment
-//        loadFragment(new HomePageFragment());
+        View headerView = navigationView.getHeaderView(0);
+
+        // Tìm các View con trong header
+        ImageView imageView = headerView.findViewById(R.id.image);
+        TextView nameTextView = headerView.findViewById(R.id.name);
+        TextView emailTextView = headerView.findViewById(R.id.email);
+
+        userProfileViewModel.getUser().observe(this, user -> {
+            imageView.setImageResource(R.drawable.temp_avatar);
+            nameTextView.setText(userProfileViewModel.getUser().getValue().getName());
+            emailTextView.setText(userProfileViewModel.getUser().getValue().getEmail());
+        });
+
 
         btnNav.setOnClickListener(view -> drawerLayout.open());
     }
@@ -191,37 +208,37 @@ public class MainActivity extends AppCompatActivity {
         custom_bottom_nav.setVisibility(isHide ? View.GONE : View.VISIBLE);
     }
 
-        /**
-         * Điều hướng đến fragment mới và lưu lại vào back stack.
-         */
-        public void navigateToWithBackStack(int destinationId, Bundle args) {
-            navController.navigate(destinationId, args);
-        }
+    /**
+     * Điều hướng đến fragment mới và lưu lại vào back stack.
+     */
+    public void navigateToWithBackStack(int destinationId, Bundle args) {
+        navController.navigate(destinationId, args);
+    }
 
-        /**
-         * Điều hướng đến fragment mới nhưng xóa tất cả back stack trước đó.
-         */
-        public void navigateToClearStack(int destinationId, Bundle args) {
-            NavOptions navOptions = new NavOptions.Builder()
-                    .setPopUpTo(R.id.homePageFragment, true)  // Xóa hết về trang chủ
-                    .build();
-            navController.navigate(destinationId, args, navOptions);
-        }
+    /**
+     * Điều hướng đến fragment mới nhưng xóa tất cả back stack trước đó.
+     */
+    public void navigateToClearStack(int destinationId, Bundle args) {
+        NavOptions navOptions = new NavOptions.Builder()
+                .setPopUpTo(R.id.homePageFragment, true)  // Xóa hết về trang chủ
+                .build();
+        navController.navigate(destinationId, args, navOptions);
+    }
 
-        /**
-         * Điều hướng mà không lưu lại fragment trước đó vào back stack.
-         */
-        public void navigateWithoutBackStack(int destinationId, Bundle args) {
-            NavOptions navOptions = new NavOptions.Builder()
-                    .setPopUpTo(destinationId, true)  // Xóa fragment trước đó
-                    .build();
-            navController.navigate(destinationId, args, navOptions);
-        }
+    /**
+     * Điều hướng mà không lưu lại fragment trước đó vào back stack.
+     */
+    public void navigateWithoutBackStack(int destinationId, Bundle args) {
+        NavOptions navOptions = new NavOptions.Builder()
+                .setPopUpTo(destinationId, true)  // Xóa fragment trước đó
+                .build();
+        navController.navigate(destinationId, args, navOptions);
+    }
 
-        /**
-         * Quay lại fragment trước đó.
-         */
-        public void navigateBack() {
-            navController.popBackStack();
-        }
+    /**
+     * Quay lại fragment trước đó.
+     */
+    public void navigateBack() {
+        navController.popBackStack();
+    }
 }

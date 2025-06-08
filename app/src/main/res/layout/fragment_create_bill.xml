@@ -142,9 +142,8 @@
                     <!-- Sample item 1 -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerProducts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/draw_background_list_item" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                     <!-- Footer -->
                     <LinearLayout
@@ -221,9 +220,8 @@
                     <!-- Sample item 2 -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerServices"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/draw_background_list_item" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                     <!-- Footer -->
                     <LinearLayout
@@ -273,18 +271,19 @@
                 android:text="TOTAL: 100.00 $"
                 android:textColor="@color/txt_title"
                 android:textSize="22sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <Button
                 android:id="@+id/btnCheckout"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="4"
-                android:textSize="18sp"
                 android:background="@drawable/draw_enable_button"
-                android:textColor="@color/txt_button"
                 android:padding="0dp"
-                android:textStyle="bold"
-                android:text="Checkout"/>
+                android:text="Checkout"
+                android:textColor="@color/txt_button"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.bottomappbar.BottomAppBar>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

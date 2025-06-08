@@ -1,20 +1,44 @@
 package com.petcare.staff.data.model.api.user;
 
+import com.google.gson.annotations.SerializedName;
+
+import kotlinx.serialization.Serializable;
+
 public class UserResponse {
 /*
     {
         "address": "string",
+        "branchId": int
         "email": "string",
         "id": 0,
         "name": "string",
         "phoneNumber": "string"
     }
     */
+    @SerializedName("userId")
     private Integer id;
+    private int branchId;
     private String name;
     private String email;
     private String address;
     private String phoneNumber;
+
+    public UserResponse(Integer id, int branchId, String name, String email, String address, String phoneNumber) {
+        this.id = id;
+        this.branchId = branchId;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public int getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(int branchId) {
+        this.branchId = branchId;
+    }
 
     public Integer getId() {
         return id;

@@ -22,7 +22,7 @@ public class SelectedCustomerViewModel extends ViewModel {
     public SelectedCustomerViewModel(){
 
     }
-    public void resetSelectedCustomer() {
+    public void clear() {
         selectedCustomer.setValue(null);
     }
 

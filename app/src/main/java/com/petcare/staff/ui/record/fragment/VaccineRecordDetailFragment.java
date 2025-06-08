@@ -1,4 +1,4 @@
-package com.petcare.staff.ui.pet.fragment;
+package com.petcare.staff.ui.record.fragment;
 
 import android.os.Bundle;
 
@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.petcare.staff.MainActivity;
 import com.petcare.staff.R;
 
 /**

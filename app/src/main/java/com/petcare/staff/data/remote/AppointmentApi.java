@@ -5,6 +5,8 @@ import com.petcare.staff.data.model.api.appointment.AppointmentResponse;
 import com.petcare.staff.data.model.api.appointment.CreateAppointmentRequest;
 import com.petcare.staff.data.model.api.appointment.CreateAppointmentResponse;
 import com.petcare.staff.data.model.api.appointment.ServiceResponse;
+import com.petcare.staff.data.model.api.appointment.UpdateAppointmentEmployeeRequest;
+import com.petcare.staff.data.model.api.appointment.UpdateAppointmentEmployeeResponse;
 import com.petcare.staff.data.model.api.appointment.UpdateAppointmentStatusRequest;
 import com.petcare.staff.data.model.api.appointment.UpdateAppointmentStatusResponse;
 
@@ -37,6 +39,9 @@ public interface AppointmentApi {
     @PUT("api/v1/appointments/update-status")
     Call<UpdateAppointmentStatusResponse> updateAppointmentStatus(@Body UpdateAppointmentStatusRequest request);
 
+    @PUT("api/v1/appointments/update-employee")
+    Call<UpdateAppointmentEmployeeResponse> updateAppointmentEmployee(UpdateAppointmentEmployeeRequest request);
+
     @GET("api/v1/appointments/{appointment_id}")
     Call<AppointmentDetailResponse> getAppointmentDetails(@Path("appointment_id") int appointmentId);
 
@@ -46,4 +51,5 @@ public interface AppointmentApi {
 
     @GET("services/{id}")
     Call<ServiceResponse> getServiceById(@Path("id") int serviceId);
+
 }

@@ -78,10 +78,21 @@
                             android:text="Phone: 0123456789"
                             android:textSize="16sp" />
                     </LinearLayout>
+                    <Button
+                        android:id="@+id/btnStatus"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/draw_enable_button"
+                        android:paddingHorizontal="5dp"
+                        android:paddingVertical="0dp"
+                        android:text="PENDING"
+                        android:textColor="@color/txt_button" />
 
                     <Button
-                        android:id="@+id/btnAppointmentStatus"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/btnAssign"
+                        android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
@@ -185,9 +196,8 @@
                     <!-- Sample item 1 -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerProducts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/draw_background_list_item" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                     <!-- Footer -->
                     <LinearLayout
@@ -205,7 +215,7 @@
                             android:textColor="@color/txt_button" />
 
                         <TextView
-                            android:id="@+id/txtShowMoreProduct"
+                            android:id="@+id/txtShowMoreProducts"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingHorizontal="8dp"
@@ -264,7 +274,7 @@
                     <!-- Sample item 2 -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerServices"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
                     <!-- Footer -->
@@ -307,21 +317,12 @@
             android:layout_height="match_parent"
             android:paddingEnd="12dp">
 
-            <ImageButton
-                android:id="@+id/btnReport"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="15dp"
-                android:layout_weight="2"
-                android:background="@drawable/draw_enable_button"
-                android:src="@drawable/ic_warning" />
-
             <TextView
                 android:id="@+id/txtTotal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
-                android:text="TOTAL: 100.00 $"
+                android:text="TOTAL: 0.00 $"
                 android:textColor="@color/txt_title"
                 android:textSize="22sp"
                 android:textStyle="bold" />

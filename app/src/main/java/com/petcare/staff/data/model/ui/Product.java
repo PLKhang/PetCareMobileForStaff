@@ -34,6 +34,18 @@ public class Product {
         this.price = price;
         this.isAttachable = isAttachable;
         this.type = type;
+        this.quantity = 1;
+    }
+
+    public Product(Product p) {
+        this.id = p.getId();
+        this.name = p.getName();
+        this.description = p.getDescription();
+        this.imgUrl = p.getImgUrl();
+        this.price = p.getPrice();
+        this.isAttachable = p.isAttachable();
+        this.type = p.getType();
+        this.quantity = p.getQuantity();
     }
 
     public int getStock() {

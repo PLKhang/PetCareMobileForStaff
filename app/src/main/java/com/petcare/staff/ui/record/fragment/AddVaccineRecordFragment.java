@@ -1,4 +1,4 @@
-package com.petcare.staff.ui.pet.fragment;
+package com.petcare.staff.ui.record.fragment;
 
 import android.os.Bundle;
 
@@ -8,15 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.petcare.staff.MainActivity;
 import com.petcare.staff.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link VaccineRecordFragment#newInstance} factory method to
+ * Use the {@link AddVaccineRecordFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VaccineRecordFragment extends Fragment {
+public class AddVaccineRecordFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +26,7 @@ public class VaccineRecordFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public VaccineRecordFragment() {
+    public AddVaccineRecordFragment() {
         // Required empty public constructor
     }
 
@@ -37,11 +36,11 @@ public class VaccineRecordFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment VaccineRecordFragment.
+     * @return A new instance of fragment AddVaccineRecordFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VaccineRecordFragment newInstance(String param1, String param2) {
-        VaccineRecordFragment fragment = new VaccineRecordFragment();
+    public static AddVaccineRecordFragment newInstance(String param1, String param2) {
+        AddVaccineRecordFragment fragment = new AddVaccineRecordFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,6 +66,6 @@ public class VaccineRecordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vaccine_record, container, false);
+        return inflater.inflate(R.layout.fragment_add_vaccine_record, container, false);
     }
 }

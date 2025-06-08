@@ -54,7 +54,6 @@ public class SelectProductFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerProduct);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ProductSelectorAdapter(product -> {
-            Toast.makeText(getContext(), "Added: " + product.getName(), Toast.LENGTH_SHORT).show();
             viewModel.addSeletedProduct(product);
         });
 

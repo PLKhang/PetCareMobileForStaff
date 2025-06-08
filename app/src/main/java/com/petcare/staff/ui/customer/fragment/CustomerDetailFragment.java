@@ -28,6 +28,7 @@ import com.petcare.staff.ui.customer.adapter.OrderAdapter;
 import com.petcare.staff.ui.customer.adapter.PetAdapter;
 import com.petcare.staff.ui.customer.viewmodel.CustomerDetailViewModel;
 import com.petcare.staff.ui.customer.viewmodel.SelectedCustomerViewModel;
+import com.petcare.staff.ui.pet.viewmodel.SelectedPetViewModel;
 
 import java.util.ArrayList;
 
@@ -140,6 +141,8 @@ public class CustomerDetailFragment extends Fragment {
     private void initAdapters() {
         petAdapter = new PetAdapter(pet -> {
             // Xử lý khi click "More Info"
+            SelectedPetViewModel petVM = new ViewModelProvider(requireActivity()).get(SelectedPetViewModel.class);
+            petVM.setSelectedPet(pet);
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.petDetailFragment, null);
         });
 
@@ -223,16 +226,16 @@ public class CustomerDetailFragment extends Fragment {
         });
 
         txtShowMoreAppointment.setOnClickListener(v -> {
-            boolean hasMore = orderAdapter.showMore();
+            boolean hasMore = appointmentAdapter.showMore();
             if (!hasMore) {
-                txtShowMoreOrder.setVisibility(View.GONE);
+                txtShowMoreAppointment.setVisibility(View.GONE);
             }
         });
 
         txtShowMoreBill.setOnClickListener(v -> {
-            boolean hasMore = orderAdapter.showMore();
+            boolean hasMore = billAdapter.showMore();
             if (!hasMore) {
-                txtShowMoreOrder.setVisibility(View.GONE);
+                txtShowMoreBill.setVisibility(View.GONE);
             }
         });
 
@@ -240,14 +243,13 @@ public class CustomerDetailFragment extends Fragment {
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.addNewPetFragment, null);
         });
         txtAddAppointment.setOnClickListener(v -> {
-            Toast.makeText(requireActivity(), "To create appointment fragment", Toast.LENGTH_SHORT).show();
+            ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.addAppointmentFragment, null);
         });
         txtAddOrder.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.addNewPetFragment, null);
+            ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.createBillFragment, null);
         });
-
         btnCreateOrder.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.addNewPetFragment, null);
+            ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.createBillFragment, null);
         });
     }
 

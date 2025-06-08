@@ -142,9 +142,8 @@
                     <!-- Sample item 1 -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerProducts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/draw_background_list_item" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                     <!-- Footer -->
                     <LinearLayout
@@ -213,9 +212,8 @@
                     <!-- Sample item 2 -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerServices"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/draw_background_list_item" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
                     <!-- Footer -->
                     <LinearLayout

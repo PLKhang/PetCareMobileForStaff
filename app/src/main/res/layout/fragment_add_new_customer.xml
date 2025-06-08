@@ -1,14 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.customer.fragment.AddNewCustomerFragment">
+    android:padding="16dp"
+    android:background="#4DB6AC">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-</FrameLayout>
+        <!-- Name -->
+        <TextView
+            android:text="Name *"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingStart="10dp"
+            android:background="@drawable/draw_edit_text"
+            android:hint="Enter customer's name" />
+
+        <!-- Phone number -->
+        <TextView
+            android:text="Phone number *"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:inputType="phone"
+            android:paddingStart="10dp"
+            android:background="@drawable/draw_edit_text"
+            android:hint="Enter phone number" />
+
+        <!-- Email -->
+        <TextView
+            android:text="Email *"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:inputType="textEmailAddress"
+            android:paddingStart="10dp"
+            android:background="@drawable/draw_edit_text"
+            android:hint="Enter email" />
+
+        <!-- Birthday -->
+        <TextView
+            android:text="Birthday"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+        <EditText
+            android:id="@+id/etBirthday"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:hint="DD/MM/YYYY"
+            android:focusable="false"
+            android:paddingHorizontal="10dp"
+            android:background="@drawable/draw_edit_text"
+            android:drawableEnd="@drawable/ic_calendar" />
+
+        <!-- Address -->
+        <TextView
+            android:text="Address"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:hint="Enter customer's address"
+            android:paddingStart="10dp"
+            android:background="@drawable/draw_edit_text" />
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="24dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/draw_enable_button"
+                android:textColor="@color/txt_button"
+                android:padding="0dp"
+                android:text="Cancel" />
+
+            <View
+                android:layout_width="16dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/draw_enable_button"
+                android:textColor="@color/txt_button"
+                android:padding="0dp"
+                android:text="Create" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

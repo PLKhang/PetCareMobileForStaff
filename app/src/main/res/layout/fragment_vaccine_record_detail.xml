@@ -1,14 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.pet.fragment.VaccineRecordDetailFragment">
+    android:background="@color/background"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/prescriptionContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:elevation="4dp"
+            android:padding="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background">
+
+                <FrameLayout
+                    android:id="@+id/image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/draw_image_view"
+                    android:clipToOutline="true"
+                    android:padding="1dp">
+
+                    <ImageView
+                        android:id="@+id/petImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:background="@drawable/draw_round_only"
+                        android:clipToOutline="true"
+                        android:src="@drawable/ic_animal" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/image"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/petName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Name: Lucky"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/petSpecies"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Dog: Poodle"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/petBirth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Birth: 22/12/2023"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/petWeight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Weight: 5.2Kg"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Vet selector -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="Vet"
+            android:textColor="@color/txt_normal"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/vetName"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/draw_edit_text"
+            android:focusable="false"
+            android:gravity="center|start"
+            android:paddingHorizontal="10dp"
+            android:text="Le Phuc Khang"
+            android:textColor="@color/txt_input"
+            android:textSize="16sp" />
+
+        <!-- Diagnosis -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="Vaccine label"
+            android:textColor="@color/txt_input"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/etLabel"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/draw_edit_text"
+            android:gravity="center|start"
+            android:hint="Enter vaccine label"
+            android:textColor="@color/txt_input"
+            android:paddingHorizontal="10dp" />
+
+        <!-- Date -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="Date"
+            android:textColor="@color/txt_normal"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/etDate"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/draw_edit_text"
+            android:drawableEnd="@drawable/ic_calendar"
+            android:focusable="false"
+            android:gravity="center|start"
+            android:hint="Select date"
+            android:inputType="date"
+            android:paddingHorizontal="10dp" />
+
+        <!-- Date -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="Next dose"
+            android:textColor="@color/txt_normal"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/etNextDose"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/draw_edit_text"
+            android:drawableEnd="@drawable/ic_calendar"
+            android:focusable="false"
+            android:gravity="center|start"
+            android:hint="Select date"
+            android:inputType="date"
+            android:paddingHorizontal="10dp" />
+
+        <!-- Notes -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="Note"
+            android:textColor="@color/txt_normal"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/etNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/draw_edit_text"
+            android:gravity="top"
+            android:hint="Note"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:paddingHorizontal="10dp"
+            android:paddingTop="5dp" />
+    </LinearLayout>
+</ScrollView>

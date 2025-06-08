@@ -6,6 +6,7 @@ public class User {
     private String email;
     private String address;
     private String phoneNumber;
+    private String branchId;
 
     public User(String id, String name, String email, String address, String phoneNumber) {
         this.id = id;
@@ -13,6 +14,23 @@ public class User {
         this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
+    }
+
+    public User(String id, String name, String email, String address, String phoneNumber, String branchId) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.branchId = branchId;
+    }
+
+    public String getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(String branchId) {
+        this.branchId = branchId;
     }
 
     public String getId() {

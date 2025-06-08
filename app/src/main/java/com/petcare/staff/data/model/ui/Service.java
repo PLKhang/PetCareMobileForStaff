@@ -19,6 +19,16 @@ public class Service {
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
+        this.quantity = 1;
+    }
+
+    public Service(Service s) {
+        this.id = s.getId();
+        this.name = s.getName();
+        this.description = s.getDescription();
+        this.price = s.getPrice();
+        this.imageUrl = s.getImageUrl();
+        this.quantity = s.getQuantity();
     }
 
     public int getQuantity() {
@@ -41,7 +51,7 @@ public class Service {
         return description;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 

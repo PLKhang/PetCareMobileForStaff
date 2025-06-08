@@ -1,14 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.pet.fragment.AddNewPetFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:background="@color/background">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:text="PET'S OWNER"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/txt_title"/>
 
-</FrameLayout>
+    <!-- Top profile -->
+        <RelativeLayout
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:paddingHorizontal="10dp"
+            android:background="@color/background">
+
+            <FrameLayout
+                android:id="@+id/image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/draw_image_view"
+                android:clipToOutline="true"
+                android:padding="1dp">
+
+                <ImageView
+                    android:id="@+id/customerImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/draw_round_only"
+                    android:clipToOutline="true"
+                    android:src="@drawable/temp_avatar" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@id/image"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:text="Name: Le Phuc Khang"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:text="Email: email@gmail.com"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:text="Phone: 0123456789"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_marginTop="105dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <!-- Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name *"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/draw_edit_text"
+                android:hint="Enter pet's name"
+                android:paddingStart="10dp" />
+            <!-- Species -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Species *"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etSpecies"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/draw_edit_text"
+                android:hint="Enter pet's species"
+                android:paddingStart="10dp" />
+            <!-- Birthday -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Birthday *"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etBirthday"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/draw_edit_text"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:focusable="false"
+                android:hint="DD/MM/YYYY"
+                android:paddingHorizontal="10dp" />
+            <!-- Weight -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weight"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etWeight"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/draw_edit_text"
+                android:hint="Enter pet's weight"
+                android:paddingStart="10dp" />
+
+            <!-- Color -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etColor"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/draw_edit_text"
+                android:hint="Enter pet's color"
+                android:paddingStart="10dp" />
+            <!-- Identity mark -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Identity mark"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etIdentityMark"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/draw_edit_text"
+                android:hint="Enter pet's identity mark"
+                android:paddingStart="10dp" />
+
+            <!-- Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/draw_enable_button"
+                    android:padding="0dp"
+                    android:text="Cancel"
+                    android:textSize="18sp"
+                    android:textColor="@color/txt_button" />
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btnCreate"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/draw_enable_button"
+                    android:padding="0dp"
+                    android:textSize="18sp"
+                    android:text="Create"
+                    android:textColor="@color/txt_button" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

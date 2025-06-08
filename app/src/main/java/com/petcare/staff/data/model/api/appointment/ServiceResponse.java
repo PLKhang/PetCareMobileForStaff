@@ -1,18 +1,18 @@
 package com.petcare.staff.data.model.api.appointment;
 
 public class ServiceResponse {
-    private int id;
+    private int serviceId;
     private String name;
     private String description;
     private float price;
     private String imgUrl;
 
     public int getId() {
-        return id;
+        return serviceId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.serviceId = id;
     }
 
     public String getName() {

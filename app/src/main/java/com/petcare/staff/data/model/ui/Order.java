@@ -17,11 +17,12 @@ public class Order {
     private String appointment_id;
     private OrderStatus status;
 
-    public Order(String id, String customer_id, String branch_id, float total_price,
+    public Order(String id, String customer_id, String branch_id, String appontment_id, float total_price,
                  DateTime created_at, DateTime updated_at, List<Product> products) {
         this.id = id;
         this.customer_id = customer_id;
         this.branch_id = branch_id;
+        this.appointment_id = appontment_id;
         this.total_price = total_price;
         this.created_at = created_at;
         this.updated_at = updated_at;
@@ -49,6 +50,14 @@ public class Order {
         this.appointment_id = appointment_id;
         this.status = status;
         this.created_at = created_at;
+        this.products = products;
+    }
+
+    public Order(String customer_id, String branch_id, String appointment_id, List<Product> products)
+    {
+        this.customer_id = customer_id;
+        this.branch_id = branch_id;
+        this.appointment_id = appointment_id;
         this.products = products;
     }
 

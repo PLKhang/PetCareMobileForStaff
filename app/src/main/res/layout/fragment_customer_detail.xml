@@ -137,9 +137,8 @@
                 <!-- Sample item 1 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerPets"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/draw_background_list_item" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <!-- Footer -->
                 <LinearLayout
@@ -153,7 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:paddingHorizontal="8dp"
-                        android:text="Add service"
+                        android:text="Add pet"
                         android:textColor="@color/txt_button" />
 
                     <TextView
@@ -216,9 +215,8 @@
                 <!-- Sample item 2 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerAppointments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/draw_background_list_item" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <!-- Footer -->
                 <LinearLayout
@@ -232,7 +230,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:paddingHorizontal="8dp"
-                        android:text="Add service"
+                        android:text="Add appointment"
                         android:textColor="@color/txt_button" />
 
                     <TextView
@@ -295,9 +293,8 @@
                 <!-- Sample item 3 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerOrders"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/draw_background_list_item" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <!-- Footer -->
                 <LinearLayout
@@ -374,9 +371,8 @@
                 <!-- Sample item 4 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerBills"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/draw_background_list_item" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <!-- Footer -->
                 <LinearLayout
@@ -395,6 +391,5 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

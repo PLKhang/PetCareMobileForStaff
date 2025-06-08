@@ -7,12 +7,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.petcare.staff.data.model.api.appointment.AppointmentResponse;
+import com.petcare.staff.data.model.api.record.CreatePetRequest;
+import com.petcare.staff.data.model.api.record.IdResponse;
 import com.petcare.staff.data.model.api.record.PetResponse;
+import com.petcare.staff.data.model.api.record.UpdatePetRequest;
 import com.petcare.staff.data.model.mapper.AppointmentMapper;
 import com.petcare.staff.data.model.mapper.RecordMapper;
 import com.petcare.staff.data.model.ui.Pet;
 import com.petcare.staff.data.model.ui.SimplifiedAppointment;
 import com.petcare.staff.data.remote.RecordApi;
+import com.petcare.staff.ui.common.repository.RepositoryCallback;
 import com.petcare.staff.utils.ApiClient;
 
 import java.util.List;
@@ -24,8 +28,7 @@ import retrofit2.Response;
 public class PetRepository {
     private final RecordApi apiPet;
 
-    public PetRepository(Context context)
-    {
+    public PetRepository(Context context) {
         apiPet = ApiClient.getRecordApi(context);
     }
 
@@ -54,5 +57,43 @@ public class PetRepository {
         return petLiveData;
     }
 
+    public void addNewPet(Pet pet, RepositoryCallback callback) {
+        CreatePetRequest request = RecordMapper.toCreatePetRequest(pet);
+        Call<IdResponse> call = apiPet.createPet(request);
+        call.enqueue(new Callback<IdResponse>() {
+            @Override
+            public void onResponse(Call<IdResponse> call, Response<IdResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    String newPetId = response.body().getId();
+                    callback.onSuccess("Create successful, petId: " + newPetId);
+                } else {
+                    callback.onError(new Exception("Error creating pet: " + response.message()));
+                }
+            }
 
+            @Override
+            public void onFailure(Call<IdResponse> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+    public void changeInfo(Pet pet, RepositoryCallback callback) {
+        UpdatePetRequest request = RecordMapper.toUpdatePetRequest(pet);
+        apiPet.updatePet(request).enqueue(new Callback<PetResponse>() {
+            @Override
+            public void onResponse(Call<PetResponse> call, Response<PetResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess("");
+                } else {
+                    callback.onError(new Exception("Cập nhật thất bại: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PetResponse> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
 }

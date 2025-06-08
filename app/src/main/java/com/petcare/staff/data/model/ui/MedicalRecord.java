@@ -2,9 +2,10 @@ package com.petcare.staff.data.model.ui;
 
 import com.petcare.staff.utils.DateTime;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MedicalRecord {
+public class MedicalRecord implements Serializable {
     private String id;
     private String petId;
     private String vetId;

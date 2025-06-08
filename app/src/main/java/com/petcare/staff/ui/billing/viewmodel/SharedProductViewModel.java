@@ -19,6 +19,7 @@ public class SharedProductViewModel extends AndroidViewModel {
     private final ProductRepository repository;
     private final MutableLiveData<List<Product>> products = new MutableLiveData<>();
     private final MutableLiveData<List<Product>> selectedProducts = new MutableLiveData<>();
+    private boolean clearedOnce = false;
 
     public SharedProductViewModel(@NonNull Application application) {
         super(application);
@@ -49,7 +50,14 @@ public class SharedProductViewModel extends AndroidViewModel {
 
     public void addSeletedProduct(Product product) {
         List<Product> current = selectedProducts.getValue();
-        if (!current.contains(product)) {
+        boolean isExisted = false;
+        for (Product p: current) {
+            if (p.getId().equals(product.getId())){
+                isExisted = true;
+                break;
+            }
+        }
+        if (!isExisted) {
             current.add(product);
             selectedProducts.setValue(current);
         } else {
@@ -59,7 +67,14 @@ public class SharedProductViewModel extends AndroidViewModel {
 
     public void removeSeletedProduct(Product product) {
         List<Product> current = selectedProducts.getValue();
-        if (current.contains(product)) {
+        boolean isExisted = false;
+        for (Product p: current) {
+            if (p.getId().equals(product.getId())){
+                isExisted = true;
+                break;
+            }
+        }
+        if (isExisted) {
             current.remove(product);
             selectedProducts.setValue(current);
         }
@@ -70,6 +85,33 @@ public class SharedProductViewModel extends AndroidViewModel {
     }
 
     public void clearSelectedProducts() {
-        selectedProducts.setValue(new ArrayList<>());
+        if (!clearedOnce) {
+            selectedProducts.setValue(new ArrayList<>());
+            clearedOnce = true;
+        }
     }
+
+    public void resetClearFlag() {
+        clearedOnce = false;
+    }
+
+    public void setSelectedProductsById(List<Product> selectedFromAppointment) {
+        List<Product> all = products.getValue();
+        if (all == null) return;
+
+        List<Product> selected = new ArrayList<>();
+        for (Product pFromAppointment : selectedFromAppointment) {
+            for (Product p : all) {
+                if (p.getId().equals(pFromAppointment.getId())) {
+                    Product copy = new Product(p);
+                    copy.setQuantity(pFromAppointment.getQuantity());
+                    selected.add(copy);
+                    break;
+                }
+            }
+        }
+        selectedProducts.setValue(selected);
+    }
+
+
 }

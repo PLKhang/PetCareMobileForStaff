@@ -5,6 +5,7 @@ import com.petcare.staff.data.model.api.user.ChangeInfoResponse;
 import com.petcare.staff.data.model.api.user.ChangePasswordRequest;
 import com.petcare.staff.data.model.api.user.ChangePasswordResponse;
 import com.petcare.staff.data.model.api.user.CustomerResponse;
+import com.petcare.staff.data.model.api.user.UserByIdResponse;
 import com.petcare.staff.data.model.api.user.UserResponse;
 import com.petcare.staff.data.model.ui.Customer;
 import com.petcare.staff.data.model.ui.User;
@@ -19,7 +20,18 @@ public class UserMapper {
                 response.getName(),
                 response.getEmail(),
                 response.getAddress(),
-                response.getPhoneNumber()
+                response.getPhoneNumber(),
+                String.valueOf(response.getBranchId())
+        );
+    }
+    public static User fromUserByIdResponseToUser(UserByIdResponse response) {
+        return new User (
+            String.valueOf(response.getId()),
+                response.getName(),
+                response.getEmail(),
+                response.getAddress(),
+                response.getPhoneNumber(),
+                "-1"
         );
     }
     public static Customer toCustomer(CustomerResponse response) {

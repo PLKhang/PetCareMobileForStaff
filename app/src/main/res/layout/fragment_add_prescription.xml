@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".ui.record.fragment.AddPrescriptionFragment">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="DIAGNOSE"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/txt_normal"
+            />
+        <TextView
+            android:id="@+id/txtDianose"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:text="DIAGNOSE"
+            android:paddingHorizontal="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/txt_normal"
+            />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- Prescription title + add button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medication list:"
+                    android:textColor="@color/txt_normal"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btnAddMedication"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:paddingVertical="0dp"
+                    android:background="@drawable/draw_enable_button"
+                    android:textColor="@color/txt_button"
+                    android:text="+ Add" />
+            </LinearLayout>
+
+
+            <!-- Container for dynamic prescriptions -->
+            <LinearLayout
+                android:id="@+id/medicationContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/draw_background_list_item"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

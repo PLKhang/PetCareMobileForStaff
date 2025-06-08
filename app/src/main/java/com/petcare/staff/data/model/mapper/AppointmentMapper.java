@@ -1,6 +1,7 @@
 package com.petcare.staff.data.model.mapper;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.petcare.staff.data.model.api.appointment.AppointmentDetailResponse;
 import com.petcare.staff.data.model.api.appointment.AppointmentResponse;
@@ -9,6 +10,7 @@ import com.petcare.staff.data.model.api.appointment.AppointmentStatus;
 import com.petcare.staff.data.model.api.appointment.CreateAppointmentRequest;
 import com.petcare.staff.data.model.api.appointment.OrderItem;
 import com.petcare.staff.data.model.api.appointment.ServiceResponse;
+import com.petcare.staff.data.model.api.appointment.UpdateAppointmentEmployeeRequest;
 import com.petcare.staff.data.model.api.appointment.UpdateAppointmentStatusRequest;
 import com.petcare.staff.data.model.ui.Appointment;
 import com.petcare.staff.data.model.ui.Order;
@@ -23,6 +25,7 @@ import java.util.List;
 
 public class AppointmentMapper {
     public static Service toService(ServiceResponse response) {
+        Log.d("MAPPER", "Service id: " + response.getId() + "; Name: " + response.getName() );
         return new Service(
                 String.valueOf(response.getId()),
                 response.getName(),
@@ -93,10 +96,12 @@ public class AppointmentMapper {
 
         return new Appointment(
                 String.valueOf(response.getAppointment().getId()),
+                String.valueOf(response.getAppointment().getEmployee_id()),
                 new Order(
                         String.valueOf(response.getOrder().getId()),
                         String.valueOf(response.getOrder().getCustomer_id()),
                         String.valueOf(response.getOrder().getBranch_id()),
+                        String.valueOf(response.getOrder().getAppointment_id()),
                         response.getOrder().getTotal_price(),
                         order_created,
                         order_updated,
@@ -110,7 +115,7 @@ public class AppointmentMapper {
         );
     }
 
-    public static CreateAppointmentRequest toCreateAppointmentRequest(Context context, Appointment appointment) {
+    public static CreateAppointmentRequest toCreateAppointmentRequest(Appointment appointment) {
         List<CreateAppointmentRequest.ServiceItem> services = new ArrayList<>();
         for (Service service : appointment.getServices()) {
             services.add(new CreateAppointmentRequest.ServiceItem(
@@ -124,7 +129,7 @@ public class AppointmentMapper {
                 appointment.getScheduledTime().toIsoString(),
                 services,
                 appointment.getNote(),
-                SharedPrefManager.getBranchId(context)
+                Integer.parseInt(appointment.getBranchId())
         );
     }
 
@@ -132,6 +137,13 @@ public class AppointmentMapper {
         return new UpdateAppointmentStatusRequest(
                 String.valueOf(appointment.getId()),
                 appointment.getStatus()
+        );
+    }
+
+    public static UpdateAppointmentEmployeeRequest toUpdateAppointmentEmployeeRequest(Appointment temp) {
+        return new UpdateAppointmentEmployeeRequest(
+                temp.getId(),
+                temp.getEmployeeId()
         );
     }
 }

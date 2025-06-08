@@ -19,6 +19,7 @@ public class SharedServiceViewModel extends AndroidViewModel {
     private final AppointmentRepository repository;
     private final MutableLiveData<List<Service>> services = new MutableLiveData<>();
     private final MutableLiveData<List<Service>> selectedServices = new MutableLiveData<>();
+    private boolean clearedOnce = false;
 
     public SharedServiceViewModel(@NonNull Application application) {
         super(application);
@@ -70,7 +71,33 @@ public class SharedServiceViewModel extends AndroidViewModel {
     }
 
     public void clearSelectedService() {
-        selectedServices.setValue(new ArrayList<>());
+        if (!clearedOnce) {
+            selectedServices.setValue(new ArrayList<>());
+            clearedOnce = true;
+        }
     }
+
+    public void resetClearFlag() {
+        clearedOnce = false;
+    }
+
+    public void setSelectedServicesById(List<Service> selectedFromAppointment) {
+        List<Service> all = services.getValue();
+        if (all == null) return;
+
+        List<Service> selected = new ArrayList<>();
+        for (Service sFromAppointment : selectedFromAppointment) {
+            for (Service s : all) {
+                if (s.getId().equals(sFromAppointment.getId())) {
+                    Service copy = new Service(s);
+                    copy.setQuantity(sFromAppointment.getQuantity());
+                    selected.add(copy);
+                    break;
+                }
+            }
+        }
+        selectedServices.setValue(selected);
+    }
+
 }
 
