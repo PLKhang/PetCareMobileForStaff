@@ -15,6 +15,7 @@ import com.petcare.staff.data.repository.PetRepository;
 import com.petcare.staff.data.repository.RecordRepository;
 import com.petcare.staff.ui.common.repository.RepositoryCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PetDetailViewModel extends AndroidViewModel {
@@ -22,6 +23,7 @@ public class PetDetailViewModel extends AndroidViewModel {
     private final PetRepository petRepo;
     private final MutableLiveData<List<MedicalRecord>> medicalRecords = new MutableLiveData<>();
     private final MutableLiveData<List<VaccineRecord>> vaccineRecords = new MutableLiveData<>();
+    private boolean clearedOnce = false;
 
     public PetDetailViewModel(@NonNull Application application) {
         super(application);
@@ -71,7 +73,15 @@ public class PetDetailViewModel extends AndroidViewModel {
     }
 
     public void clear() {
-        medicalRecords.setValue(null);
-        vaccineRecords.setValue(null);
+        if (! this.clearedOnce) {
+            medicalRecords.setValue(new ArrayList<>());
+            vaccineRecords.setValue(new ArrayList<>());
+            this.clearedOnce = true;
+        }
+    }
+
+
+    public void resetClearFlag() {
+        this.clearedOnce = false;
     }
 }

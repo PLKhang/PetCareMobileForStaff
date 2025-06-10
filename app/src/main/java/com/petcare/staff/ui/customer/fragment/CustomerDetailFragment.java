@@ -153,7 +153,9 @@ public class CustomerDetailFragment extends Fragment {
 
         appointmentAdapter = new AppointmentAdapter(appointment -> {
             // Xử lý khi click "More Info"
-            ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.appointmentDetailFragment, null);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("appointmentId", appointment.getId());
+            ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.appointmentDetailFragment, bundle);
         });
 
         billAdapter = new BillAdapter(bill -> {

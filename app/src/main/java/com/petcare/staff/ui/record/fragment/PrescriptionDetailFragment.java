@@ -2,60 +2,29 @@ package com.petcare.staff.ui.record.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.petcare.staff.R;
+import com.petcare.staff.ui.record.adapter.MedicationOutputAdapter;
+import com.petcare.staff.ui.record.viewmodel.PrescriptionViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PrescriptionDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PrescriptionDetailFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public PrescriptionDetailFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PrescriptionDetailFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PrescriptionDetailFragment newInstance(String param1, String param2) {
-        PrescriptionDetailFragment fragment = new PrescriptionDetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private PrescriptionViewModel viewModel;
+    private MedicationOutputAdapter adapter;
+    private RecyclerView recyclerView;
+    private TextView txtDiagnose;
+    private String diagnose;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,4 +32,41 @@ public class PrescriptionDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_prescription_detail, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            diagnose = (String) getArguments().getSerializable("diagnose");
+            Log.d("DEBUG", "diagnose: " + diagnose);
+        }
+
+        initViews(view);
+        initAdapters();
+        observerViewModel();
+    }
+
+    private void observerViewModel() {
+        viewModel = new ViewModelProvider(requireActivity()).get(PrescriptionViewModel.class);
+        viewModel.getSelectedPrescription().observe(getViewLifecycleOwner(), record -> {
+            if (record != null) {
+                adapter.setData(record.getMedicationList());
+            }
+        });
+    }
+
+    private void initAdapters() {
+        adapter = new MedicationOutputAdapter();
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void initViews(View view) {
+        txtDiagnose = view.findViewById(R.id.txtDiagnose);
+        txtDiagnose.setText(diagnose);
+
+        recyclerView = view.findViewById(R.id.recyclerMedication);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
 }

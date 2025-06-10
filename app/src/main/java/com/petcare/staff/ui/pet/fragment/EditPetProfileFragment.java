@@ -44,8 +44,11 @@ public class EditPetProfileFragment extends Fragment {
 
         btnUpdate.setOnClickListener(v -> handleUpdate());
         btnCancel.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).navigateWithoutBackStack(R.id.homePageFragment, null);
+            ((MainActivity) requireActivity()).navigateWithoutBackStack(R.id.petDetailFragment, null);
         });
+
+        viewModel = new ViewModelProvider(requireActivity()).get(PetDetailViewModel.class);
+
         return view;
     }
 
@@ -78,7 +81,6 @@ public class EditPetProfileFragment extends Fragment {
             @Override
             public void onSuccess(String message) {
                 Toast.makeText(getContext(), "Update info SUCCESSFULLY!", Toast.LENGTH_SHORT).show();
-                btnCancel.performClick();
             }
 
             @Override

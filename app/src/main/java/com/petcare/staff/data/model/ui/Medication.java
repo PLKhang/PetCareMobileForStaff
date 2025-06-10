@@ -9,9 +9,15 @@ public class Medication {
     private DateTime startDate;
     private DateTime endDate;
 
-    public Medication(String id, String name, String dosage,
+    public Medication() {
+        name = "";
+        dosage = "";
+        startDate = new DateTime();
+        endDate = new DateTime();
+    }
+
+    public Medication(String name, String dosage,
                       DateTime startDate, DateTime endDate) {
-        this.id = id;
         this.name = name;
         this.dosage = dosage;
         this.startDate = startDate;

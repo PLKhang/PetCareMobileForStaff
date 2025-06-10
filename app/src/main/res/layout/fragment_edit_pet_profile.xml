@@ -135,7 +135,6 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/draw_edit_text"
                 android:hint="Enter identity mark"
-                android:inputType="textPassword"
                 android:paddingStart="10dp" />
 
             <!-- Buttons -->

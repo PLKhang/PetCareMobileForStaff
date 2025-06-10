@@ -51,10 +51,9 @@ public class RecordMapper {
     }
 
     public static Medication toMedication(MedicationResponse response) {
-        DateTime startDate = DateTime.parse(response.getStart_date());
-        DateTime endDate = DateTime.parse(response.getEnd_date());
+        DateTime startDate = DateTime.fromApiDateString(response.getStart_date());
+        DateTime endDate = DateTime.fromApiDateString(response.getEnd_date());
         return new Medication(
-                response.getId(),
                 response.getName(),
                 response.getDosage(),
                 startDate,
@@ -89,7 +88,7 @@ public class RecordMapper {
     }
 
     public static MedicalRecord toMedicalRecord(ExaminationResponse response) {
-        DateTime date = DateTime.parse(response.getDate());
+        DateTime date = DateTime.fromApiDateString(response.getDate());
         return new MedicalRecord(
                 response.getId(),
                 response.getPet_id(),
@@ -110,8 +109,8 @@ public class RecordMapper {
     }
 
     public static VaccineRecord toVaccineRecord(VaccinationResponse response) {
-        DateTime date = DateTime.parse(response.getDate());
-        DateTime nextDose = DateTime.parse(response.getNext_dose());
+        DateTime date = DateTime.fromApiDateString(response.getDate());
+        DateTime nextDose = DateTime.fromApiDateString(response.getNext_dose());
         return new VaccineRecord(
                 response.getId(),
                 response.getPet_id(),
@@ -158,7 +157,7 @@ public class RecordMapper {
 
     public static CreateExaminationRequest toCreateExaminationRequest(MedicalRecord medicalRecord) {
         return new CreateExaminationRequest(
-                medicalRecord.getDate().toIsoString(),
+                medicalRecord.getDate().toApiDateString(),
                 medicalRecord.getDiagnosis(),
                 medicalRecord.getNotes(),
                 medicalRecord.getPetId(),
@@ -178,8 +177,8 @@ public class RecordMapper {
     }
     public static CreateVaccinationRequest toCreateVaccinationRequest(VaccineRecord vaccineRecord) {
         return new CreateVaccinationRequest(
-                vaccineRecord.getDate().toIsoString(),
-                vaccineRecord.getNextDose().toIsoString(),
+                vaccineRecord.getDate().toApiDateString(),
+                vaccineRecord.getNextDose().toApiDateString(),
                 vaccineRecord.getPetId(),
                 vaccineRecord.getVaccineName(),
                 vaccineRecord.getVetId()
@@ -198,10 +197,10 @@ public class RecordMapper {
     public static MedicationResponse toMedicationRequest(Medication medication) {
         return new MedicationResponse(
                 medication.getDosage(),
-                medication.getEndDate().toIsoString(),
+                medication.getEndDate().toApiDateString(),
                 medication.getId(),
                 medication.getName(),
-                medication.getStartDate().toIsoString()
+                medication.getStartDate().toApiDateString()
         );
     }
 

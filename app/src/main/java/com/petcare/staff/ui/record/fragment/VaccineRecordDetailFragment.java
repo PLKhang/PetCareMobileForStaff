@@ -2,64 +2,100 @@ package com.petcare.staff.ui.record.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.petcare.staff.R;
+import com.petcare.staff.data.model.ui.Pet;
+import com.petcare.staff.data.model.ui.User;
+import com.petcare.staff.data.model.ui.VaccineRecord;
+import com.petcare.staff.ui.pet.viewmodel.SelectedPetViewModel;
+import com.petcare.staff.ui.record.viewmodel.VaccineRecordViewModel;
+import com.petcare.staff.ui.userprofile.viewmodel.UserProfileViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link VaccineRecordDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class VaccineRecordDetailFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private VaccineRecordViewModel viewModel;
+    private VaccineRecord record;
+    private Pet currentPet;
+    private ImageView petImage;
+    private String vaccineId;
+    private TextView petName, petSpecies, petBirth, petWeight;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public VaccineRecordDetailFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment VaccineRecordDetailFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static VaccineRecordDetailFragment newInstance(String param1, String param2) {
-        VaccineRecordDetailFragment fragment = new VaccineRecordDetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private TextView vetName, etDate, etNextDose;
+    private TextView etLabel, etNote;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            vaccineId = ((VaccineRecord) getArguments().getSerializable("record")).getId();
+            Log.d("DEBUG", "vaccineId: " + vaccineId);
         }
+
+        initViews(view);
+        observeViewModel();
+        showPetInfo();
+    }
+    private void showPetInfo() {
+        petImage.setImageResource(R.drawable.ic_animal);
+        petName.setText(currentPet.getName());
+        petSpecies.setText(currentPet.getSpecies());
+        petBirth.setText(currentPet.getBirth().toString());
+        petWeight.setText(String.valueOf(currentPet.getWeight()));
+    }
+    private void observeViewModel() {
+        viewModel = new ViewModelProvider(requireActivity()).get(VaccineRecordViewModel.class);
+
+        viewModel.loadVaccineRecord(vaccineId);
+
+        viewModel.getVaccineRecord().observe(getViewLifecycleOwner(), vaccineRecord -> {
+            if (vaccineRecord != null) {
+                record = vaccineRecord;
+                etDate.setText(record.getDate().toDateTimeString());
+                etNextDose.setText(record.getNextDose().toDateTimeString());
+                etLabel.setText(record.getVaccineName());
+                viewModel.loadVetInfo();
+            }
+        });
+
+        viewModel.getVet().observe(getViewLifecycleOwner(), vet -> {
+            if (vet != null) {
+                Log.d("VaccineFragment", "Vet loaded: id=" + vet.getId() + ", name=" + vet.getName());
+                vetName.setText("ID: " + vet.getId() + "; Name: " + vet.getName());
+            } else {
+                Log.d("VaccineFragment", "Vet is null");
+            }
+        });
+
+        SelectedPetViewModel selectedPetViewModel = new ViewModelProvider(requireActivity()).get(SelectedPetViewModel.class);
+        currentPet = selectedPetViewModel.getSelectedPet().getValue();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void initViews(View view) {
+        petImage = view.findViewById(R.id.petImage);
+        petName = view.findViewById(R.id.petName);
+        petSpecies = view.findViewById(R.id.petSpecies);
+        petBirth = view.findViewById(R.id.petBirth);
+        petWeight = view.findViewById(R.id.petWeight);
+
+        vetName = view.findViewById(R.id.vetName);
+        etDate = view.findViewById(R.id.etDate);
+        etNextDose = view.findViewById(R.id.etNextDose);
+
+        etLabel = view.findViewById(R.id.etLabel);
+        etNote = view.findViewById(R.id.etNote);
     }
 
     @Override

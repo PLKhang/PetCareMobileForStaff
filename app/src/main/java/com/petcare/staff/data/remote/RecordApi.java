@@ -79,5 +79,5 @@ public interface RecordApi {
     Call<Void> deletePrescription(@Path("id") String prescriptionId);
 
     @GET("api/v1/prescriptions/examination/{examination_id}")
-    Call<List<PrescriptionResponse>> listPrescriptionsByExamination(@Path("examination_id") int examinationId);
+    Call<List<PrescriptionResponse>> listPrescriptionsByExamination(@Path("examination_id") String examinationId);
 }

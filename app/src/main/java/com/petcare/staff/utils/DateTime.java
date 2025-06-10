@@ -2,11 +2,16 @@ package com.petcare.staff.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateTime {
     private java.util.Date date;
+
+    public DateTime() {
+        this.date = new Date();
+    }
 
     public DateTime(java.util.Date date) {
         this.date = date;
@@ -45,6 +50,25 @@ public class DateTime {
         dateTimeFormat.setTimeZone(TimeZone.getDefault());
         return dateTimeFormat.format(date);
     }
+
+    public static DateTime fromApiDateString(String dateString) {
+        try {
+            SimpleDateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            apiFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date parsedDate = apiFormat.parse(dateString);
+            return new DateTime(parsedDate);
+        } catch (ParseException e) {
+            throw new RuntimeException("Invalid API date format: " + dateString);
+        }
+    }
+
+
+    public String toApiDateString() {
+        SimpleDateFormat apiFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        apiFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return apiFormat.format(date);
+    }
+
 
     public static DateTime toDate(String dateString) {
         try {

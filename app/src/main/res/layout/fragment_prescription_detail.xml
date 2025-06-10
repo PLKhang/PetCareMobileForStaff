@@ -16,7 +16,7 @@
         android:textColor="@color/txt_normal"
         />
     <TextView
-        android:id="@+id/txtDianose"
+        android:id="@+id/txtDiagnose"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
@@ -57,8 +57,8 @@
 
 
             <!-- Container for dynamic prescriptions -->
-            <LinearLayout
-                android:id="@+id/medicationContainer"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerMedication"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/draw_background_list_item"

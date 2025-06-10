@@ -39,7 +39,7 @@ public class PetRepository {
             public void onResponse(Call<List<PetResponse>> call, Response<List<PetResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Pet> petList = RecordMapper.toPetList(response.body());
-                    Log.d("API_DEBUG", "Appointment: " + petList.size());
+                    Log.d("API_DEBUG", "Pet count: " + petList.size());
                     petLiveData.setValue(petList);
                 } else {
                     Log.d("API_DEBUG", "No body");

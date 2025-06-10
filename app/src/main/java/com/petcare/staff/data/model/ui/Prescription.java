@@ -1,11 +1,16 @@
 package com.petcare.staff.data.model.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Prescription {
     private String id;
     private String examinationId;
     private List<Medication> medicationList;
+
+    public Prescription() {
+        this.medicationList = new ArrayList<>();
+    }
 
     public Prescription(String id, String examinationId, List<Medication> medicationList) {
         this.id = id;
