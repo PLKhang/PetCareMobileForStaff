@@ -1,28 +1,41 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme -->
+
+    <!-- Base Theme -->
     <style name="Base.Theme.PetCareMobileForStaff" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Nền button không bị tint -->
+        <!-- Màu chủ đạo -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+
+        <!-- Control ripple -->
+        <item name="android:colorControlHighlight">?attr/colorPrimary</item>
+
+        <!-- Không tint Button -->
         <item name="materialButtonStyle">@style/NoTintButtonStyle</item>
 
-        <!-- Theme cho FloatingActionButton -->
+        <!-- Không tint FAB -->
         <item name="floatingActionButtonStyle">@style/NoTintFABStyle</item>
     </style>
 
-    <!-- Application theme -->
+    <!-- Main Theme -->
     <style name="Theme.PetCareMobileForStaff" parent="Base.Theme.PetCareMobileForStaff" />
 
-    <!-- Button style không có tint -->
+    <!-- Button không tint -->
     <style name="NoTintButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTintMode">src_in</item>
-        <item name="backgroundTint">@null</item> <!-- Không dùng transparent -->
+        <item name="backgroundTint">@null</item>
         <item name="rippleColor">?attr/colorPrimary</item>
+        <item name="android:textColor">@color/primaryText</item>
     </style>
 
-    <!-- FloatingActionButton style không có tint -->
+    <!-- FAB không tint -->
     <style name="NoTintFABStyle" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="rippleColor">?attr/colorPrimary</item>
         <item name="elevation">6dp</item>
         <item name="pressedTranslationZ">12dp</item>
     </style>
+
 </resources>

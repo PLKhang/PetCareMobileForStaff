@@ -51,13 +51,28 @@ public class CaseInsensitiveEnumAdapterFactory implements TypeAdapterFactory {
 
             @Override
             public T read(JsonReader in) throws IOException {
-                String value = in.nextString();
-                T result = lookup.get(value.toLowerCase());
-                if (result == null) {
-                    throw new JsonParseException("Unknown enum value: " + value + " for type " + rawType.getName());
+                switch (in.peek()) {
+                    case STRING:
+                        String value = in.nextString();
+                        T result = lookup.get(value.toLowerCase());
+                        if (result == null) {
+                            throw new JsonParseException("Unknown enum value: " + value + " for type " + rawType.getName());
+                        }
+                        return result;
+
+                    case NUMBER:  // Nếu enum được gửi về là số (int)
+                        int ordinal = in.nextInt();
+                        T[] constants = rawType.getEnumConstants();
+                        if (ordinal < 0 || ordinal >= constants.length) {
+                            throw new JsonParseException("Invalid ordinal " + ordinal + " for enum " + rawType.getName());
+                        }
+                        return constants[ordinal];
+
+                    default:
+                        throw new JsonParseException("Unexpected token " + in.peek() + " when parsing enum " + rawType.getName());
                 }
-                return result;
             }
+
         };
     }
 }

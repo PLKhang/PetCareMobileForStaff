@@ -197,13 +197,37 @@ public class RecordRepository {
         return liveData;
     }
 
-    public LiveData<List<Prescription>> getPrescription(String medicalRecordId) {
-        MutableLiveData<List<Prescription>> liveData = new MutableLiveData<>();
-        apiRecord.listPrescriptionsByExamination(medicalRecordId).enqueue(new Callback<List<PrescriptionResponse>>() {
+//    public LiveData<List<Prescription>> getPrescription(String medicalRecordId) {
+//        MutableLiveData<List<Prescription>> liveData = new MutableLiveData<>();
+//        apiRecord.listPrescriptionsByExamination(medicalRecordId).enqueue(new Callback<List<PrescriptionResponse>>() {
+//            @Override
+//            public void onResponse(Call<List<PrescriptionResponse>> call, Response<List<PrescriptionResponse>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    List<Prescription> list = RecordMapper.toPrescriptionList(response.body());
+//                    liveData.setValue(list);
+//                } else {
+//                    Log.d("API_DEBUG", "Null body");
+//                    liveData.setValue(null);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<PrescriptionResponse>> call, Throwable t) {
+//                Log.d("API_DEBUG", "Failure to get list of prescriptions");
+//                liveData.setValue(null);
+//            }
+//        });
+//
+//        return liveData;
+//    }
+
+    public LiveData<Prescription> getPrescription(String medicalRecordId) {
+        MutableLiveData<Prescription> liveData = new MutableLiveData<>();
+        apiRecord.listPrescriptionsByExamination(medicalRecordId).enqueue(new Callback<PrescriptionResponse>() {
             @Override
-            public void onResponse(Call<List<PrescriptionResponse>> call, Response<List<PrescriptionResponse>> response) {
+            public void onResponse(Call<PrescriptionResponse> call, Response<PrescriptionResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Prescription> list = RecordMapper.toPrescriptionList(response.body());
+                    Prescription list = RecordMapper.toPrescription(response.body());
                     liveData.setValue(list);
                 } else {
                     Log.d("API_DEBUG", "Null body");
@@ -212,7 +236,7 @@ public class RecordRepository {
             }
 
             @Override
-            public void onFailure(Call<List<PrescriptionResponse>> call, Throwable t) {
+            public void onFailure(Call<PrescriptionResponse> call, Throwable t) {
                 Log.d("API_DEBUG", "Failure to get list of prescriptions");
                 liveData.setValue(null);
             }

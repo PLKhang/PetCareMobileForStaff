@@ -3,9 +3,11 @@ package com.petcare.staff.data.model.ui;
 import com.petcare.staff.data.model.api.order.OrderStatus;
 import com.petcare.staff.utils.DateTime;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
     private String id;
     private String customer_id;
     private String branch_id;
@@ -15,11 +17,17 @@ public class Order {
     private List<Product> products;
     private Bill bill;
     private String appointment_id;
+    private DateTime pickupTime;
     private OrderStatus status;
 
+    public Order() {
+        this.products = new ArrayList<>();
+    }
+
     public Order(String id, String customer_id, String branch_id, String appontment_id, float total_price,
-                 DateTime created_at, DateTime updated_at, List<Product> products) {
+                 DateTime created_at, DateTime updated_at, List<Product> products, DateTime pickupTime, OrderStatus status) {
         this.id = id;
+        this.status = status;
         this.customer_id = customer_id;
         this.branch_id = branch_id;
         this.appointment_id = appontment_id;
@@ -27,6 +35,7 @@ public class Order {
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.products = products;
+        this.pickupTime = pickupTime;
     }
 
     public Order(String id, String customer_id, String branch_id, float total_price, DateTime created_at,
@@ -53,12 +62,19 @@ public class Order {
         this.products = products;
     }
 
-    public Order(String customer_id, String branch_id, String appointment_id, List<Product> products)
-    {
+    public Order(String customer_id, String branch_id, String appointment_id, List<Product> products) {
         this.customer_id = customer_id;
         this.branch_id = branch_id;
         this.appointment_id = appointment_id;
         this.products = products;
+    }
+
+    public DateTime getPickupTime() {
+        return pickupTime;
+    }
+
+    public void setPickupTime(DateTime pickupTime) {
+        this.pickupTime = pickupTime;
     }
 
     public Bill getBill() {
@@ -139,5 +155,21 @@ public class Order {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id='" + id + '\'' +
+                ", customer_id='" + customer_id + '\'' +
+                ", branch_id='" + branch_id + '\'' +
+                ", total_price=" + total_price +
+                ", created_at=" + (created_at != null ? created_at.toString() : "null") +
+                ", updated_at=" + (updated_at != null ? updated_at.toString() : "null") +
+                ", products=" + (products != null ? products.toString() : "null") +
+                ", bill=" + (bill != null ? bill.toString() : "null") +
+                ", appointment_id='" + appointment_id + '\'' +
+                ", status=" + (status != null ? status.toString() : "null") +
+                '}';
     }
 }

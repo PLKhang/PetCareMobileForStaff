@@ -13,6 +13,14 @@ public class Bill {
     private String description;
     private String paymentUrl;
 
+    public Bill(String orderId, String appointmentId, float amount, PaymentMethod paymentMethod, String description) {
+        this.orderId = orderId;
+        this.appointmentId = appointmentId;
+        this.amount = amount;
+        this.paymentMethod = paymentMethod;
+        this.description = description;
+    }
+
     public Bill(String id, String orderId, String appointmentId, float amount,
                 PaymentMethod paymentMethod, PaymentStatus status, String description) {
         this.id = id;

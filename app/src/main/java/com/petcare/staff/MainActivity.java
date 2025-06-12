@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,9 +26,9 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.petcare.staff.data.model.ui.User;
-import com.petcare.staff.data.repository.UserRepository;
 import com.petcare.staff.ui.activity.LoginActivity;
+import com.petcare.staff.ui.appointment.viewmodel.AppointmentListViewModel;
+import com.petcare.staff.ui.home.viewmodel.BranchViewModel;
 import com.petcare.staff.ui.userprofile.viewmodel.UserProfileViewModel;
 import com.petcare.staff.utils.SharedPrefManager;
 
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         UserProfileViewModel userProfileViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
         userProfileViewModel.loadCurrentUser(); //load user từ repository và lưu vào LiveData
+        BranchViewModel branchViewModel = new ViewModelProvider(this).get(BranchViewModel.class);
+        AppointmentListViewModel appointmentListViewModel = new ViewModelProvider(this).get(AppointmentListViewModel.class);
+
 
         // Set up NavController
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
@@ -93,8 +97,17 @@ public class MainActivity extends AppCompatActivity {
 
         userProfileViewModel.getUser().observe(this, user -> {
             imageView.setImageResource(R.drawable.temp_avatar);
-            nameTextView.setText(userProfileViewModel.getUser().getValue().getName());
-            emailTextView.setText(userProfileViewModel.getUser().getValue().getEmail());
+            nameTextView.setText(user.getName());
+            emailTextView.setText(user.getEmail());
+
+            branchViewModel.loadBranch(user.getBranchId());
+            appointmentListViewModel.loadUserAppointment(user.getId());
+            appointmentListViewModel.loadBranchAppointment(user.getBranchId());
+        });
+
+        branchViewModel.getBranchInfo().observe(this, info -> {
+            TextView branchName = toolbar.findViewById(R.id.tvBranch);
+            branchName.setText(info.getName());
         });
 
 
@@ -220,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void navigateToClearStack(int destinationId, Bundle args) {
         NavOptions navOptions = new NavOptions.Builder()
-                .setPopUpTo(R.id.homePageFragment, true)  // Xóa hết về trang chủ
+                .setPopUpTo(R.id.homePageFragment, false)  // Xóa hết về trang chủ
                 .build();
         navController.navigate(destinationId, args, navOptions);
     }

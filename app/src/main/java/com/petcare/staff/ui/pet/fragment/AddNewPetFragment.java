@@ -45,7 +45,6 @@ public class AddNewPetFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         repository = new PetRepository(requireActivity());
         initViews(view);
-        showCustomerInfo();
         setupListener();
     }
 
@@ -72,12 +71,15 @@ public class AddNewPetFragment extends Fragment {
 
         btnCreate = view.findViewById(R.id.btnCreate);
         btnCancel = view.findViewById(R.id.btnCancel);
+
+        SelectedCustomerViewModel selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
+        selectedCustomerVM.getSelectedCustomer().observe(getViewLifecycleOwner(), customer -> {
+            this.customer = customer;
+            showCustomerInfo();
+        });
     }
 
     private void showCustomerInfo() {
-        SelectedCustomerViewModel selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
-        customer = selectedCustomerVM.getSelectedCustomer();
-
         image.setImageResource(R.drawable.temp_avatar);
         name.setText(customer.getName());
         email.setText(customer.getEmail());

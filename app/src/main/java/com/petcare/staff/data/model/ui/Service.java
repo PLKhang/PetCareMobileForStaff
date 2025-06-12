@@ -78,4 +78,25 @@ public class Service {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
+    }
+
+    public void copy(Service s) {
+        this.id = s.id;
+        this.name = s.name;
+        this.description = s.description;
+        this.price = s.price;
+        this.quantity = s.quantity;
+        this.imageUrl = s.imageUrl;
+    }
 }

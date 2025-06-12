@@ -22,8 +22,7 @@ public class AppointmentListViewModel extends AndroidViewModel {
     private final MutableLiveData<List<SimplifiedAppointment>> branchAppoitment = new MutableLiveData<>();
     private final MutableLiveData<List<SimplifiedAppointment>> allAppointment = new MutableLiveData<>();
 
-    public AppointmentListViewModel(@NonNull Application application)
-    {
+    public AppointmentListViewModel(@NonNull Application application) {
         super(application);
         this.repository = new AppointmentRepository(application.getApplicationContext());
     }
@@ -31,7 +30,7 @@ public class AppointmentListViewModel extends AndroidViewModel {
     public void loadOtherAppointment(String currentBranchId) {
     }
 
-    public void loadBranchAppointment(String branchId){
+    public void loadBranchAppointment(String branchId) {
         LiveData<List<SimplifiedAppointment>> liveData = repository.getAppointmentByBranchId(branchId);
 
         Observer<List<SimplifiedAppointment>> observer = new Observer<List<SimplifiedAppointment>>() {
@@ -47,7 +46,7 @@ public class AppointmentListViewModel extends AndroidViewModel {
 
     public void loadUserAppointment(String userId) {
         Log.d("DEBUG", "User id: " + userId);
-        LiveData<List<SimplifiedAppointment>> liveData = repository.getAppointmentByBranchId(userId);
+        LiveData<List<SimplifiedAppointment>> liveData = repository.getAppointmentByUserId(userId);
 
         Observer<List<SimplifiedAppointment>> observer = new Observer<List<SimplifiedAppointment>>() {
             @Override
@@ -64,11 +63,13 @@ public class AppointmentListViewModel extends AndroidViewModel {
         repository.createAppointment(appointment, callback);
     }
 
-    public LiveData<List<SimplifiedAppointment>> getBranchAppointment(){
+    public LiveData<List<SimplifiedAppointment>> getBranchAppointment() {
+        Log.d("APPOINTMENT", "Branch size: " + branchAppoitment.getValue().size());
         return branchAppoitment;
     }
 
     public LiveData<List<SimplifiedAppointment>> getCurrentUserAppointment() {
+        Log.d("APPOINTMENT", "User size: " + userAppointment.getValue().size());
         return userAppointment;
     }
 

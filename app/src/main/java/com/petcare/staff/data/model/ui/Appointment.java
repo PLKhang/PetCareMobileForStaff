@@ -16,7 +16,7 @@ public class Appointment implements Serializable {
     private DateTime scheduledTime;
     private AppointmentStatus status;
     private String note;
-    private double total;
+    private float total;
     private List<Service> services;
 
     public Appointment(String customerId, String customerAddress, DateTime scheduledTime, List<Service> services, String note) {
@@ -28,7 +28,7 @@ public class Appointment implements Serializable {
     }
 
     public Appointment(String id, String employeeId, Order order, String customerAddress, DateTime scheduledTime,
-                       AppointmentStatus status, String note, double total, List<Service> services) {
+                       AppointmentStatus status, String note, float total, List<Service> services) {
         this.id = id;
         this.employeeId = employeeId;
         this.order = order;
@@ -113,11 +113,11 @@ public class Appointment implements Serializable {
         this.note = note;
     }
 
-    public double getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
@@ -127,5 +127,22 @@ public class Appointment implements Serializable {
 
     public void setServices(List<Service> services) {
         this.services = services;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id='" + id + '\'' +
+                ", order=" + (order != null ? order.getId() : "null") +
+                ", employeeId='" + employeeId + '\'' +
+                ", customerId='" + customerId + '\'' +
+                ", branchId='" + branchId + '\'' +
+                ", customerAddress='" + customerAddress + '\'' +
+                ", scheduledTime=" + scheduledTime +
+                ", status=" + status +
+                ", note='" + note + '\'' +
+                ", total=" + total +
+                ", services size=" + this.services.size() +
+                '}';
     }
 }

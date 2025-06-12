@@ -12,6 +12,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,10 @@ import com.petcare.staff.utils.DateTime;
 import com.petcare.staff.utils.DialogUtils;
 import com.petcare.staff.utils.SharedPrefManager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -67,7 +71,13 @@ public class AddAppointmentFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).hideBottomNavigation(true);
+        btnToggleService.performClick();
     }
 
     @Nullable
@@ -81,7 +91,6 @@ public class AddAppointmentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        showCustomerInfo();
         initAdapters();
         initList();
         observeViewModel();
@@ -89,9 +98,16 @@ public class AddAppointmentFragment extends Fragment {
     }
 
     private void createAppointment() {
+        if (!checkInfo()) {
+            return;
+        }
         List<Product> productsList = productViewModel.getSelectedProducts().getValue();
         List<Service> serviceList = serviceViewModel.getSelectedServices().getValue();
 
+        if (serviceList == null || serviceList.size() == 0) {
+            Toast.makeText(getContext(), "Danh mục dịch vụ rỗng!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Appointment appointment = new Appointment(
                 customer.getId(),
                 txtAddress.getText().toString(),
@@ -104,48 +120,30 @@ public class AddAppointmentFragment extends Fragment {
         );
 
         UserProfileViewModel currentUser = new ViewModelProvider(requireActivity()).get(UserProfileViewModel.class);
-        appointment.setBranchId(currentUser.getUser().getValue().getBranchId());
+        currentUser.getUser().observe(getViewLifecycleOwner(), user -> {
+            appointment.setBranchId(user.getBranchId());
+            Log.d("DEBUG", "User branchid: " + user.getBranchId());
+        });
 
         AppointmentListViewModel appointmentListViewModel = new ViewModelProvider(requireActivity()).get(AppointmentListViewModel.class);
 
         appointmentListViewModel.createAppointment(appointment, new RepositoryCallback() {
             @Override
             public void onSuccess(String appointmentId) {
+                createOrder(appointmentId, appointment.getBranchId(), productsList);
                 appointment.setId(appointmentId);
 
-                Order order = new Order(
-                        customer.getId(),
-                        String.valueOf(SharedPrefManager.getBranchId(requireActivity())),
-                        "",
-                        productsList
-                );
-                order.setAppointment_id(appointmentId); // Gán appointmentId vào đơn hàng
+                productViewModel.resetClearFlag();
+                serviceViewModel.resetClearFlag();
 
-                OrderRepository orderRepository = new OrderRepository(requireActivity());
-                orderRepository.createOrder(order, new RepositoryCallback() {
-                    @Override
-                    public void onSuccess(String orderId) {
-                        order.setId(orderId);
-                        appointment.setOrder(order);
+                sharedAppointmentVM.setSelectedDate(null);
+                sharedAppointmentVM.setSelectedTime(null);
+                sharedAppointmentVM.setAddress(null);
 
-                        Toast.makeText(getContext(), "Tạo thành công. OrderID: " + orderId, Toast.LENGTH_SHORT).show();
-                        productViewModel.resetClearFlag();
-                        serviceViewModel.resetClearFlag();
-
-                        sharedAppointmentVM.setSelectedDate(null);
-                        sharedAppointmentVM.setSelectedTime(null);
-                        sharedAppointmentVM.setAddress(null);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("appointmentId", appointmentId);
-                        ((MainActivity) requireActivity()).navigateWithoutBackStack(R.id.appointmentDetailFragment, bundle);
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        Toast.makeText(getContext(), "Lỗi tạo hóa đơn: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Toast.makeText(getContext(), "Tạo thành công. AppointmentID: " + appointmentId, Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("appointmentId", appointmentId);
+                ((MainActivity) requireActivity()).navigateWithoutBackStack(R.id.appointmentDetailFragment, bundle);
             }
 
             @Override
@@ -155,8 +153,40 @@ public class AddAppointmentFragment extends Fragment {
         });
     }
 
+    private void createOrder(String appontmentId, String branchId, List<Product> productsList) {
+        if (productsList == null || productsList.size() == 0) {
+            return;
+        }
+        Order order = new Order(
+                customer.getId(),
+                branchId,
+                appontmentId,
+                productsList
+        );
+        order.setPickupTime(DateTime.fromDateAndTime(txtSelectDate.getText().toString(), txtSelectTime.getText().toString()));
+
+        OrderRepository orderRepository = new OrderRepository(requireActivity());
+        orderRepository.createOrder(order, new RepositoryCallback() {
+            @Override
+            public void onSuccess(String orderId) {
+                order.setId(orderId);
+                Toast.makeText(getContext(), "Tạo thành công. OrderID: " + orderId, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(getContext(), "Lỗi tạo đơn hàng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void observeViewModel() {
+        SelectedCustomerViewModel selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
+        selectedCustomerVM.getSelectedCustomer().observe(getViewLifecycleOwner(), customer -> {
+            this.customer = customer;
+            showCustomerInfo();
+        });
+
         productViewModel = new ViewModelProvider(requireActivity()).get(SharedProductViewModel.class);
         serviceViewModel = new ViewModelProvider(requireActivity()).get(SharedServiceViewModel.class);
         productViewModel.clearSelectedProducts();
@@ -165,12 +195,14 @@ public class AddAppointmentFragment extends Fragment {
         productViewModel.getSelectedProducts().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
                 productAdapter.setData(list);
+                updateTotalPrice(list, serviceViewModel.getSelectedServices().getValue());
             }
         });
 
         serviceViewModel.getSelectedServices().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
                 serviceAdapter.setData(list);
+                updateTotalPrice(productViewModel.getSelectedProducts().getValue(), list);
             }
         });
     }
@@ -254,7 +286,7 @@ public class AddAppointmentFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        customerImage = view.findViewById(R.id.customerImage); // Đảm bảo id là "image"
+        customerImage = view.findViewById(R.id.customerImage);
         txtName = view.findViewById(R.id.txtName);
         txtEmail = view.findViewById(R.id.txtEmail);
         txtPhone = view.findViewById(R.id.txtPhone);
@@ -299,6 +331,39 @@ public class AddAppointmentFragment extends Fragment {
             txtTotal.setText(sharedAppointmentVM.getTotal().getValue().toString());
     }
 
+    private boolean checkInfo() {
+        String dateStr = txtSelectDate.getText().toString().trim(); // dd-MM-yyyy
+        String timeStr = txtSelectTime.getText().toString().trim(); // HH:mm
+        String address = txtAddress.getText().toString().trim();
+
+        // Kiểm tra rỗng
+        if (dateStr.isEmpty() || timeStr.isEmpty() || address.isEmpty()) {
+            Toast.makeText(getContext(), "Vui lòng nhập đầy đủ ngày, giờ và địa chỉ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // Gộp thành 1 chuỗi datetime
+        String dateTimeStr = dateStr + " " + timeStr; // "dd-MM-yyyy HH:mm"
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+        try {
+            Date selectedDate = sdf.parse(dateTimeStr);
+            Date now = new Date();
+
+            if (selectedDate != null && selectedDate.after(now)) {
+                return true; // Hợp lệ
+            } else {
+                Toast.makeText(getContext(), "Ngày giờ phải lớn hơn hiện tại", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Định dạng ngày giờ không hợp lệ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+
     private void showTimePicker() {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
@@ -335,9 +400,6 @@ public class AddAppointmentFragment extends Fragment {
     }
 
     private void showCustomerInfo() {
-        SelectedCustomerViewModel selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
-        customer = selectedCustomerVM.getSelectedCustomer();
-
         customerImage.setImageResource(R.drawable.temp_avatar);
         txtName.setText(customer.getName());
         txtEmail.setText(customer.getEmail());

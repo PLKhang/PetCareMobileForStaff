@@ -17,6 +17,7 @@ public class OrderMapper {
     public static Order toOrder(OrderResponse response) {
         DateTime order_created = DateTime.parse(response.getCreated_at());
         DateTime order_updated = DateTime.parse(response.getUpdated_at());
+        DateTime pickup_time = DateTime.parse(response.getPickup_time());
         List<Product> products = toProductList(response.getItems());
         return new Order(
                 String.valueOf(response.getId()),
@@ -26,7 +27,9 @@ public class OrderMapper {
                 response.getTotal_price(),
                 order_created,
                 order_updated,
-                products
+                products,
+                pickup_time,
+                response.getStatus()
         );
     }
 
@@ -74,11 +77,12 @@ public class OrderMapper {
                 Integer.parseInt(order.getCustomer_id()),
                 Integer.parseInt(order.getBranch_id()),
                 Integer.parseInt(order.getAppointment_id()),
-                toOrderItemRequestList(order.getProducts())
+                toOrderItemRequestList(order.getProducts()),
+                order.getPickupTime().toIsoString()
         );
     }
 
-    public static UpdateOrderStatusRequest toUpdateOrderStatusRequest(OrderStatus status, String order_id) {
+    public static UpdateOrderStatusRequest toUpdateOrderStatusRequest(String order_id, OrderStatus status) {
         return new UpdateOrderStatusRequest(
                 order_id,
                 status

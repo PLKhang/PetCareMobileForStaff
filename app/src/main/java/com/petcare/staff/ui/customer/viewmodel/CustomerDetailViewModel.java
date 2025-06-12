@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.petcare.staff.data.model.ui.Bill;
+import com.petcare.staff.data.model.ui.Customer;
 import com.petcare.staff.data.model.ui.Order;
 import com.petcare.staff.data.model.ui.Pet;
 import com.petcare.staff.data.model.ui.SimplifiedAppointment;
@@ -16,6 +17,7 @@ import com.petcare.staff.data.repository.AppointmentRepository;
 import com.petcare.staff.data.repository.OrderRepository;
 import com.petcare.staff.data.repository.PaymentRepository;
 import com.petcare.staff.data.repository.PetRepository;
+import com.petcare.staff.ui.common.repository.RepositoryCallback;
 
 import java.util.List;
 

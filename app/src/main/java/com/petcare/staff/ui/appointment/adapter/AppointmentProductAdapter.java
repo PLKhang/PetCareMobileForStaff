@@ -1,5 +1,7 @@
 package com.petcare.staff.ui.appointment.adapter;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -86,6 +89,7 @@ public class AppointmentProductAdapter extends RecyclerView.Adapter<AppointmentP
         EditText itemQuantity;
         ImageButton btnIncrease, btnDecrease;
 
+        private boolean isBinding = false;
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             productImage = itemView.findViewById(R.id.productImage);
@@ -116,13 +120,23 @@ public class AppointmentProductAdapter extends RecyclerView.Adapter<AppointmentP
                 productImage.setTag(product.getImgUrl());
             }
 
+            if (product.getStock() == 0) {
+                btnIncrease.setEnabled(false);
+                btnDecrease.setEnabled(false);
+                itemQuantity.setEnabled(false);
+            }
+
             btnIncrease.setOnClickListener(v -> {
                 int newQty = product.getQuantity() + 1;
-//                if (newQty <= product.getStock()) {
+                if (newQty <= product.getStock()) {
                     product.setQuantity(newQty);
                     itemQuantity.setText(String.valueOf(newQty));
                     if (listener != null) listener.onQuantityChanged(product, newQty);
-//                }
+                } else {
+                    Toast.makeText(itemView.getContext(),
+                            "Số lượng vượt quá tồn kho (" + product.getStock() + ")",
+                            Toast.LENGTH_SHORT).show();
+                }
             });
 
             btnDecrease.setOnClickListener(v -> {
@@ -134,20 +148,39 @@ public class AppointmentProductAdapter extends RecyclerView.Adapter<AppointmentP
                 }
             });
 
-            itemQuantity.setOnFocusChangeListener((v, hasFocus) -> {
-                if (!hasFocus) {
-                    try {
-                        int value = Integer.parseInt(itemQuantity.getText().toString());
-//                        value = Math.max(1, Math.min(value, product.getStock())); //check stock
-                        product.setQuantity(value);
-                        itemQuantity.setText(String.valueOf(value));
-                        if (listener != null) listener.onQuantityChanged(product, value);
-                    } catch (NumberFormatException e) {
-                        itemQuantity.setText(String.valueOf(product.getQuantity()));
+            // Remove old TextWatcher if needed (in advanced cases, see below)
+            itemQuantity.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String input = s.toString();
+                    if (!input.isEmpty()) {
+                        try {
+                            int value = Integer.parseInt(input);
+                            if (value < 1) value = 1;
+                            if (value > product.getStock()) {
+                                value = product.getStock();
+                                Toast.makeText(itemView.getContext(),
+                                        "Số lượng vượt quá tồn kho (" + product.getStock() + ")",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            if (value != product.getQuantity()) {
+                                product.setQuantity(value);
+                                if (listener != null) listener.onQuantityChanged(product, value);
+                            }
+                        } catch (NumberFormatException e) {
+                            // Không cập nhật gì nếu lỗi
+                        }
                     }
                 }
             });
         }
+
     }
 }
 

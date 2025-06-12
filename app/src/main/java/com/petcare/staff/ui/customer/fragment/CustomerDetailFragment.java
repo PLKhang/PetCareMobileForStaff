@@ -59,7 +59,6 @@ public class CustomerDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        showCustomerInfo();
         initAdapters();
         initList();
         observeViewModel();
@@ -148,13 +147,15 @@ public class CustomerDetailFragment extends Fragment {
 
         orderAdapter = new OrderAdapter(order -> {
             // Xử lý khi click "More Info"
-            ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.billDetailFragment, null);
+            Bundle bundle = new Bundle();
+            bundle.putString("orderId", order.getId());
+            ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.billDetailFragment, bundle);
         });
 
         appointmentAdapter = new AppointmentAdapter(appointment -> {
             // Xử lý khi click "More Info"
             Bundle bundle = new Bundle();
-            bundle.putSerializable("appointmentId", appointment.getId());
+            bundle.putString("appointmentId", appointment.getId());
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.appointmentDetailFragment, bundle);
         });
 
@@ -171,6 +172,11 @@ public class CustomerDetailFragment extends Fragment {
     }
 
     private void observeViewModel() {
+        SelectedCustomerViewModel selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
+        selectedCustomerVM.getSelectedCustomer().observe(getViewLifecycleOwner(), customer -> {
+            this.customer = customer;
+            showCustomerInfo();
+        });
         customerDetailVM = new ViewModelProvider(requireActivity()).get(CustomerDetailViewModel.class);
         customerDetailVM.getPets().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
@@ -203,9 +209,6 @@ public class CustomerDetailFragment extends Fragment {
     }
 
     private void showCustomerInfo() {
-        SelectedCustomerViewModel selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
-        customer = selectedCustomerVM.getSelectedCustomer();
-
         image.setImageResource(R.drawable.temp_avatar);
         name.setText(customer.getName());
         email.setText(customer.getEmail());

@@ -11,21 +11,27 @@ public class OrderResponse {
     private int branch_id;
     @SerializedName("appointment_id")
     private Integer appointment_id;
+    private OrderStatus status;
     private float total_price;
     private String created_at;
     private String updated_at;
+    private String pickup_time;
     private List<OrderItemResponse> items;
 
-    public OrderResponse(int id, int customer_id, int branch_id, Integer appointment_id,
-                         float total_price, String created_at, String updated_at, List<OrderItemResponse> items) {
-        this.id = id;
-        this.customer_id = customer_id;
-        this.branch_id = branch_id;
-        this.appointment_id = appointment_id;
-        this.total_price = total_price;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.items = items;
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public String getPickup_time() {
+        return pickup_time;
+    }
+
+    public void setPickup_time(String pickup_time) {
+        this.pickup_time = pickup_time;
     }
 
     public int getId() {

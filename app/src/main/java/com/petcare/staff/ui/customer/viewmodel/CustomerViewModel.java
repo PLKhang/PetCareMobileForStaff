@@ -10,20 +10,22 @@ import androidx.lifecycle.Observer;
 
 import com.petcare.staff.data.model.ui.Customer;
 import com.petcare.staff.data.repository.CustomerRepository;
+import com.petcare.staff.ui.common.repository.RepositoryCallback;
 
 import java.util.List;
 
-public class CustomerListViewModel extends AndroidViewModel {
+public class CustomerViewModel extends AndroidViewModel {
     private final CustomerRepository repository;
     private final MutableLiveData<List<Customer>> customers = new MutableLiveData<>();
-    public CustomerListViewModel(@NonNull Application application) {
+
+    public CustomerViewModel(@NonNull Application application) {
         super(application);
         this.repository = new CustomerRepository(application.getApplicationContext());
 
         loadAllCustomers();
     }
 
-    private void  loadAllCustomers() {
+    public void loadAllCustomers() {
         LiveData<List<Customer>> liveData = repository.getAllCustomer();
 
         Observer<List<Customer>> observer = new Observer<List<Customer>>() {
@@ -35,6 +37,10 @@ public class CustomerListViewModel extends AndroidViewModel {
         };
 
         liveData.observeForever(observer);
+    }
+
+    public void addNewCustomer(Customer record, RepositoryCallback callback) {
+        repository.addNewCustomer(record, callback);
     }
 
     public LiveData<List<Customer>> getAllCustomers() {

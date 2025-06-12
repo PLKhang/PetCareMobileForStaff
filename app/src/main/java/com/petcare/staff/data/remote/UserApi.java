@@ -40,4 +40,7 @@ public interface UserApi {
 
     @GET("api/v1/customers")
     Call<List<CustomerResponse>> getAllCustomer();
+
+    @POST("api/v1/users")
+    Call<CreateCustomerResponse> createNewCustomer(@Body CreateCustomerRequest request);
 }

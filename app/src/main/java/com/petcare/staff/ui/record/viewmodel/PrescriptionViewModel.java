@@ -29,12 +29,14 @@ public class PrescriptionViewModel extends AndroidViewModel {
     }
 
     public void loadPrescriptionList(String medicalRecordId) {
-        LiveData<List<Prescription>> liveData = recordRepo.getPrescription(medicalRecordId);
+        LiveData<Prescription> liveData = recordRepo.getPrescription(medicalRecordId);
 
-        Observer<List<Prescription>> observer = new Observer<List<Prescription>>() {
+        Observer<Prescription> observer = new Observer<Prescription>() {
             @Override
-            public void onChanged(List<Prescription> prescriptions) {
-                prescriptionList.setValue(prescriptions);
+            public void onChanged(Prescription prescriptions) {
+                List<Prescription> list = new ArrayList<>();
+                list.add(prescriptions);
+                prescriptionList.setValue(list);
             }
         };
 

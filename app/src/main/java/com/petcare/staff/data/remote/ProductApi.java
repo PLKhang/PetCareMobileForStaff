@@ -2,6 +2,7 @@ package com.petcare.staff.data.remote;
 
 import com.petcare.staff.data.model.api.product.AddProductRequest;
 import com.petcare.staff.data.model.api.product.AddProductResponse;
+import com.petcare.staff.data.model.api.product.AllProductResponse;
 import com.petcare.staff.data.model.api.product.BranchResponse;
 import com.petcare.staff.data.model.api.product.InventoryResponse;
 import com.petcare.staff.data.model.api.product.ProductResponse;
@@ -22,8 +23,8 @@ import retrofit2.http.Path;
 
 public interface ProductApi {
     // Tất cả sản phẩm & sản phẩm có thể đính kèm
-    @GET("api/v1/products")
-    Call<List<ProductResponse>> getAllProducts();
+    @GET("api/v1/branches/{id}/products/available/all")
+    Call<List<ProductResponse>> getAllProducts(@Path("id") int id);
 
     @GET("api/v1/products/is_attachable")
     Call<List<ProductResponse>> getAllAttachableProducts();
@@ -89,4 +90,7 @@ public interface ProductApi {
 
     @PUT("api/v1/branches/inventory")
     Call<UpdateInventoryResponse> updateBranchInventory(@Body UpdateInventoryRequest request);
+
+    @GET("api/v1/products")
+    Call<List<AllProductResponse>> getAllBranchesProducts();
 }

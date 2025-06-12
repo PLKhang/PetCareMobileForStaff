@@ -1,5 +1,6 @@
 package com.petcare.staff.ui.customer.viewmodel;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -26,8 +27,8 @@ public class SelectedCustomerViewModel extends ViewModel {
         selectedCustomer.setValue(null);
     }
 
-    public Customer getSelectedCustomer() {
-        return selectedCustomer.getValue();
+    public LiveData<Customer> getSelectedCustomer() {
+        return selectedCustomer;
     }
 
     public void setSelectedCustomer(Customer customer) {

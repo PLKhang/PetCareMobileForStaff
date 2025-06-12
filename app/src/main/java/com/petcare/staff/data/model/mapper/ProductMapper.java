@@ -1,6 +1,7 @@
 package com.petcare.staff.data.model.mapper;
 
 import com.petcare.staff.data.model.api.product.AddProductRequest;
+import com.petcare.staff.data.model.api.product.AllProductResponse;
 import com.petcare.staff.data.model.api.product.BranchResponse;
 import com.petcare.staff.data.model.api.product.InventoryResponse;
 import com.petcare.staff.data.model.api.product.ProductResponse;
@@ -41,15 +42,37 @@ public class ProductMapper {
         return productStock;
     }
 
+    public static Product toProductFromAllProduct(AllProductResponse response) {
+        return new Product(
+                String.valueOf(response.getId()),
+                response.getName(),
+                response.getPrice(),
+                response.getDescription(),
+                response.getImgUrl(),
+                response.getProductType(),
+                response.getAttachable()
+        );
+    }
+
+    public static List<Product> toProductListFromAllProduct(List<AllProductResponse> responses) {
+        List<Product> result = new ArrayList<>();
+        for (AllProductResponse response: responses)
+        {
+            result.add(toProductFromAllProduct(response));
+        }
+        return result;
+    }
+
     public static Product toProduct(ProductResponse response) {
         return new Product(
                 String.valueOf(response.getId()),
                 response.getName(),
                 response.getDescription(),
+                response.getAvailable_quantity(),
                 response.getImgUrl(),
                 response.getPrice(),
-                response.isAttachable(),
-                response.getProductType()
+                response.isIs_attachable(),
+                response.getProduct_type()
         );
     }
 

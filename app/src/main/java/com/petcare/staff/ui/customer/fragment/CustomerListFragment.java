@@ -20,11 +20,11 @@ import android.widget.Toast;
 import com.petcare.staff.MainActivity;
 import com.petcare.staff.R;
 import com.petcare.staff.ui.customer.adapter.CustomerSelectorAdapter;
-import com.petcare.staff.ui.customer.viewmodel.CustomerListViewModel;
+import com.petcare.staff.ui.customer.viewmodel.CustomerViewModel;
 import com.petcare.staff.ui.customer.viewmodel.SelectedCustomerViewModel;
 
 public class CustomerListFragment extends Fragment {
-    private CustomerListViewModel customerListVM;
+    private CustomerViewModel customerListVM;
     private SelectedCustomerViewModel selectedCustomerVM;
     private RecyclerView recyclerView;
     private CustomerSelectorAdapter adapter;
@@ -88,7 +88,8 @@ public class CustomerListFragment extends Fragment {
     }
 
     private void observeViewModel() {
-        customerListVM = new ViewModelProvider(requireActivity()).get(CustomerListViewModel.class);
+        customerListVM = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
+        customerListVM.loadAllCustomers();
         customerListVM.getAllCustomers().observe(getViewLifecycleOwner(), list -> {
                 if (list != null) {
                     adapter.setCustomers(list);

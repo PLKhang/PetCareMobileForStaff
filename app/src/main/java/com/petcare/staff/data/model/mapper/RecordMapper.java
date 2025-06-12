@@ -130,6 +130,20 @@ public class RecordMapper {
         return vaccineRecordList;
     }
 
+    public static VaccineRecord toVaccineRecord_getFirst(List<VaccinationResponse> responses) {
+        VaccinationResponse response = responses.get(0);
+        DateTime date = DateTime.fromApiDateString(response.getDate());
+        DateTime nextDose = DateTime.fromApiDateString(response.getNext_dose());
+        return new VaccineRecord(
+                response.getId(),
+                response.getPet_id(),
+                response.getVet_id(),
+                response.getVaccine_name(),
+                date,
+                nextDose
+        );
+    }
+
     public static CreatePetRequest toCreatePetRequest(Pet pet) {
         return new CreatePetRequest(
                 pet.getColor(),

@@ -1,13 +1,13 @@
 package com.petcare.staff.ui.billing.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 
 import com.petcare.staff.data.model.ui.Product;
 import com.petcare.staff.data.repository.ProductRepository;
@@ -17,7 +17,8 @@ import java.util.List;
 
 public class SharedProductViewModel extends AndroidViewModel {
     private final ProductRepository repository;
-    private final MutableLiveData<List<Product>> products = new MutableLiveData<>();
+    private final MutableLiveData<List<Product>> allBranchProducts = new MutableLiveData<>();
+    private final MutableLiveData<List<Product>> branchAvailableProducts = new MutableLiveData<>();
     private final MutableLiveData<List<Product>> selectedProducts = new MutableLiveData<>();
     private boolean clearedOnce = false;
 
@@ -29,14 +30,27 @@ public class SharedProductViewModel extends AndroidViewModel {
         //TO-DO
         selectedProducts.setValue(new ArrayList<>());
     }
-
-    private void loadAllProducts() {
+    public void loadAllProducts() {
         LiveData<List<Product>> liveData = repository.getAllProducts();
 
         Observer<List<Product>> observer = new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> productList) {
-                products.setValue(productList);
+                allBranchProducts.setValue(productList);
+                liveData.removeObserver(this);
+            }
+        };
+
+        liveData.observeForever(observer);
+    }
+
+    public void loadAllProducts(String branchId) {
+        LiveData<List<Product>> liveData = repository.getAllProducts(branchId);
+
+        Observer<List<Product>> observer = new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> productList) {
+                branchAvailableProducts.setValue(productList);
                 liveData.removeObserver(this);
             }
         };
@@ -45,39 +59,35 @@ public class SharedProductViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Product>> getAllProducts() {
-        return products;
+        return branchAvailableProducts;
+    }
+
+    public LiveData<List<Product>> getAllBranchProducts() {
+        return allBranchProducts;
+    }
+
+    private Product findProductById(List<Product> list, Product product) {
+        for (Product p : list) {
+            if (p.getId().equals(product.getId()) && p.getType().equals(product.getType())) {
+                Log.d("Debug_calculator", product.toString());
+                return p;
+            }
+        }
+        return null;
     }
 
     public void addSeletedProduct(Product product) {
         List<Product> current = selectedProducts.getValue();
-        boolean isExisted = false;
-        for (Product p: current) {
-            if (p.getId().equals(product.getId())){
-                isExisted = true;
-                break;
-            }
-        }
-        if (!isExisted) {
-            current.add(product);
-            selectedProducts.setValue(current);
-        } else {
-            removeSeletedProduct(product);
-        }
-    }
+        if (current == null) current = new ArrayList<>();
 
-    public void removeSeletedProduct(Product product) {
-        List<Product> current = selectedProducts.getValue();
-        boolean isExisted = false;
-        for (Product p: current) {
-            if (p.getId().equals(product.getId())){
-                isExisted = true;
-                break;
-            }
+        Product existing = findProductById(current, product);
+        if (existing != null) {
+            current.remove(existing);
+        } else {
+            current.add(product);
         }
-        if (isExisted) {
-            current.remove(product);
-            selectedProducts.setValue(current);
-        }
+
+        selectedProducts.setValue(current);
     }
 
     public LiveData<List<Product>> getSelectedProducts() {
@@ -95,17 +105,20 @@ public class SharedProductViewModel extends AndroidViewModel {
         clearedOnce = false;
     }
 
-    public void setSelectedProductsById(List<Product> selectedFromAppointment) {
-        List<Product> all = products.getValue();
+    public void setSelectedProductsById(List<Product> selectedProduct) {
+        List<Product> all = branchAvailableProducts.getValue();
         if (all == null) return;
 
         List<Product> selected = new ArrayList<>();
-        for (Product pFromAppointment : selectedFromAppointment) {
+
+        for (Product pFromAppointment : selectedProduct) {
             for (Product p : all) {
-                if (p.getId().equals(pFromAppointment.getId())) {
+                if (p.getId().equals(pFromAppointment.getId()) && p.getType().equals(pFromAppointment.getType())) {
+                    p.setQuantity(pFromAppointment.getQuantity());
                     Product copy = new Product(p);
-                    copy.setQuantity(pFromAppointment.getQuantity());
+
                     selected.add(copy);
+                    Log.d("SetSelectedProduct", "Copy: " + copy.toString());
                     break;
                 }
             }
@@ -114,4 +127,22 @@ public class SharedProductViewModel extends AndroidViewModel {
     }
 
 
+    public float calculatePrice(List<Product> products) {
+        float total = 0f;
+        List<Product> current = getAllBranchProducts().getValue();
+        for (Product p: current)
+        {
+            Log.d("Debug_calculator", "All product list: " + p);
+        }
+        if (current == null) current = new ArrayList<>();
+        Log.d("Debug_calculator", "Calculate, product size: " + products.size());
+        for(Product p: products){
+            Log.d("Debug_calculator", "Object: " + p);
+            Product existing = findProductById(current, p);
+            total += p.getQuantity() * existing.getPrice();
+        }
+
+
+        return total;
+    }
 }

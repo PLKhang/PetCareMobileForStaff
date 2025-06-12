@@ -88,9 +88,10 @@ public class MedicalRecordDetailFragment extends Fragment {
     }
 
     private void initAdapters() {
-        adapter = new PrescriptionOutputAdapter(v -> {
+        adapter = new PrescriptionOutputAdapter(prescription -> {
             Bundle bundle = new Bundle();
             bundle.putString("diagnose", etDiagnose.getText().toString());
+            prescriptionViewModel.setSelectedPrescription(prescription);
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.prescriptionDetailFragment, bundle);
         });
 

@@ -4,6 +4,7 @@ import com.petcare.staff.data.model.api.user.ChangeInfoRequest;
 import com.petcare.staff.data.model.api.user.ChangeInfoResponse;
 import com.petcare.staff.data.model.api.user.ChangePasswordRequest;
 import com.petcare.staff.data.model.api.user.ChangePasswordResponse;
+import com.petcare.staff.data.model.api.user.CreateCustomerRequest;
 import com.petcare.staff.data.model.api.user.CustomerResponse;
 import com.petcare.staff.data.model.api.user.UserByIdResponse;
 import com.petcare.staff.data.model.api.user.UserResponse;
@@ -65,6 +66,14 @@ public class UserMapper {
         return new ChangePasswordRequest(
                 oldPassword,
                 newPassword
+        );
+    }
+
+    public static CreateCustomerRequest toCreateCustomerRequest(Customer record) {
+        return new CreateCustomerRequest(
+                record.getEmail(),
+                record.getName(),
+                record.getPhoneNumber()
         );
     }
 }

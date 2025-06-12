@@ -64,41 +64,41 @@
             android:background="@drawable/draw_edit_text"
             android:hint="Enter email" />
 
-        <!-- Birthday -->
-        <TextView
-            android:text="Birthday"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
-        <EditText
-            android:id="@+id/etBirthday"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:hint="DD/MM/YYYY"
-            android:focusable="false"
-            android:paddingHorizontal="10dp"
-            android:background="@drawable/draw_edit_text"
-            android:drawableEnd="@drawable/ic_calendar" />
+<!--        &lt;!&ndash; Birthday &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:text="Birthday"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="12dp" />-->
+<!--        <EditText-->
+<!--            android:id="@+id/etBirthday"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:hint="DD/MM/YYYY"-->
+<!--            android:focusable="false"-->
+<!--            android:paddingHorizontal="10dp"-->
+<!--            android:background="@drawable/draw_edit_text"-->
+<!--            android:drawableEnd="@drawable/ic_calendar" />-->
 
-        <!-- Address -->
-        <TextView
-            android:text="Address"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
-        <EditText
-            android:id="@+id/etAddress"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:hint="Enter customer's address"
-            android:paddingStart="10dp"
-            android:background="@drawable/draw_edit_text" />
+<!--        &lt;!&ndash; Address &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:text="Address"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="16sp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="12dp" />-->
+<!--        <EditText-->
+<!--            android:id="@+id/etAddress"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:hint="Enter customer's address"-->
+<!--            android:paddingStart="10dp"-->
+<!--            android:background="@drawable/draw_edit_text" />-->
 
         <!-- Buttons -->
         <LinearLayout

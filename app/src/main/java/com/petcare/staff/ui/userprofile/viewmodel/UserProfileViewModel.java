@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.petcare.staff.data.model.api.user.ChangeInfoRequest;
@@ -35,12 +36,17 @@ public class UserProfileViewModel extends AndroidViewModel {
     }
 
     public void loadCurrentUser() {
-        userRepository.getCurrentUser().observeForever(user -> {
-            if (user != null) {
-//                user.setBranchId("2");
-                userLiveData.setValue(user);
+        LiveData<User> liveData = userRepository.getCurrentUser();
+
+        Observer<User> observer = new Observer<User>() {
+            @Override
+            public void onChanged(User response) {
+                userLiveData.setValue(response);
+                liveData.removeObserver(this);
             }
-        });
+        };
+
+        liveData.observeForever(observer);
     }
 
     public void setUser(User user) {

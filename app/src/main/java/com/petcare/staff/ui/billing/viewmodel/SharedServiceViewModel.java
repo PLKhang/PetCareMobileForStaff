@@ -47,24 +47,27 @@ public class SharedServiceViewModel extends AndroidViewModel {
         return services;
     }
 
-    public void addSelectedService(Service service) {
-        List<Service> current = selectedServices.getValue();
-        assert current != null;
-        if (!current.contains(service)) {
-            current.add(service);
-            selectedServices.setValue(current);
-        } else {
-            removeSelectedService(service);
+    private Service findServiceById(List<Service> list, String id) {
+        for (Service s : list) {
+            if (s.getId().equals(id)) return s;
         }
+        return null;
     }
 
-    public void removeSelectedService(Service service) {
+    public void addSelectedService(Service service) {
         List<Service> current = selectedServices.getValue();
-        if (current.contains(service)) {
-            current.remove(service);
-            selectedServices.setValue(current);
+        if (current == null) current = new ArrayList<>();
+
+        Service existing = findServiceById(current, service.getId());
+        if (existing != null) {
+            current.remove(existing);
+        } else {
+            current.add(service);
         }
+
+        selectedServices.setValue(current);
     }
+
 
     public LiveData<List<Service>> getSelectedServices() {
         return selectedServices;

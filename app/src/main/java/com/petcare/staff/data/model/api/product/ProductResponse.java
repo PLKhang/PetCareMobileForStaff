@@ -1,78 +1,91 @@
 package com.petcare.staff.data.model.api.product;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ProductResponse {
+    @SerializedName("product_id")
     private int id;
     private String name;
     private float price;
     private String description;
-    private String imgUrl;
-    private ProductType productType;
-    private boolean isAttachable;
+    private String imgurl;
+    private ProductType product_type;
+    private boolean is_attachable;
+    private int available_quantity;
 
     public ProductResponse(int id, String name, float price, String description,
-                           String imgUrl, ProductType productType, boolean isAttachable) {
+                           String imgurl, ProductType product_type, boolean is_attachable, int available_quantity) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
-        this.imgUrl = imgUrl;
-        this.productType = productType;
-        this.isAttachable = isAttachable;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public void setProductType(ProductType productType) {
-        this.productType = productType;
-    }
-
-    public void setAttachable(boolean attachable) {
-        isAttachable = attachable;
+        this.imgurl = imgurl;
+        this.product_type = product_type;
+        this.is_attachable = is_attachable;
+        this.available_quantity = available_quantity;
     }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public float getPrice() {
         return price;
     }
 
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getImgUrl() {
-        return imgUrl;
+        return imgurl;
     }
 
-    public ProductType getProductType() {
-        return productType;
+    public void setImgUrl(String imgurl) {
+        this.imgurl = imgurl;
     }
 
-    public boolean isAttachable() {
-        return isAttachable;
+    public ProductType getProduct_type() {
+        return product_type;
+    }
+
+    public void setProduct_type(ProductType product_type) {
+        this.product_type = product_type;
+    }
+
+    public boolean isIs_attachable() {
+        return is_attachable;
+    }
+
+    public void setIs_attachable(boolean is_attachable) {
+        this.is_attachable = is_attachable;
+    }
+
+    public int getAvailable_quantity() {
+        return available_quantity;
+    }
+
+    public void setAvailable_quantity(int available_quantity) {
+        this.available_quantity = available_quantity;
     }
 }

@@ -18,6 +18,7 @@ import com.petcare.staff.data.repository.AppointmentRepository;
 import com.petcare.staff.data.repository.UserRepository;
 import com.petcare.staff.ui.common.repository.RepositoryCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentDetailViewModel extends AndroidViewModel {
@@ -25,7 +26,8 @@ public class AppointmentDetailViewModel extends AndroidViewModel {
     private final UserRepository userRepo;
     private final MutableLiveData<Appointment> appointment = new MutableLiveData<>();
     private final MutableLiveData<User> assignedUser = new MutableLiveData<>();
-
+    private List<Product> allProduct;
+    private List<Service> allService;
     public AppointmentDetailViewModel(@NonNull Application application) {
         super(application);
         this.appointmentRepo = new AppointmentRepository(application.getApplicationContext());
@@ -37,12 +39,38 @@ public class AppointmentDetailViewModel extends AndroidViewModel {
         Observer<Appointment> observer = new Observer<Appointment>() {
             @Override
             public void onChanged(Appointment response) {
+                updatePrice(response);
                 appointment.setValue(response);
                 liveData.removeObserver(this);
             }
         };
 
         liveData.observeForever(observer);
+    }
+
+    private void updatePrice(Appointment appointment) {
+        for (Service s: appointment.getServices()) {
+            for (Service service: allService)
+            {
+                if (s.getId().equals(service.getId()))
+                {
+                    service.setQuantity(s.getQuantity());
+                    s.copy(service);
+                }
+            }
+        }
+
+        if (appointment.getOrder() != null)
+        {
+            for (Product p: appointment.getOrder().getProducts()) {
+                for (Product product: allProduct) {
+                    if (p.getId().equals(product.getId()) && p.getType().equals(product.getType())) {
+                        product.setQuantity(p.getQuantity());
+                        p.copy(product);
+                    }
+                }
+            }
+        }
     }
 
     public LiveData<User> getAssignedUser() {
@@ -68,46 +96,15 @@ public class AppointmentDetailViewModel extends AndroidViewModel {
     }
 
     public LiveData<Appointment> getAppointmentDetail() {
-        return this.appointment;
-    }
-
-    public void setProductList(List<Product> productList) {
-        Appointment current = appointment.getValue();
-        if (current == null || current.getOrder() == null) return;
-
-        List<Product> selectedProducts = current.getOrder().getProducts();
-        if (selectedProducts == null) return;
-
-        for (Product p : selectedProducts) {
-            for (Product ref : productList) {
-                if (p.getId().equals(ref.getId())) {
-                    p.setPrice(ref.getPrice()); // bổ sung giá
-                    Log.d("APPOINTMENT_DETAIL", "Product: " + p.getId() + "; Quantity: " + p.getQuantity() + "; Price" + p.getPrice());
-                    break;
-                }
-            }
-        }
-
-        appointment.setValue(current); // cập nhật LiveData
+        return appointment;
     }
 
     public void setServiceList(List<Service> serviceList) {
-        Appointment current = appointment.getValue();
-        if (current == null) return;
+        this.allService = new ArrayList<>(serviceList);
+    }
 
-        List<Service> selectedServices = current.getServices();
-        if (selectedServices == null) return;
-
-        for (Service s : selectedServices) {
-            for (Service ref : serviceList) {
-                if (s.getId().equals(ref.getId())) {
-                    s.setPrice(ref.getPrice()); // bổ sung giá
-                    break;
-                }
-            }
-        }
-
-        appointment.setValue(current); // cập nhật LiveData
+    public void setProductList(List<Product> productList) {
+        this.allProduct = new ArrayList<>(productList);
     }
 
     public void setAssignedUser(String userId, RepositoryCallback callback) {
@@ -123,6 +120,30 @@ public class AppointmentDetailViewModel extends AndroidViewModel {
 
         current.setStatus(status);
         appointmentRepo.updateAppointmentStatus(current, callback);
-        appointment.setValue(current); // cập nhật lại LiveData
+    }
+
+    public void setStatus(AppointmentStatus selectedStatus) {
+        Appointment current = appointment.getValue();
+        if (current == null) return;
+
+        current.setStatus(selectedStatus);
+        appointment.setValue(current);
+    }
+
+    public void updateStockForAllProductList(List<Product> listOfStock) {
+        List<Product> current = new ArrayList<>(allProduct);
+
+        List<Product> updatedList = new ArrayList<>();
+        for (Product des: current) {
+            for (Product p: listOfStock) {
+                if (p.getId().equals(des.getId()) && p.getType().equals(des.getType())){
+                    Product temp = new Product(des);
+                    temp.setStock(p.getStock());
+                    updatedList.add(temp);
+                }
+            }
+        }
+
+        this.allProduct = updatedList;
     }
 }

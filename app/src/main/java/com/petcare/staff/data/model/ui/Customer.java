@@ -13,6 +13,12 @@ public class Customer {
     private List<Order> orderList;
     private List<Appointment> appointmentList;
 
+    public Customer(String email, String name, String phoneNumber) {
+        this.email = email;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Customer(String id, String name, String email, String address, String phoneNumber) {
         this.id = id;
         this.name = name;

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/background"
     android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         android:background="@color/background"
         android:padding="12dp">
@@ -57,8 +58,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="4"
-                            android:text="Name: Le Phuc Khang"
-                            android:textColor="#000000"
+                            android:text="Name:"
+                            android:textColor="@color/txt_normal"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -67,7 +68,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="4"
-                            android:text="Email: email@gmail.com"
+                            android:textColor="@color/txt_normal"
+                            android:text="Email:"
                             android:textSize="16sp" />
 
                         <TextView
@@ -75,7 +77,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="4"
-                            android:text="Phone: 0123456789"
+                            android:text="Phone:"
+                            android:textColor="@color/txt_normal"
                             android:textSize="16sp" />
                     </LinearLayout>
 
@@ -92,12 +95,62 @@
                         android:textColor="@color/txt_button" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
+            <EditText
+                android:id="@+id/txtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@drawable/draw_edit_text"
+                android:hint="Enter address"
+                android:paddingHorizontal="10dp"
+                android:textSize="14sp"
+                android:textColor="@color/txt_input"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtDate"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="5"
+                    android:background="@drawable/draw_edit_text"
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:focusable="false"
+                    android:gravity="center|start"
+                    android:hint="Select date"
+                    android:inputType="date"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/txt_input"
+                    android:textSize="14sp" />
+
+
+                <Space
+                    android:layout_width="8dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/txtTime"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/draw_edit_text"
+                    android:drawableEnd="@drawable/ic_time"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="start|center"
+                    android:paddingHorizontal="10dp"
+                    android:text="12:00"
+                    android:textColor="@color/txt_input"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <!-- Products section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginVertical="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -268,13 +321,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
-                android:text="TOTAL: 100.00 $"
+                android:text="TOTAL: 0.00 $"
                 android:textColor="@color/txt_title"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/btnCheckout"
+                android:id="@+id/btnCreate"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="4"

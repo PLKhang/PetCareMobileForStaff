@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
@@ -15,26 +16,25 @@
             android:id="@+id/edtSearch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
             android:layout_weight="6"
             android:background="@drawable/draw_edit_text"
-            android:textColor="@color/txt_input"
+            android:hint="Search..."
             android:paddingStart="10dp"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-            android:layout_marginEnd="5dp"
             android:textAlignment="textStart"
-            android:hint="Search..."
-            />
+            android:textColor="@color/txt_input" />
 
         <Button
             android:id="@+id/btnSearch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:padding="0dp"
             android:background="@drawable/draw_enable_button"
-            android:textColor="@color/txt_button"
-            android:text="Search"/>
+            android:padding="0dp"
+            android:text="Search"
+            android:textColor="@color/txt_button" />
 
     </LinearLayout>
 

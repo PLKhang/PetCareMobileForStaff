@@ -1,5 +1,7 @@
 package com.petcare.staff.ui.appointment.adapter;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +28,10 @@ public class AppointmentServiceAdapter extends RecyclerView.Adapter<AppointmentS
     private boolean isActiveButtons = true;
     private final int PAGE_SIZE = 3;
 
-    public interface OnQuantityChangeListener{
+    public interface OnQuantityChangeListener {
         void onQuantityChanged(Service service, int newQuantity);
     }
+
     public void setData(List<Service> services) {
         fullList.clear();
         fullList.addAll(services);
@@ -67,11 +70,12 @@ public class AppointmentServiceAdapter extends RecyclerView.Adapter<AppointmentS
     public int getItemCount() {
         return displayList.size();
     }
-    public AppointmentServiceAdapter(Boolean active, OnQuantityChangeListener listener)
-    {
+
+    public AppointmentServiceAdapter(Boolean active, OnQuantityChangeListener listener) {
         this.listener = listener;
         this.isActiveButtons = active;
     }
+
     public void setActiveButtons(boolean activeButtons) {
         isActiveButtons = activeButtons;
         notifyDataSetChanged();
@@ -82,6 +86,8 @@ public class AppointmentServiceAdapter extends RecyclerView.Adapter<AppointmentS
         TextView serviceName, serviceDescription, servicePrice;
         EditText itemQuantity;
         ImageButton btnIncrease, btnDecrease;
+
+        TextWatcher quantityWatcher;
 
         public ServiceViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -94,8 +100,7 @@ public class AppointmentServiceAdapter extends RecyclerView.Adapter<AppointmentS
             btnDecrease = itemView.findViewById(R.id.btnDecrease);
         }
 
-        void bind(Service service)
-        {
+        void bind(Service service) {
             itemQuantity.setEnabled(isActiveButtons);
             btnIncrease.setEnabled(isActiveButtons);
             btnDecrease.setEnabled(isActiveButtons);
@@ -105,8 +110,7 @@ public class AppointmentServiceAdapter extends RecyclerView.Adapter<AppointmentS
             servicePrice.setText(String.format("%.2f $", service.getPrice()));
             itemQuantity.setText(String.valueOf(service.getQuantity()));
 
-            if (!service.getImageUrl().equals(serviceImage.getTag()))
-            {
+            if (!service.getImageUrl().equals(serviceImage.getTag())) {
                 Picasso.get()
                         .load(service.getImageUrl())
                         .placeholder(R.drawable.placeholder_image)
@@ -117,11 +121,9 @@ public class AppointmentServiceAdapter extends RecyclerView.Adapter<AppointmentS
 
             btnIncrease.setOnClickListener(v -> {
                 int newQty = service.getQuantity() + 1;
-//                if (newQty <= service.getStock()) {
-                    service.setQuantity(newQty);
-                    itemQuantity.setText(String.valueOf(newQty));
-                    if (listener != null) listener.onQuantityChanged(service, newQty);
-//                }
+                service.setQuantity(newQty);
+                itemQuantity.setText(String.valueOf(newQty));
+                if (listener != null) listener.onQuantityChanged(service, newQty);
             });
 
             btnDecrease.setOnClickListener(v -> {
@@ -133,19 +135,40 @@ public class AppointmentServiceAdapter extends RecyclerView.Adapter<AppointmentS
                 }
             });
 
-            itemQuantity.setOnFocusChangeListener((v, hasFocus) -> {
-                if (!hasFocus) {
-                    try {
-                        int value = Integer.parseInt(itemQuantity.getText().toString());
-//                        value = Math.max(1, Math.min(value, service.getStock()));
-                        service.setQuantity(value);
-                        itemQuantity.setText(String.valueOf(value));
-                        if (listener != null) listener.onQuantityChanged(service, value);
-                    } catch (NumberFormatException e) {
-                        itemQuantity.setText(String.valueOf(service.getQuantity()));
+            // Gỡ TextWatcher cũ nếu có (tránh bug khi scroll)
+            if (quantityWatcher != null) {
+                itemQuantity.removeTextChangedListener(quantityWatcher);
+            }
+
+            // Tạo mới TextWatcher và thêm vào
+            quantityWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String input = s.toString();
+                    if (!input.isEmpty()) {
+                        try {
+                            int value = Integer.parseInt(input);
+                            if (value < 1) value = 1;
+                            if (value != service.getQuantity()) {
+                                service.setQuantity(value);
+                                if (listener != null) listener.onQuantityChanged(service, value);
+                            }
+                        } catch (NumberFormatException e) {
+                            // Không cập nhật gì nếu lỗi
+                        }
                     }
                 }
-            });
+            };
+
+            itemQuantity.addTextChangedListener(quantityWatcher);
         }
     }
 }

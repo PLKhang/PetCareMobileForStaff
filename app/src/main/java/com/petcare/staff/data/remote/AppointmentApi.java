@@ -40,7 +40,7 @@ public interface AppointmentApi {
     Call<UpdateAppointmentStatusResponse> updateAppointmentStatus(@Body UpdateAppointmentStatusRequest request);
 
     @PUT("api/v1/appointments/update-employee")
-    Call<UpdateAppointmentEmployeeResponse> updateAppointmentEmployee(UpdateAppointmentEmployeeRequest request);
+    Call<UpdateAppointmentEmployeeResponse> updateAppointmentEmployee(@Body UpdateAppointmentEmployeeRequest request);
 
     @GET("api/v1/appointments/{appointment_id}")
     Call<AppointmentDetailResponse> getAppointmentDetails(@Path("appointment_id") int appointmentId);

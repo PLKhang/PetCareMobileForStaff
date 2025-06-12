@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -80,6 +81,8 @@ public class AppointmentListFragment extends Fragment {
 
     private void observeViewModel() {
         viewModel = new ViewModelProvider(requireActivity()).get(AppointmentListViewModel.class);
+
+
         viewModel.getCurrentUserAppointment().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
                 userAppointmentAdapter.setData(list);
@@ -99,6 +102,8 @@ public class AppointmentListFragment extends Fragment {
         UserProfileViewModel tempVM = new ViewModelProvider(requireActivity()).get(UserProfileViewModel.class);
         tempVM.getUser().observe(requireActivity(), user -> {
             currentUser = user;
+            viewModel.loadUserAppointment(currentUser.getId());
+            viewModel.loadBranchAppointment(currentUser.getBranchId());
         });
     }
 
@@ -113,8 +118,7 @@ public class AppointmentListFragment extends Fragment {
                 SectionType.USER,
                 listOfBranchAppointments,
                 btnToggleBranchAppointments,
-//                () -> viewModel.loadBranchAppointment(currentUser.getBranchId())
-                () -> viewModel.loadBranchAppointment(currentUser.getId())
+                () -> viewModel.loadBranchAppointment(currentUser.getBranchId())
         );
         setupToggleSection(
                 SectionType.USER,
@@ -143,6 +147,7 @@ public class AppointmentListFragment extends Fragment {
             bundle.putSerializable("appointmentId", appointment.getId());
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.appointmentDetailFragment, bundle);
         });
+
         userRecyclerAppointments.setAdapter(userAppointmentAdapter);
         branchRecyclerAppointment.setAdapter(branchAppointmentAdapter);
         otherRecyclerAppointment.setAdapter(otherAppointmentAdapter);
@@ -169,6 +174,11 @@ public class AppointmentListFragment extends Fragment {
         txtShowMoreUserAppointment = view.findViewById(R.id.txtShowMoreUserAppointment);
         txtShowMoreBranchAppointment = view.findViewById(R.id.txtShowMoreBranchAppointment);
         txtShowMoreAppointment = view.findViewById(R.id.txtShowMoreAppointment);
+
+        userRecyclerAppointments.setLayoutManager(new LinearLayoutManager(getContext()));
+        otherRecyclerAppointment.setLayoutManager(new LinearLayoutManager(getContext()));
+        branchRecyclerAppointment.setLayoutManager(new LinearLayoutManager(getContext()));
+
     }
 
 

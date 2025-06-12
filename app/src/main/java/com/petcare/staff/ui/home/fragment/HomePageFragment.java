@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelLazy;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
@@ -26,6 +27,8 @@ import com.petcare.staff.R;
 import com.petcare.staff.data.model.ui.User;
 import com.petcare.staff.ui.billing.viewmodel.SharedProductViewModel;
 import com.petcare.staff.ui.billing.viewmodel.SharedServiceViewModel;
+import com.petcare.staff.ui.customer.CustomerSelectionMode;
+import com.petcare.staff.ui.customer.viewmodel.SelectedCustomerViewModel;
 import com.petcare.staff.ui.userprofile.viewmodel.UserProfileViewModel;
 
 import java.util.ArrayList;
@@ -66,14 +69,20 @@ public class HomePageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         UserProfileViewModel viewModel = new ViewModelProvider(requireActivity()).get(UserProfileViewModel.class);
+        SharedProductViewModel productViewModel = new ViewModelProvider(requireActivity()).get(SharedProductViewModel.class);
+        SharedServiceViewModel serviceViewModel = new ViewModelProvider(requireActivity()).get(SharedServiceViewModel.class);
+        productViewModel.clearSelectedProducts();
+        productViewModel.resetClearFlag();
+        serviceViewModel.clearSelectedService();
+        serviceViewModel.resetClearFlag();
+
         viewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             image.setImageResource(R.drawable.temp_avatar);
             name.setText("Welcome, " + user.getName() + "!");
             email.setText(user.getEmail());
+            productViewModel.loadAllProducts(user.getBranchId());
         });
 
-        SharedProductViewModel productViewModel = new ViewModelProvider(requireActivity()).get(SharedProductViewModel.class);
-        SharedServiceViewModel serviceViewModel = new ViewModelProvider(requireActivity()).get(SharedServiceViewModel.class);
     }
 
     private void setOnNavigateItemClickListened() {
@@ -81,6 +90,8 @@ public class HomePageFragment extends Fragment {
         btnCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SelectedCustomerViewModel selectedCustomerViewModel = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
+                selectedCustomerViewModel.setSelectionMode(CustomerSelectionMode.VIEW_DETAIL);
                 navController.navigate(R.id.customerListFragment);
             }
         });

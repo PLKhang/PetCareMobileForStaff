@@ -13,10 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.petcare.staff.R;
 import com.petcare.staff.data.model.ui.Medication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicationOutputAdapter extends RecyclerView.Adapter<MedicationOutputAdapter.MedicationViewHolder>{
-    private List<Medication> medicationList;
+    private List<Medication> medicationList = new ArrayList<>();
     public MedicationOutputAdapter() {}
     public void setData(List<Medication> medications)
     {

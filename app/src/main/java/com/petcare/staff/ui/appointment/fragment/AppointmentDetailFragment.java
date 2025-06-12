@@ -33,20 +33,23 @@ import com.petcare.staff.data.model.ui.User;
 import com.petcare.staff.ui.appointment.adapter.AppointmentProductAdapter;
 import com.petcare.staff.ui.appointment.adapter.AppointmentServiceAdapter;
 import com.petcare.staff.ui.appointment.viewmodel.AppointmentDetailViewModel;
+import com.petcare.staff.ui.appointment.viewmodel.SharedAppointmentViewModel;
+import com.petcare.staff.ui.billing.viewmodel.SharedOrderViewModel;
 import com.petcare.staff.ui.billing.viewmodel.SharedProductViewModel;
 import com.petcare.staff.ui.billing.viewmodel.SharedServiceViewModel;
 import com.petcare.staff.ui.common.repository.RepositoryCallback;
-import com.petcare.staff.ui.customer.fragment.CustomerDetailFragment;
 import com.petcare.staff.ui.customer.viewmodel.SelectedCustomerViewModel;
 import com.petcare.staff.ui.userprofile.viewmodel.UserProfileViewModel;
+import com.petcare.staff.utils.DialogUtils;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class AppointmentDetailFragment extends Fragment {
     private AppointmentDetailViewModel viewModel;
     private SharedProductViewModel productViewModel;
     private SharedServiceViewModel serviceViewModel;
+    private SharedOrderViewModel createBillViewModel;
+    private SharedAppointmentViewModel appointmentViewModel;
     private AppointmentProductAdapter productAdapter;
     private AppointmentServiceAdapter serviceAdapter;
     private boolean isActive = false;
@@ -64,8 +67,14 @@ public class AppointmentDetailFragment extends Fragment {
     private TextView txtTime, txtAddress, txtNote, txtAssign;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).hideBottomNavigation(true);
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_appointment_detail, container, false);
     }
@@ -75,12 +84,11 @@ public class AppointmentDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            appointmentId = (String) getArguments().getSerializable("appointmentId");
+            appointmentId = getArguments().getString("appointmentId");
             Log.d("DEBUG", "appoinmentid: " + appointmentId);
         }
 
         initViews(view);
-        showCustomerInfo();
         initAdapter();
         initList();
         observerViewModel();
@@ -92,32 +100,25 @@ public class AppointmentDetailFragment extends Fragment {
             Appointment appointment = viewModel.getAppointmentDetail().getValue();
             if (appointment == null) return;
 
-            // Hiện status hiện tại
-            Toast.makeText(requireContext(), "Trạng thái hiện tại: " + appointment.getStatus(), Toast.LENGTH_SHORT).show();
-
             // Chọn trạng thái mới
-            String[] statuses = Arrays.stream(AppointmentStatus.values())
-                    .map(Enum::name)
-                    .toArray(String[]::new);
+            String[] statuses = Arrays.stream(AppointmentStatus.values()).map(Enum::name).toArray(String[]::new);
 
-            new AlertDialog.Builder(requireContext())
-                    .setTitle("Chọn trạng thái cuộc hẹn")
-                    .setItems(statuses, (dialog, which) -> {
-                        AppointmentStatus selectedStatus = AppointmentStatus.valueOf(statuses[which]);
-                        viewModel.updateAppointmentStatus(selectedStatus, new RepositoryCallback() {
-                            @Override
-                            public void onSuccess(String message) {
-                                Toast.makeText(requireContext(), "Cập nhật thành công: " + appointment.getStatus(), Toast.LENGTH_SHORT).show();
-                            }
+            new AlertDialog.Builder(requireContext()).setTitle("Chọn trạng thái cuộc hẹn").setItems(statuses, (dialog, which) -> {
+                AppointmentStatus selectedStatus = AppointmentStatus.valueOf(statuses[which]);
+                viewModel.updateAppointmentStatus(selectedStatus, new RepositoryCallback() {
+                    @Override
+                    public void onSuccess(String message) {
+                        Toast.makeText(requireContext(), "Cập nhật thành công: " + appointment.getStatus(), Toast.LENGTH_SHORT).show();
+                        viewModel.setStatus(selectedStatus);
+                        btnStatus.setText(selectedStatus.toString());
+                    }
 
-                            @Override
-                            public void onError(Throwable t) {
-                                Toast.makeText(requireContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    })
-                    .setNegativeButton("Hủy", null)
-                    .show();
+                    @Override
+                    public void onError(Throwable t) {
+                        Toast.makeText(requireContext(), "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }).setNegativeButton("Hủy", null).show();
         });
 
         btnAssign.setOnClickListener(v -> {
@@ -125,6 +126,7 @@ public class AppointmentDetailFragment extends Fragment {
                 @Override
                 public void onSuccess(String message) {
                     Toast.makeText(getContext(), "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                    observerViewModel();
                 }
 
                 @Override
@@ -135,9 +137,21 @@ public class AppointmentDetailFragment extends Fragment {
         });
 
         btnCheckout.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("appointmentId", appointmentId);
-            ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.checkoutFragment, bundle);
+            DialogUtils.showCreateConfirmation(getContext(), new DialogUtils.OnConfirmationListener() {
+                @Override
+                public void onConfirmed() {
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("fromOrder", false);
+                    bundle.putBoolean("fromAppointment", true);
+                    appointmentViewModel.setAppointmentLiveData(viewModel.getAppointmentDetail().getValue());
+
+                    productViewModel.resetClearFlag();
+                    serviceViewModel.resetClearFlag();
+
+                    ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.checkoutFragment, bundle);
+
+                }
+            });
         });
 
         txtShowMoreProduct.setOnClickListener(v -> {
@@ -164,25 +178,46 @@ public class AppointmentDetailFragment extends Fragment {
     }
 
     private void observerViewModel() {
+        SelectedCustomerViewModel selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
+        selectedCustomerVM.getSelectedCustomer().observe(getViewLifecycleOwner(), customer -> {
+            this.customer = customer;
+            showCustomerInfo();
+        });
+
         viewModel = new ViewModelProvider(requireActivity()).get(AppointmentDetailViewModel.class);
+        createBillViewModel = new ViewModelProvider(requireActivity()).get(SharedOrderViewModel.class);
+        appointmentViewModel = new ViewModelProvider(requireActivity()).get(SharedAppointmentViewModel.class);
+
+        createBillViewModel.resetOrderLiveData();
+        appointmentViewModel.resetAppointmentLiveData();
+
         productViewModel = new ViewModelProvider(requireActivity()).get(SharedProductViewModel.class);
         serviceViewModel = new ViewModelProvider(requireActivity()).get(SharedServiceViewModel.class);
 
-        viewModel.loadAppointmentDetail(appointmentId);
-
         // 1. Quan sát toàn bộ product/service để tính giá trị sau
-        productViewModel.getAllProducts().observe(getViewLifecycleOwner(), list -> {
-            if (list != null) viewModel.setProductList(list);
-        });
+//        productViewModel.getAllProducts().observe(getViewLifecycleOwner(), list -> {
+//            if (list != null) {
+                viewModel.setProductList(productViewModel.getAllBranchProducts().getValue());
+                viewModel.updateStockForAllProductList(productViewModel.getAllProducts().getValue()); //
+//            }
+//        });
 
         serviceViewModel.getServices().observe(getViewLifecycleOwner(), list -> {
-            if (list != null) viewModel.setServiceList(list);
+            if (list != null) {
+                viewModel.setServiceList(list);
+            }
         });
 
+        viewModel.loadAppointmentDetail(appointmentId);
 
         // 2. Quan sát appointment
         viewModel.getAppointmentDetail().observe(getViewLifecycleOwner(), appointment -> {
             if (appointment == null) return;
+
+            appointmentViewModel.setAppointmentLiveData(appointment);
+            if (appointment.getOrder() != null) {
+                createBillViewModel.setOrderLiveData(appointment.getOrder());
+            }
 
             txtTime.setText("Time: " + appointment.getScheduledTime().toDateTimeString());
             txtAddress.setText("Address: " + appointment.getCustomerAddress());
@@ -251,6 +286,9 @@ public class AppointmentDetailFragment extends Fragment {
             txtAddProduct.setEnabled(false);
             txtAddService.setEnabled(false);
             btnCheckout.setEnabled(false);
+            btnCheckout.setBackgroundResource(R.drawable.draw_disable_button);
+            productAdapter.setActiveButtons(false);
+            serviceAdapter.setActiveButtons(false);
         } else {
             if (assignedUser != null) {
                 txtAssign.setText("Assigned to: " + assignedUser.getName() + "(ID: " + assignedUser.getId() + ")");
@@ -261,23 +299,38 @@ public class AppointmentDetailFragment extends Fragment {
                     btnAssign.setVisibility(View.GONE);
                     btnAssign.setEnabled(false);
                     btnAssign.setBackgroundResource(R.drawable.draw_disable_button);
-                    btnAssign.setText(viewModel.getAppointmentDetail().getValue().getStatus().toString());
-                    btnStatus.setBackgroundResource(R.drawable.draw_enable_button);
-                    btnStatus.setEnabled(true);
                     txtAddProduct.setEnabled(true);
                     txtAddService.setEnabled(true);
-                    btnCheckout.setEnabled(true);
+                    if (appointment.getStatus().equals(AppointmentStatus.COMPLETED)) {
+                        btnCheckout.setEnabled(false);
+                        btnCheckout.setBackgroundResource(R.drawable.draw_disable_button);
+                        btnStatus.setEnabled(false);
+                        btnStatus.setBackgroundResource(R.drawable.draw_disable_button);
+                        productAdapter.setActiveButtons(false);
+                        serviceAdapter.setActiveButtons(false);
+                    } else {
+                        productAdapter.setActiveButtons(true);
+                        serviceAdapter.setActiveButtons(true);
+                        if (appointment.getStatus().equals(AppointmentStatus.CONFIRMED)){
+                            productAdapter.setActiveButtons(false);
+                            serviceAdapter.setActiveButtons(false);
+                        }
+                        btnCheckout.setEnabled(true);
+                        btnCheckout.setBackgroundResource(R.drawable.draw_enable_button);
+                    }
                 } else {
                     // Người khác phụ trách
                     btnAssign.setEnabled(false);
                     btnAssign.setVisibility(View.GONE);
                     btnAssign.setBackgroundResource(R.drawable.draw_disable_button);
-                    btnAssign.setText(viewModel.getAppointmentDetail().getValue().getStatus().toString());
                     btnStatus.setEnabled(false);
                     btnStatus.setBackgroundResource(R.drawable.draw_disable_button);
                     txtAddProduct.setEnabled(false);
                     txtAddService.setEnabled(false);
                     btnCheckout.setEnabled(false);
+                    btnCheckout.setBackgroundResource(R.drawable.draw_disable_button);
+                    productAdapter.setActiveButtons(false);
+                    serviceAdapter.setActiveButtons(false);
                 }
             }
         }
@@ -285,19 +338,9 @@ public class AppointmentDetailFragment extends Fragment {
 
 
     private void initList() {
-        setupToggleSection(
-                SectionType.PRODUCT,
-                listOfProducts,
-                btnToggleProduct,
-                () -> viewModel.loadAppointmentDetail(appointmentId)
-        );
+        setupToggleSection(SectionType.PRODUCT, listOfProducts, btnToggleProduct, () -> viewModel.loadAppointmentDetail(appointmentId));
 
-        setupToggleSection(
-                SectionType.SERVICE,
-                listOfServices,
-                btnToggleService,
-                () -> viewModel.loadAppointmentDetail(appointmentId)
-        );
+        setupToggleSection(SectionType.SERVICE, listOfServices, btnToggleService, () -> viewModel.loadAppointmentDetail(appointmentId));
     }
 
     private void initAdapter() {
@@ -322,13 +365,10 @@ public class AppointmentDetailFragment extends Fragment {
         for (Service s : serviceViewModel.getSelectedServices().getValue()) {
             total += s.getPrice() * s.getQuantity();
         }
-        txtTotal.setText(String.format("Total: %.2f", total));
+        txtTotal.setText(String.format("Total: %.2f$", total));
     }
 
     private void showCustomerInfo() {
-        SelectedCustomerViewModel selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
-        customer = selectedCustomerVM.getSelectedCustomer();
-
         image.setImageResource(R.drawable.temp_avatar);
         name.setText(customer.getName());
         email.setText(customer.getEmail());
@@ -376,20 +416,15 @@ public class AppointmentDetailFragment extends Fragment {
 
     private SectionType currentOpenSection = null;
 
-    private void setupToggleSection(
-            SectionType section,
-            LinearLayout contentLayout,
-            ImageButton toggleButton,
-            Runnable loadDataIfNeeded
-    ) {
+    private void setupToggleSection(SectionType section, LinearLayout contentLayout, ImageButton toggleButton, Runnable loadDataIfNeeded) {
         toggleButton.setOnClickListener(v -> {
             if (currentOpenSection == section) {
                 contentLayout.setVisibility(View.GONE);
                 toggleButton.setImageResource(R.drawable.ic_chevron_right);
                 currentOpenSection = null;
             } else {
-                // Đóng tất cả trước
-                closeAllSections();
+//                // Đóng tất cả trước
+//                closeAllSections();
 
                 // Mở section này
                 contentLayout.setVisibility(View.VISIBLE);

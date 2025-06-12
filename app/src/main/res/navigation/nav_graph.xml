@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_graph"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:startDestination="@id/homePageFragment">
 
@@ -62,7 +63,7 @@
     <!--    Create order -->
     <fragment
         android:id="@+id/createBillFragment"
-        android:name="com.petcare.staff.ui.billing.fragment.CreateBillFragment"
+        android:name="com.petcare.staff.ui.billing.fragment.CreateOrderFragment"
         android:label="Create Bill">
         <action
             android:id="@+id/action_createBill_to_selectProduct"
@@ -148,7 +149,7 @@
     <!--    Bill detail-->
     <fragment
         android:id="@+id/billDetailFragment"
-        android:name="com.petcare.staff.ui.billing.fragment.BillDetailFragment"
+        android:name="com.petcare.staff.ui.billing.fragment.OrderDetailFragment"
         android:label="Bill Detail" />
     <!--    Pet detail-->
     <fragment

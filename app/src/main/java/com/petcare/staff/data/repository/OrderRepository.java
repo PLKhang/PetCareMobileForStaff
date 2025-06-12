@@ -9,6 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.petcare.staff.data.model.api.order.CreateOrderRequest;
 import com.petcare.staff.data.model.api.order.CreateOrderResponse;
 import com.petcare.staff.data.model.api.order.OrderResponse;
+import com.petcare.staff.data.model.api.order.OrderStatus;
+import com.petcare.staff.data.model.api.order.UpdateOrderStatusRequest;
+import com.petcare.staff.data.model.api.order.UpdateOrderStatusResponse;
 import com.petcare.staff.data.model.mapper.OrderMapper;
 import com.petcare.staff.data.model.ui.Order;
 import com.petcare.staff.data.remote.OrderApi;
@@ -23,6 +26,7 @@ import retrofit2.Response;
 
 public class OrderRepository {
     private final OrderApi apiOrder;
+
     public OrderRepository(Context context) {
         apiOrder = ApiClient.getOrderApi(context);
     }
@@ -37,7 +41,7 @@ public class OrderRepository {
                     Log.d("API_DEBUG", "Order: " + orderList.size());
                     orderLiveData.setValue(orderList);
                 } else {
-                    Log.d("API_DEBUG", "No body");
+                    Log.d("API_DEBUG", "Null body");
                     orderLiveData.setValue(null);
                 }
             }
@@ -57,12 +61,10 @@ public class OrderRepository {
         apiOrder.createOrder(request).enqueue(new Callback<CreateOrderResponse>() {
             @Override
             public void onResponse(Call<CreateOrderResponse> call, Response<CreateOrderResponse> response) {
-                if (response.isSuccessful() && response.body() != null)
-                {
+                if (response.isSuccessful() && response.body() != null) {
                     String createdId = String.valueOf(response.body().getOrder_id());
                     repositoryCallback.onSuccess(createdId);
-                }
-                else {
+                } else {
                     repositoryCallback.onError(new Exception("Failed to create order. Response code: " + response.code()));
                 }
             }
@@ -72,5 +74,48 @@ public class OrderRepository {
                 repositoryCallback.onError(t);
             }
         });
+    }
+
+    public void updateOrderStatus(Order current, OrderStatus status, RepositoryCallback callback) {
+        UpdateOrderStatusRequest request = OrderMapper.toUpdateOrderStatusRequest(current.getId(), status);
+        apiOrder.updateOrderStatus(request).enqueue(new Callback<UpdateOrderStatusResponse>() {
+            @Override
+            public void onResponse(Call<UpdateOrderStatusResponse> call, Response<UpdateOrderStatusResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getStatus());
+                } else {
+                    callback.onError(new Exception("Update order status fail, code: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateOrderStatusResponse> call, Throwable t) {
+                callback.onError(new Exception("Failure to update order status: " + t.getMessage()));
+            }
+        });
+    }
+
+    public LiveData<Order> getOrderDetailById(String orderId) {
+        MutableLiveData<Order> liveData = new MutableLiveData<>();
+        apiOrder.getOrder(Integer.parseInt(orderId)).enqueue(new Callback<OrderResponse>() {
+            @Override
+            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Order order = OrderMapper.toOrder(response.body());
+                    Log.d("API_DEBUG", "Order total price: " + order.getTotal_price());
+                    liveData.setValue(order);
+                } else {
+                    Log.d("API_DEBUG", "Null body");
+                    liveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
+                Log.d("API_DEBUG", "Failure to get order detail: " + t.getMessage());
+                liveData.setValue(null);
+            }
+        });
+        return liveData;
     }
 }

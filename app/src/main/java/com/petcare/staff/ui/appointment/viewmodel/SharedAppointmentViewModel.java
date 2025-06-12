@@ -4,11 +4,22 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.petcare.staff.data.model.ui.Appointment;
+
 public class SharedAppointmentViewModel extends ViewModel {
     private final MutableLiveData<String> selectedDate = new MutableLiveData<>();
     private final MutableLiveData<String> selectedTime = new MutableLiveData<>();
     private final MutableLiveData<String> address = new MutableLiveData<>();
     private final MutableLiveData<Float> total = new MutableLiveData<Float>();
+    private MutableLiveData<Appointment> appointmentLiveData = new MutableLiveData<>();
+
+    public LiveData<Appointment> getAppointmentLiveData() {
+        return appointmentLiveData;
+    }
+
+    public void setAppointmentLiveData(Appointment appointment) {
+        this.appointmentLiveData.setValue(appointment);
+    }
 
     public LiveData<String> getSelectedDate() {
         return selectedDate;
@@ -41,5 +52,9 @@ public class SharedAppointmentViewModel extends ViewModel {
     public void setTotal(float total)
     {
         this.total.setValue(total);
+    }
+
+    public void resetAppointmentLiveData(){
+        this.appointmentLiveData.setValue(null);
     }
 }

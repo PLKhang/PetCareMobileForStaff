@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/background"
     android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         android:background="@color/background"
         android:padding="10dp">
@@ -57,8 +58,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="4"
-                            android:text="Name: Le Phuc Khang"
-                            android:textColor="#000000"
+                            android:text="Name:"
+                            android:textColor="@color/txt_normal"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -67,7 +68,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="4"
-                            android:text="Email: email@gmail.com"
+                            android:textColor="@color/txt_normal"
+                            android:text="Email:"
                             android:textSize="16sp" />
 
                         <TextView
@@ -75,7 +77,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="4"
-                            android:text="Phone: 0123456789"
+                            android:text="Phone:"
+                            android:textColor="@color/txt_normal"
                             android:textSize="16sp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -129,7 +132,7 @@
                     android:focusable="true"
                     android:gravity="start|center"
                     android:paddingHorizontal="10dp"
-                    android:text="Select Time"
+                    android:text="12:00"
                     android:textColor="@color/txt_input"
                     android:textSize="14sp" />
             </LinearLayout>

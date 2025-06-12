@@ -17,6 +17,7 @@ import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClient {
     private static Retrofit retrofit;
@@ -49,8 +50,9 @@ public class ApiClient {
                     .create();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.8:8080/")
+                    .baseUrl("http://192.168.1.8:8080/") // http://26.199.48.182:8080/  http://192.168.1.8:8080/ http://127.0.0.1:8080/
                     .client(client)
+                    .addConverterFactory(ScalarsConverterFactory.create()) //health check
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
