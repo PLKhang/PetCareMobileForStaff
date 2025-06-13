@@ -50,7 +50,7 @@ public class ApiClient {
                     .create();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.8:8080/") // http://26.199.48.182:8080/  http://192.168.1.8:8080/ http://127.0.0.1:8080/
+                    .baseUrl("http://192.168.1.8:8080/") //10.0.2.2 // http://26.199.48.182:8080/  http://192.168.1.8:8080/ http://127.0.0.1:8080/
                     .client(client)
                     .addConverterFactory(ScalarsConverterFactory.create()) //health check
                     .addConverterFactory(GsonConverterFactory.create(gson))

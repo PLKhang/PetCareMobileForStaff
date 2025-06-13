@@ -95,11 +95,18 @@ public class OrderDetailFragment extends Fragment {
             Order order = viewModel.getOrderDetail().getValue();
             if (order == null) return;
 
+            OrderStatus current = order.getStatus();
+
             // Chọn trạng thái mới
             String[] statuses = Arrays.stream(OrderStatus.values()).map(Enum::name).toArray(String[]::new);
 
             new AlertDialog.Builder(requireContext()).setTitle("Chọn trạng thái cuộc hẹn").setItems(statuses, (dialog, which) -> {
                 OrderStatus selectedStatus = OrderStatus.valueOf(statuses[which]);
+                if (selectedStatus.compareTo(current) < 1)
+                {
+                    Toast.makeText(requireContext(), "Trạng thái mới phải lớn hơn hiện tại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 viewModel.updateOrderStatus(selectedStatus, new RepositoryCallback() {
                     @Override
                     public void onSuccess(String message) {

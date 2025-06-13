@@ -76,8 +76,8 @@ public class OrderRepository {
         });
     }
 
-    public void updateOrderStatus(Order current, OrderStatus status, RepositoryCallback callback) {
-        UpdateOrderStatusRequest request = OrderMapper.toUpdateOrderStatusRequest(current.getId(), status);
+    public void updateOrderStatus(String orderId, OrderStatus status, RepositoryCallback callback) {
+        UpdateOrderStatusRequest request = OrderMapper.toUpdateOrderStatusRequest(orderId, status);
         apiOrder.updateOrderStatus(request).enqueue(new Callback<UpdateOrderStatusResponse>() {
             @Override
             public void onResponse(Call<UpdateOrderStatusResponse> call, Response<UpdateOrderStatusResponse> response) {

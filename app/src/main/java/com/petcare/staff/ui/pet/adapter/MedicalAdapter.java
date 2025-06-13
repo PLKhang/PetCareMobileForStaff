@@ -52,7 +52,7 @@ public class MedicalAdapter extends BaseExpandableAdapter<MedicalRecord, Medical
         public void bind(MedicalRecord record) {
             medicalDiagnosis.setText("Vaccine: " + record.getDiagnosis());
             medicalDate.setText("Date: " + record.getDate().toString());
-            medicalNote.setText("Next dose: " + record.getNotes());
+            medicalNote.setText("Note: " + record.getNotes());
 
             btnMedicalInfo.setOnClickListener(v -> {
                 if (listener != null) {

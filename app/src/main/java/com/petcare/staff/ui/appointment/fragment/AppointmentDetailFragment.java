@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.petcare.staff.MainActivity;
 import com.petcare.staff.R;
 import com.petcare.staff.data.model.api.appointment.AppointmentStatus;
+import com.petcare.staff.data.model.api.order.OrderStatus;
 import com.petcare.staff.data.model.ui.Appointment;
 import com.petcare.staff.data.model.ui.Customer;
 import com.petcare.staff.data.model.ui.Product;
@@ -100,11 +101,17 @@ public class AppointmentDetailFragment extends Fragment {
             Appointment appointment = viewModel.getAppointmentDetail().getValue();
             if (appointment == null) return;
 
+            AppointmentStatus current = appointment.getStatus();
+
             // Chọn trạng thái mới
             String[] statuses = Arrays.stream(AppointmentStatus.values()).map(Enum::name).toArray(String[]::new);
 
             new AlertDialog.Builder(requireContext()).setTitle("Chọn trạng thái cuộc hẹn").setItems(statuses, (dialog, which) -> {
                 AppointmentStatus selectedStatus = AppointmentStatus.valueOf(statuses[which]);
+                if (selectedStatus.compareTo(current) < 1) {
+                    Toast.makeText(requireContext(), "Trạng thái mới phải lớn hơn hiện tại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 viewModel.updateAppointmentStatus(selectedStatus, new RepositoryCallback() {
                     @Override
                     public void onSuccess(String message) {
@@ -126,6 +133,18 @@ public class AppointmentDetailFragment extends Fragment {
                 @Override
                 public void onSuccess(String message) {
                     Toast.makeText(getContext(), "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+//                    viewModel.updateAppointmentStatus(AppointmentStatus.CONFIRMED, new RepositoryCallback() {
+                    viewModel.updateAppointmentStatus(AppointmentStatus.IN_PROGRESS, new RepositoryCallback() {
+                        @Override
+                        public void onSuccess(String message) {
+                            Toast.makeText(getContext(), "Cập nhật trạng thái! " + message, Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            Toast.makeText(getContext(), "Không thể cập nhật trạng thái! " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     observerViewModel();
                 }
 
@@ -197,8 +216,8 @@ public class AppointmentDetailFragment extends Fragment {
         // 1. Quan sát toàn bộ product/service để tính giá trị sau
 //        productViewModel.getAllProducts().observe(getViewLifecycleOwner(), list -> {
 //            if (list != null) {
-                viewModel.setProductList(productViewModel.getAllBranchProducts().getValue());
-                viewModel.updateStockForAllProductList(productViewModel.getAllProducts().getValue()); //
+        viewModel.setProductList(productViewModel.getAllBranchProducts().getValue());
+        viewModel.updateStockForAllProductList(productViewModel.getAllProducts().getValue()); //
 //            }
 //        });
 
@@ -289,6 +308,8 @@ public class AppointmentDetailFragment extends Fragment {
             btnCheckout.setBackgroundResource(R.drawable.draw_disable_button);
             productAdapter.setActiveButtons(false);
             serviceAdapter.setActiveButtons(false);
+            txtAssign.setText("Assigned to: None");
+
         } else {
             if (assignedUser != null) {
                 txtAssign.setText("Assigned to: " + assignedUser.getName() + "(ID: " + assignedUser.getId() + ")");
@@ -311,10 +332,14 @@ public class AppointmentDetailFragment extends Fragment {
                     } else {
                         productAdapter.setActiveButtons(true);
                         serviceAdapter.setActiveButtons(true);
-                        if (appointment.getStatus().equals(AppointmentStatus.CONFIRMED)){
+//                        if (appointment.getStatus().equals(AppointmentStatus.CONFIRMED)) {
+                        if (appointment.getStatus().equals(AppointmentStatus.IN_PROGRESS)) {
                             productAdapter.setActiveButtons(false);
                             serviceAdapter.setActiveButtons(false);
                         }
+
+                        btnStatus.setEnabled(true);
+                        btnStatus.setBackgroundResource(R.drawable.draw_enable_button);
                         btnCheckout.setEnabled(true);
                         btnCheckout.setBackgroundResource(R.drawable.draw_enable_button);
                     }

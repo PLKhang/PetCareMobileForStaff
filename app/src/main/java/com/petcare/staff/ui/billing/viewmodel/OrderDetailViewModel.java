@@ -46,8 +46,8 @@ public class OrderDetailViewModel extends AndroidViewModel {
                 if (!loadedAppointment && order.getAppointment_id() != "null") {
                     Log.d("ORDER_DETAIL_VM", "appointment id: " + order.getAppointment_id());
                     loadAppointmentDetail(order.getAppointment_id());
-                    updateOrderProduct(order);
                 }
+                updateOrderProduct(order);
                 orderLiveData.setValue(order);
                 for (Product p: order.getProducts()) {
                     Log.d("LoadOrderDetail", "Product: " + p);
@@ -113,7 +113,12 @@ public class OrderDetailViewModel extends AndroidViewModel {
         Order current = orderLiveData.getValue();
         if (current == null) return;
 
-        orderRepository.updateOrderStatus(current, status, callback);
+        orderRepository.updateOrderStatus(current.getId(), status, callback);
+    }
+
+    public void updateOrderStatus(String orderId, OrderStatus status, RepositoryCallback callback)
+    {
+        orderRepository.updateOrderStatus(orderId, status, callback);
     }
     public void setStatus(OrderStatus status)
     {

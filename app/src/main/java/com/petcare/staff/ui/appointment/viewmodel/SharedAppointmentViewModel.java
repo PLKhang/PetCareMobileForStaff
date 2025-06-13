@@ -1,10 +1,13 @@
 package com.petcare.staff.ui.appointment.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.petcare.staff.data.model.ui.Appointment;
+import com.petcare.staff.data.model.ui.Service;
 
 public class SharedAppointmentViewModel extends ViewModel {
     private final MutableLiveData<String> selectedDate = new MutableLiveData<>();
@@ -18,7 +21,9 @@ public class SharedAppointmentViewModel extends ViewModel {
     }
 
     public void setAppointmentLiveData(Appointment appointment) {
-        this.appointmentLiveData.setValue(appointment);
+        for (Service s: appointment.getServices()) {
+            Log.d("Appointment", "set live data service: " + s.toString());
+        }this.appointmentLiveData.setValue(appointment);
     }
 
     public LiveData<String> getSelectedDate() {

@@ -30,6 +30,7 @@ public class SharedProductViewModel extends AndroidViewModel {
         //TO-DO
         selectedProducts.setValue(new ArrayList<>());
     }
+    //all branch
     public void loadAllProducts() {
         LiveData<List<Product>> liveData = repository.getAllProducts();
 
@@ -43,7 +44,7 @@ public class SharedProductViewModel extends AndroidViewModel {
 
         liveData.observeForever(observer);
     }
-
+// current branch
     public void loadAllProducts(String branchId) {
         LiveData<List<Product>> liveData = repository.getAllProducts(branchId);
 

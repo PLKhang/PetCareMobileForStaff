@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.petcare.staff.MainActivity;
 import com.petcare.staff.R;
+import com.petcare.staff.data.model.api.order.OrderStatus;
 import com.petcare.staff.data.model.api.payment.PaymentMethod;
 import com.petcare.staff.data.model.api.payment.PaymentStatus;
 import com.petcare.staff.data.model.ui.Appointment;
@@ -35,6 +36,7 @@ import com.petcare.staff.ui.appointment.viewmodel.SharedAppointmentViewModel;
 import com.petcare.staff.ui.billing.adapter.ProductAdapter;
 import com.petcare.staff.ui.billing.adapter.ServiceAdapter;
 import com.petcare.staff.ui.billing.viewmodel.ConfirmPaymentViewModel;
+import com.petcare.staff.ui.billing.viewmodel.OrderDetailViewModel;
 import com.petcare.staff.ui.billing.viewmodel.SharedOrderViewModel;
 import com.petcare.staff.ui.billing.viewmodel.SharedProductViewModel;
 import com.petcare.staff.ui.common.repository.RepositoryCallback;
@@ -69,12 +71,13 @@ public class CheckoutFragment extends Fragment {
 
         if (isReturningFromBank) {
             paymentViewModel.loadPayment();
-            Toast.makeText(getContext(), "Trạng thái hóa đơn: " + paymentViewModel.getPayment().getValue().getStatus(), Toast.LENGTH_SHORT).show();
-            if (paymentViewModel.getPayment().getValue().getStatus() == PaymentStatus.COMPLETED) {
-
-                paymentViewModel.setIsCreated(false);
-                ((MainActivity) requireActivity()).navigateToClearStack(R.id.confirmPaymentFragment, null);
-            }
+            paymentViewModel.getPayment().observe(getViewLifecycleOwner(), payment -> {
+                if (payment.getStatus().equals(PaymentStatus.COMPLETED)) {
+                    paymentViewModel.setIsCreated(false);
+                    Toast.makeText(getContext(), "Trạng thái hóa đơn: " + payment.getStatus(), Toast.LENGTH_SHORT).show();
+                    ((MainActivity) requireActivity()).navigateToClearStack(R.id.confirmPaymentFragment, null);
+                }
+            });
             isReturningFromBank = false;
         }
     }
@@ -327,7 +330,6 @@ public class CheckoutFragment extends Fragment {
 
         SharedProductViewModel calculator = new ViewModelProvider(requireActivity()).get(SharedProductViewModel.class);
         if (order != null) {
-            Log.d("Debug_calculator", "Before calculate, product size: " + order.getProducts().size());
             total += calculator.calculatePrice(order.getProducts());
             order.setTotal_price(total);
         }
@@ -363,10 +365,25 @@ public class CheckoutFragment extends Fragment {
                     public void onSuccess(String message) {
                         paymentViewModel.setIsCreated(false);
                         bill.setStatus(PaymentStatus.COMPLETED);
-                        ((MainActivity) requireActivity()).navigateToClearStack(
-                                R.id.confirmPaymentFragment,
-                                null
-                        );
+                        OrderDetailViewModel temp = new ViewModelProvider(requireActivity()).get(OrderDetailViewModel.class);
+                        temp.updateOrderStatus(bill.getOrderId(), OrderStatus.PAID, new RepositoryCallback() {
+                            @Override
+                            public void onSuccess(String message) {
+                                Toast.makeText(getContext(), "Update order status: " + message, Toast.LENGTH_SHORT).show();
+                                ((MainActivity) requireActivity()).navigateToClearStack(
+                                        R.id.confirmPaymentFragment,
+                                        null
+                                );
+                            }
+
+                            @Override
+                            public void onError(Throwable t) {
+                                Toast.makeText(getContext(), "Update order fail: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                ((MainActivity) requireActivity()).navigateToClearStack(
+                                        R.id.homePageFragment, null);
+                            }
+                        });
+
                     }
 
                     @Override

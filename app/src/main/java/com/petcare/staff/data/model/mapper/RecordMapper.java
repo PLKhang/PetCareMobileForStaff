@@ -28,7 +28,7 @@ import java.util.List;
 
 public class RecordMapper {
     public static Pet toPet(PetResponse response) {
-        DateTime birth = DateTime.parse(response.getDob());
+        DateTime birth = DateTime.fromApiDateString(response.getDob());
         return new Pet(
                 response.getId(),
                 response.getName(),
@@ -147,7 +147,7 @@ public class RecordMapper {
     public static CreatePetRequest toCreatePetRequest(Pet pet) {
         return new CreatePetRequest(
                 pet.getColor(),
-                pet.getBirth().toIsoString(),
+                pet.getBirth().toApiDateString(),
                 pet.getIdentityMark(),
                 pet.getName(),
                 pet.getOwnerId(),
@@ -159,7 +159,7 @@ public class RecordMapper {
     public static UpdatePetRequest toUpdatePetRequest(Pet pet) {
         return new UpdatePetRequest(
                 pet.getColor(),
-                pet.getBirth().toIsoString(),
+                pet.getBirth().toApiDateString(),
                 pet.getId(),
                 pet.getIdentityMark(),
                 pet.getName(),
