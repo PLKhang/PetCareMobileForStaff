@@ -1,2 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <color name="black">#09151F</color>
+    <color name="white">#FACAAA</color>
+    <!--Text-->
+    <color name="txt_tint">#8CAEAF</color>.
+    <color name="txt_normal">#FACAAA</color>.
+    <color name="txt_button">#82E1E7</color>.
+    <color name="txt_title">#C9DDEB</color>.
+    <color name="txt_input">#6DC5D3</color>.
+    <color name="txt_stroke">#B4D0D0</color> .
+
+    <!--Background-->
+    <color name="background">#3E6464</color>.
+    <color name="bg_item">#0A2026</color>.
+    <color name="bg_list_item">#425557</color>.
+    <color name="bg_edit_text">#0A2026</color>.
+    <color name="bg_toolbar">#0A2026</color>.
+    <!--Button-->
+    <color name="btn_enable">#3D6468</color>.
+    <color name="btn_disable">#6F6A6B</color>.
+    <color name="btn_stroke">#82E1E7</color>.
+    <!--Icon-->
+    <color name="icon">#FACAAA</color>.
+
+    <!-- Màu nền của Bottom Navigation -->
+    <color name="bottom_nav_background">#345A61</color>.
+    <!-- Màu khi được chọn -->
+    <color name="color_nav_selected">#10D1BC</color>
+    <!-- Màu khi không được chọn -->
+    <color name="color_nav_unselected">#414D56</color>
+
+
+    <color name="colorPrimary">#90CAF9</color> <!-- Light Blue -->
+    <color name="colorPrimaryDark">#42A5F5</color> <!-- Deeper Blue -->
+    <color name="colorAccent">#F48FB1</color> <!-- Pink Accent -->
+    <color name="primaryText">#FFFFFF</color> <!-- White text for dark bg -->
+</resources>
