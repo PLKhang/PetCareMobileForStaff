@@ -55,7 +55,6 @@ public class MedicationInputAdapter extends RecyclerView.Adapter<MedicationInput
     public void onBindViewHolder(@NonNull MedicationViewHolder holder, int position) {
         Medication medication = medicationList.get(position);
         holder.bind(medication);
-
     }
 
     @Override
@@ -75,19 +74,22 @@ public class MedicationInputAdapter extends RecyclerView.Adapter<MedicationInput
             etEndDate = itemView.findViewById(R.id.et_end_date);
             btnDelete = itemView.findViewById(R.id.btn_delete_medication);
         }
-        public void bind(Medication medication)
-        {
+
+        public void bind(Medication medication) {
+            // Set initial values
             etName.setText(medication.getName());
             etDosage.setText(medication.getDosage());
             etStartDate.setText(medication.getStartDate().toString());
             etEndDate.setText(medication.getEndDate().toString());
 
-            // Avoid multiple triggers when scrolling
+            // Clear previous watchers (optional if using ViewHolder recycling safely)
+
             etName.addTextChangedListener(new SimpleTextWatcher(medication::setName));
             etDosage.addTextChangedListener(new SimpleTextWatcher(medication::setDosage));
             etStartDate.addTextChangedListener(new SimpleTextWatcher(text -> medication.setStartDate(DateTime.toDate(text))));
             etEndDate.addTextChangedListener(new SimpleTextWatcher(text -> medication.setEndDate(DateTime.toDate(text))));
 
+            // Xử lý click xóa
             btnDelete.setOnClickListener(v -> {
                 if (listener != null) {
                     int position = getBindingAdapterPosition();
@@ -97,15 +99,19 @@ public class MedicationInputAdapter extends RecyclerView.Adapter<MedicationInput
                 }
             });
 
-            etStartDate.setText((new DateTime()).toString());
-            etEndDate.setText((new DateTime()).toString());
+            // Mặc định chọn ngày hiện tại nếu chưa có
+            if (medication.getStartDate() == null) {
+                etStartDate.setText((new DateTime()).toString());
+            }
+            if (medication.getEndDate() == null) {
+                etEndDate.setText((new DateTime()).toString());
+            }
 
-            etStartDate.setOnClickListener(v-> showDatePickerDialog(etStartDate));
-            etEndDate.setOnClickListener(v-> showDatePickerDialog(etEndDate));
+            etStartDate.setOnClickListener(v -> showDatePickerDialog(etStartDate));
+            etEndDate.setOnClickListener(v -> showDatePickerDialog(etEndDate));
         }
     }
 
-    // Helper TextWatcher to avoid duplicate code
     private static class SimpleTextWatcher implements TextWatcher {
         private final OnTextChanged onTextChanged;
 
@@ -117,16 +123,13 @@ public class MedicationInputAdapter extends RecyclerView.Adapter<MedicationInput
             this.onTextChanged = onTextChanged;
         }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+        @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
             onTextChanged.onChanged(s.toString());
         }
 
-        @Override
-        public void afterTextChanged(Editable s) { }
+        @Override public void afterTextChanged(Editable s) { }
     }
 
     private void showDatePickerDialog(TextView targetView) {

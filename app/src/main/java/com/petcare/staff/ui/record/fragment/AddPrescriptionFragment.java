@@ -63,10 +63,15 @@ public class AddPrescriptionFragment extends Fragment {
     }
 
     private void initAdapters() {
-        adapter = new MedicationInputAdapter(getContext(), medicationList, position -> {
+        adapter = new MedicationInputAdapter(requireContext(), medicationList, position -> {
+            View focus = requireActivity().getCurrentFocus();
+            if (focus != null) focus.clearFocus(); // tránh crash khi đang nhập ở đó
+
             medicationList.remove(position);
             adapter.notifyItemRemoved(position);
+            adapter.notifyItemRangeChanged(position, adapter.getItemCount()); // optional
         });
+
 
         recyclerMedication.setAdapter(adapter);
     }
