@@ -67,7 +67,13 @@ public class OrderDetailFragment extends Fragment {
     public void onResume() {
         super.onResume();
     }
+    @Override
+    public void onDestroy() {
 
+        super.onDestroy();
+        productViewModel.resetClearFlag();
+        serviceViewModel.resetClearFlag();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -102,8 +108,7 @@ public class OrderDetailFragment extends Fragment {
 
             new AlertDialog.Builder(requireContext()).setTitle("Chọn trạng thái cuộc hẹn").setItems(statuses, (dialog, which) -> {
                 OrderStatus selectedStatus = OrderStatus.valueOf(statuses[which]);
-                if (selectedStatus.compareTo(current) < 1)
-                {
+                if (selectedStatus.compareTo(current) < 1) {
                     Toast.makeText(requireContext(), "Trạng thái mới phải lớn hơn hiện tại", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -187,6 +192,9 @@ public class OrderDetailFragment extends Fragment {
         serviceViewModel = new ViewModelProvider(requireActivity()).get(SharedServiceViewModel.class);
         productViewModel = new ViewModelProvider(requireActivity()).get(SharedProductViewModel.class);
 
+        serviceViewModel.clearSelectedService();
+        productViewModel.clearSelectedProducts();
+
         viewModel.setServiceList(serviceViewModel.getServices().getValue());
 //        serviceViewModel.getServices().observe(getViewLifecycleOwner(), list -> {
 //            if (list != null) {
@@ -217,11 +225,25 @@ public class OrderDetailFragment extends Fragment {
                 if (order.getProducts() != null) {
                     productViewModel.setSelectedProductsById(order.getProducts());
                 }
+                productViewModel.getSelectedProducts().observe(getViewLifecycleOwner(), list -> {
+                    if (list != null) {
+                        Log.d("DEBUG", "Selected Products Size: " + list.size());
+                        productAdapter.setData(list);
+                    }
+                });
+
 
                 viewModel.getApointmentDetail().observeForever(appointment -> {
-                    if (appointment.getServices() != null) {
+                    if (appointment != null &&appointment.getServices() != null) {
                         serviceViewModel.setSelectedServicesById(appointment.getServices());
-                        updateTotalPrice();
+                        serviceViewModel.getSelectedServices().observe(getViewLifecycleOwner(), list -> {
+                            if (list != null) {
+                                Log.d("DEBUG", "Selected Service Size: " + list.size());
+
+                                serviceAdapter.setData(list);
+                            }
+                        });
+                        checkUI(order);
                     }
                 });
 
@@ -229,20 +251,20 @@ public class OrderDetailFragment extends Fragment {
             }
         });
 
-        productViewModel.getSelectedProducts().observe(getViewLifecycleOwner(), list -> {
-            if (list != null) {
-                Log.d("DEBUG", "Selected Products Size: " + list.size());
-                productAdapter.setData(list);
-            }
-        });
-
-        serviceViewModel.getSelectedServices().observe(getViewLifecycleOwner(), list -> {
-            if (list != null) {
-                Log.d("DEBUG", "Selected Service Size: " + list.size());
-
-                serviceAdapter.setData(list);
-            }
-        });
+//        productViewModel.getSelectedProducts().observe(getViewLifecycleOwner(), list -> {
+//            if (list != null) {
+//                Log.d("DEBUG", "Selected Products Size: " + list.size());
+//                productAdapter.setData(list);
+//            }
+//        });
+//
+//        serviceViewModel.getSelectedServices().observe(getViewLifecycleOwner(), list -> {
+//            if (list != null) {
+//                Log.d("DEBUG", "Selected Service Size: " + list.size());
+//
+//                serviceAdapter.setData(list);
+//            }
+//        });
     }
 
     private void checkUI(Order order) {

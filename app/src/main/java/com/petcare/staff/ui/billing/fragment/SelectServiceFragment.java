@@ -54,7 +54,6 @@ public class SelectServiceFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerService);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ServiceSelectorAdapter(service -> {
-            Toast.makeText(getContext(), "Added: " + service.getName(), Toast.LENGTH_SHORT).show();
             viewModel.addSelectedService(service);
         });
 

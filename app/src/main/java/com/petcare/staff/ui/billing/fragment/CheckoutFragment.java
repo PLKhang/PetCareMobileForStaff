@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.petcare.staff.MainActivity;
 import com.petcare.staff.R;
+import com.petcare.staff.data.model.api.appointment.AppointmentStatus;
 import com.petcare.staff.data.model.api.order.OrderStatus;
 import com.petcare.staff.data.model.api.payment.PaymentMethod;
 import com.petcare.staff.data.model.api.payment.PaymentStatus;
@@ -32,6 +33,8 @@ import com.petcare.staff.data.model.ui.Appointment;
 import com.petcare.staff.data.model.ui.Bill;
 import com.petcare.staff.data.model.ui.Customer;
 import com.petcare.staff.data.model.ui.Order;
+import com.petcare.staff.data.model.ui.Service;
+import com.petcare.staff.ui.appointment.viewmodel.AppointmentDetailViewModel;
 import com.petcare.staff.ui.appointment.viewmodel.SharedAppointmentViewModel;
 import com.petcare.staff.ui.billing.adapter.ProductAdapter;
 import com.petcare.staff.ui.billing.adapter.ServiceAdapter;
@@ -333,7 +336,12 @@ public class CheckoutFragment extends Fragment {
             total += calculator.calculatePrice(order.getProducts());
             order.setTotal_price(total);
         }
-        if (appointment != null) total += appointment.getTotal();
+//        if (appointment != null) total += appointment.getTotal();
+        if (appointment != null) {
+            for (Service s: appointment.getServices()){
+                total += s.getPrice() * s.getQuantity();
+            }
+        }
 
         txtTotal.setText(String.format("Total: %.2f$", total));
 
@@ -370,10 +378,29 @@ public class CheckoutFragment extends Fragment {
                             @Override
                             public void onSuccess(String message) {
                                 Toast.makeText(getContext(), "Update order status: " + message, Toast.LENGTH_SHORT).show();
-                                ((MainActivity) requireActivity()).navigateToClearStack(
-                                        R.id.confirmPaymentFragment,
-                                        null
-                                );
+                                if (bill.getAppointmentId() != null || !bill.getAppointmentId().toString().isEmpty() || bill.getAppointmentId().toString() != "0") {
+                                    AppointmentDetailViewModel temp2 = new ViewModelProvider(requireActivity()).get(AppointmentDetailViewModel.class);
+                                    temp2.updateAppointmentStatus(bill.getAppointmentId(), AppointmentStatus.COMPLETED, new RepositoryCallback() {
+                                        @Override
+                                        public void onSuccess(String message) {
+                                            Toast.makeText(getContext(), "Update appointment status: " + message, Toast.LENGTH_SHORT).show();
+                                            ((MainActivity) requireActivity()).navigateToClearStack(
+                                                    R.id.confirmPaymentFragment,
+                                                    null
+                                            );
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable t) {
+
+                                        }
+                                    });
+                                } else {
+                                    ((MainActivity) requireActivity()).navigateToClearStack(
+                                            R.id.confirmPaymentFragment,
+                                            null
+                                    );
+                                }
                             }
 
                             @Override

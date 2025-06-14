@@ -84,7 +84,9 @@ public class AddMedicalRecordFragment extends Fragment {
     }
 
     private void createMedicalRecord() {
-
+        if (!checkInfo()) {
+            return;
+        }
         MedicalRecord record = new MedicalRecord(
                 "",
                 currentPet.getId(),
@@ -127,6 +129,19 @@ public class AddMedicalRecordFragment extends Fragment {
                 Toast.makeText(requireActivity(), "Error: " + t, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean checkInfo() {
+        String diagnose = etDiagnose.getText().toString();
+        String date = etDate.getText().toString();
+        String note = etNote.getText().toString();
+
+        if (diagnose.isEmpty() || date.isEmpty()) {
+            Toast.makeText(getContext(), "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void observeViewModel() {

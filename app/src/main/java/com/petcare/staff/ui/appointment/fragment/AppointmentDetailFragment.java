@@ -73,6 +73,13 @@ public class AppointmentDetailFragment extends Fragment {
         ((MainActivity) getActivity()).hideBottomNavigation(true);
     }
 
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+        productViewModel.resetClearFlag();
+        serviceViewModel.resetClearFlag();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -199,8 +206,10 @@ public class AppointmentDetailFragment extends Fragment {
     private void observerViewModel() {
         SelectedCustomerViewModel selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
         selectedCustomerVM.getSelectedCustomer().observe(getViewLifecycleOwner(), customer -> {
-            this.customer = customer;
-            showCustomerInfo();
+            if (customer != null) {
+                this.customer = customer;
+                showCustomerInfo();
+            }
         });
 
         viewModel = new ViewModelProvider(requireActivity()).get(AppointmentDetailViewModel.class);
@@ -212,6 +221,8 @@ public class AppointmentDetailFragment extends Fragment {
 
         productViewModel = new ViewModelProvider(requireActivity()).get(SharedProductViewModel.class);
         serviceViewModel = new ViewModelProvider(requireActivity()).get(SharedServiceViewModel.class);
+        productViewModel.clearSelectedProducts();
+        serviceViewModel.clearSelectedService();
 
         // 1. Quan sát toàn bộ product/service để tính giá trị sau
 //        productViewModel.getAllProducts().observe(getViewLifecycleOwner(), list -> {
@@ -226,7 +237,12 @@ public class AppointmentDetailFragment extends Fragment {
                 viewModel.setServiceList(list);
             }
         });
-
+        // 3. Quan sát user đăng nhập
+        UserProfileViewModel userVM = new ViewModelProvider(requireActivity()).get(UserProfileViewModel.class);
+        userVM.getUser().observe(getViewLifecycleOwner(), user -> {
+            currentUser = user;
+//            checkAssignUI(viewModel.getAppointmentDetail().getValue());
+        });
         viewModel.loadAppointmentDetail(appointmentId);
 
         // 2. Quan sát appointment
@@ -252,15 +268,7 @@ public class AppointmentDetailFragment extends Fragment {
             }
 
             viewModel.loadAssignedUser(); // luôn gọi để gán user nếu có
-
-            checkAssignUI(appointment); // xử lý enable/disable
-        });
-
-        // 3. Quan sát user đăng nhập
-        UserProfileViewModel userVM = new ViewModelProvider(requireActivity()).get(UserProfileViewModel.class);
-        userVM.getUser().observe(getViewLifecycleOwner(), user -> {
-            currentUser = user;
-            checkAssignUI(viewModel.getAppointmentDetail().getValue());
+            checkAssignUI(viewModel.getAppointmentDetail().getValue()); // xử lý enable/disable
         });
 
         // 4. Quan sát nhân viên phụ trách
@@ -268,6 +276,8 @@ public class AppointmentDetailFragment extends Fragment {
             if (user != null) {
                 assignedUser = user;
                 txtAssign.setText("Assign to: " + user.getName() + " (ID: " + user.getId() + ")");
+
+                checkAssignUI(viewModel.getAppointmentDetail().getValue()); // xử lý enable/disable
             }
         });
 
@@ -288,7 +298,6 @@ public class AppointmentDetailFragment extends Fragment {
         });
     }
 
-    @SuppressLint("DefaultLocale")
     private void checkAssignUI(Appointment appointment) {
         if (appointment == null || currentUser == null) return;
 
@@ -298,6 +307,7 @@ public class AppointmentDetailFragment extends Fragment {
 
         if ("0".equals(staffId)) {
             // Chưa có người nhận → ẩn chức năng
+            btnAssign.setVisibility(View.VISIBLE);
             btnAssign.setEnabled(true); // Bật để đăng ký
             btnAssign.setBackgroundResource(R.drawable.draw_enable_button);
             btnStatus.setEnabled(false);

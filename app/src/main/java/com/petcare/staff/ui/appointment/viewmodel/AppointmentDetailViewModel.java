@@ -122,6 +122,11 @@ public class AppointmentDetailViewModel extends AndroidViewModel {
         appointmentRepo.updateAppointmentStatus(current, callback);
     }
 
+    public void updateAppointmentStatus(String appointmentId, AppointmentStatus status, RepositoryCallback callback)
+    {
+        appointmentRepo.updateAppointmentStatus(appointmentId, status, callback);
+    }
+
     public void setStatus(AppointmentStatus selectedStatus) {
         Appointment current = appointment.getValue();
         if (current == null) return;

@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.petcare.staff.MainActivity;
 import com.petcare.staff.R;
 import com.petcare.staff.data.model.ui.Customer;
+import com.petcare.staff.ui.billing.viewmodel.SharedProductViewModel;
+import com.petcare.staff.ui.billing.viewmodel.SharedServiceViewModel;
 import com.petcare.staff.ui.customer.adapter.AppointmentAdapter;
 import com.petcare.staff.ui.customer.adapter.BillAdapter;
 import com.petcare.staff.ui.customer.adapter.OrderAdapter;

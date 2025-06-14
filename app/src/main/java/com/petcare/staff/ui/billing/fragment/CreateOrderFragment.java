@@ -127,8 +127,8 @@ public class CreateOrderFragment extends Fragment {
         btnChooseCustomer.setOnClickListener(v -> {
             selectedCustomerViewModel.setSelectionMode(CustomerSelectionMode.CREATE_BILL);
 
-            productViewModel.resetClearFlag();
-            serviceViewModel.resetClearFlag();
+//            productViewModel.resetClearFlag();
+//            serviceViewModel.resetClearFlag();
 
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.customerListFragment, null);
         });
@@ -285,7 +285,6 @@ public class CreateOrderFragment extends Fragment {
         UserProfileViewModel currentUser = new ViewModelProvider(requireActivity()).get(UserProfileViewModel.class);
         currentUser.getUser().observe(getViewLifecycleOwner(), user -> {
             appointment.setBranchId(user.getBranchId());
-            Log.d("DEBUG", "User branchid: " + user.getBranchId());
         });
 
         AppointmentListViewModel appointmentListViewModel = new ViewModelProvider(requireActivity()).get(AppointmentListViewModel.class);

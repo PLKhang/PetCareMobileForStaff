@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.petcare.staff.data.model.api.appointment.AppointmentDetailResponse;
 import com.petcare.staff.data.model.api.appointment.AppointmentResponse;
+import com.petcare.staff.data.model.api.appointment.AppointmentStatus;
 import com.petcare.staff.data.model.api.appointment.CreateAppointmentRequest;
 import com.petcare.staff.data.model.api.appointment.CreateAppointmentResponse;
 import com.petcare.staff.data.model.api.appointment.ServiceResponse;
@@ -196,7 +197,32 @@ public class AppointmentRepository {
                 if (response.isSuccessful() && response.body() != null)
                 {
                     Log.d("API_DEBUG", "Appointment status: " + response.body().getStatus());
-                    callback.onSuccess("Success");
+                    callback.onSuccess(response.body().getStatus());
+                }
+                else {
+                    Log.d("API_DEBUG", "Appointment status: fail");
+                    callback.onError(new Exception("Null body"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateAppointmentStatusResponse> call, Throwable t) {
+
+                Log.d("API_DEBUG", "fail");
+                callback.onError(new Exception("Failure: " + t.getMessage()));
+            }
+        });
+    }
+
+    public void updateAppointmentStatus(String id, AppointmentStatus status, RepositoryCallback callback) {
+        UpdateAppointmentStatusRequest request = new UpdateAppointmentStatusRequest(id, status);
+        apiAppointment.updateAppointmentStatus(request).enqueue(new Callback<UpdateAppointmentStatusResponse>() {
+            @Override
+            public void onResponse(Call<UpdateAppointmentStatusResponse> call, Response<UpdateAppointmentStatusResponse> response) {
+                if (response.isSuccessful() && response.body() != null)
+                {
+                    Log.d("API_DEBUG", "Appointment status: " + response.body().getStatus());
+                    callback.onSuccess(response.body().getStatus());
                 }
                 else {
                     Log.d("API_DEBUG", "Appointment status: fail");

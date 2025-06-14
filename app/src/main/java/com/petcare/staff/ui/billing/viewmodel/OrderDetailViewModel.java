@@ -47,6 +47,9 @@ public class OrderDetailViewModel extends AndroidViewModel {
                     Log.d("ORDER_DETAIL_VM", "appointment id: " + order.getAppointment_id());
                     loadAppointmentDetail(order.getAppointment_id());
                 }
+                else {
+                    appointment.setValue(null);
+                }
                 updateOrderProduct(order);
                 orderLiveData.setValue(order);
                 for (Product p: order.getProducts()) {
