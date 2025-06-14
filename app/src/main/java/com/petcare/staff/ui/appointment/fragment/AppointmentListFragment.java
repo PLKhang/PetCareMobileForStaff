@@ -1,5 +1,6 @@
 package com.petcare.staff.ui.appointment.fragment;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,12 @@ import com.petcare.staff.R;
 import com.petcare.staff.data.model.ui.User;
 import com.petcare.staff.ui.appointment.viewmodel.AppointmentListViewModel;
 import com.petcare.staff.ui.customer.adapter.AppointmentAdapter;
+import com.petcare.staff.ui.customer.viewmodel.CustomerViewModel;
+import com.petcare.staff.ui.customer.viewmodel.SelectedCustomerViewModel;
 import com.petcare.staff.ui.userprofile.viewmodel.UserProfileViewModel;
+import com.petcare.staff.utils.DateTime;
+
+import java.util.Calendar;
 
 public class AppointmentListFragment extends Fragment {
     private AppointmentListViewModel viewModel;
@@ -33,6 +39,7 @@ public class AppointmentListFragment extends Fragment {
     private RecyclerView userRecyclerAppointments, branchRecyclerAppointment, otherRecyclerAppointment;
     private User currentUser;
     private TextView txtShowMoreUserAppointment, txtShowMoreBranchAppointment, txtShowMoreAppointment;
+    private Calendar calendar;
 
     @Nullable
     @Override
@@ -77,6 +84,20 @@ public class AppointmentListFragment extends Fragment {
                 txtShowMoreAppointment.setVisibility(View.GONE);
             }
         });
+        txtStartDate.setOnClickListener(v -> showDatePickerDialog(txtStartDate));
+        txtEndDate.setOnClickListener(v -> showDatePickerDialog(txtEndDate));
+        btnSearch.setOnClickListener(v -> {
+
+            String startStr = txtStartDate.getText().toString();
+            String endStr = txtEndDate.getText().toString();
+
+            DateTime start = startStr.isEmpty() ? null : DateTime.toDate(startStr);
+            DateTime end = endStr.isEmpty() ? null : DateTime.toDate(endStr);
+
+            userAppointmentAdapter.applyFilter(start, end);
+            branchAppointmentAdapter.applyFilter(start, end);
+            otherAppointmentAdapter.applyFilter(start, end);
+        });
     }
 
     private void observeViewModel() {
@@ -85,17 +106,17 @@ public class AppointmentListFragment extends Fragment {
 
         viewModel.getCurrentUserAppointment().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
-                userAppointmentAdapter.setData(list);
+                userAppointmentAdapter.setRawData(list);
             }
         });
         viewModel.getBranchAppointment().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
-                branchAppointmentAdapter.setData(list);
+                branchAppointmentAdapter.setRawData(list);
             }
         });
         viewModel.getOtherAppointment().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
-                otherAppointmentAdapter.setData(list);
+                otherAppointmentAdapter.setRawData(list);
             }
         });
 
@@ -133,18 +154,27 @@ public class AppointmentListFragment extends Fragment {
             // Xử lý khi click "More Info"
             Bundle bundle = new Bundle();
             bundle.putSerializable("appointmentId", appointment.getId());
+            CustomerViewModel customerViewModel = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
+            SelectedCustomerViewModel selectedCustomerViewModel = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
+            selectedCustomerViewModel.setSelectedCustomer(customerViewModel.getCustomerById(appointment.getId()));
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.appointmentDetailFragment, bundle);
         });
         branchAppointmentAdapter = new AppointmentAdapter(appointment -> {
             // Xử lý khi click "More Info"
             Bundle bundle = new Bundle();
             bundle.putSerializable("appointmentId", appointment.getId());
+            CustomerViewModel customerViewModel = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
+            SelectedCustomerViewModel selectedCustomerViewModel = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
+            selectedCustomerViewModel.setSelectedCustomer(customerViewModel.getCustomerById(appointment.getId()));
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.appointmentDetailFragment, bundle);
         });
         otherAppointmentAdapter = new AppointmentAdapter(appointment -> {
             // Xử lý khi click "More Info"
             Bundle bundle = new Bundle();
             bundle.putSerializable("appointmentId", appointment.getId());
+            CustomerViewModel customerViewModel = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
+            SelectedCustomerViewModel selectedCustomerViewModel = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
+            selectedCustomerViewModel.setSelectedCustomer(customerViewModel.getCustomerById(appointment.getId()));
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.appointmentDetailFragment, bundle);
         });
 
@@ -155,6 +185,8 @@ public class AppointmentListFragment extends Fragment {
 
 
     private void initViews(View view) {
+        calendar = Calendar.getInstance();
+
         btnSearch = view.findViewById(R.id.btnSearch);
         btnToggleUserAppointments = view.findViewById(R.id.btnToggleUserAppointments);
         btnToggleBranchAppointments = view.findViewById(R.id.btnToggleBranchAppointments);
@@ -223,5 +255,22 @@ public class AppointmentListFragment extends Fragment {
 
         listOfOtherAppointments.setVisibility(View.GONE);
         btnToggleOtherAppointments.setImageResource(R.drawable.ic_chevron_right);
+    }
+
+    private void showDatePickerDialog(TextView targetView) {
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getContext(),
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    String selectedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
+                    targetView.setText(selectedDate);
+                },
+                year, month, day
+        );
+
+        datePickerDialog.show();
     }
 }
