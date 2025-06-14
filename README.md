@@ -1,27 +1,27 @@
     <!--    Home --> Done
     <!--    Add appointment--> Done
     <!--    Appointment list-->   Done
-    <!--    Appointment detail-->
-    <!--    Create order -->
+    <!--    Appointment detail--> Done
+    <!--    Create order --> Done
     <!--    Select Product--> Done
-    <!--    Select Pet--> REMOVE
+    <!--    Select Pet--> REMOVED
     <!--    Select Service--> Done
-    <!--    Checkout-->
-    <!--    Confirm payment-->
+    <!--    Checkout--> Done
+    <!--    Confirm payment--> Done
     <!--    Customer List --> Done
     <!--    Customer detail--> Done
-    <!--    Add new customer-->
+    <!--    Add new customer--> Done
     <!--    Add new pet--> Done
-    <!--    Bill detail-->
+    <!--    Bill detail--> Done
     <!--    Pet detail--> Done
     <!--    Edit pet info--> Done
-    <!--    Add prescription-->
-    <!--    Prescription detail-->
-    <!--    Add new medical record-->
-    <!--    Add new vaccine record-->
-    <!--    Medical record detail-->
-    <!--    Vaccine record detail-->
-    <!--    Inventory -->
+    <!--    Add prescription--> Done
+    <!--    Prescription detail--> Done
+    <!--    Add new medical record--> Done
+    <!--    Add new vaccine record--> Done
+    <!--    Medical record detail--> Done
+    <!--    Vaccine record detail--> Done
+    <!--    Inventory --> REMOVED
     <!--    User Profile -->  Done
     <!--    Notifications -->
 
