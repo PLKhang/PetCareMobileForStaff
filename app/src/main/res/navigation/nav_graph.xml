@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_home_to_createBill"
             app:destination="@id/createBillFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_petListFragment2"
+            app:destination="@id/petListFragment" />
     </fragment>
     <!--    Add appointment-->
     <fragment
@@ -94,7 +97,11 @@
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.petcare.staff.ui.billing.fragment.CheckoutFragment"
-        android:label="Checkout" />
+        android:label="Checkout" >
+        <action
+            android:id="@+id/action_checkoutFragment_to_confirmPaymentFragment2"
+            app:destination="@id/confirmPaymentFragment" />
+    </fragment>
     <!--    Confirm payment-->
     <fragment
         android:id="@+id/confirmPaymentFragment"
@@ -207,8 +214,8 @@
         android:name="com.petcare.staff.ui.record.fragment.MedicalRecordDetailFragment"
         android:label="Examination Detail">
         <action
-            android:id="@+id/action_medicalRecordDetail_to_prescriptionDetail"
-            app:destination="@+id/addPrescriptionFragment" />
+            android:id="@+id/action_medicalRecordDetail_to_prescriptionDetailFragment2"
+            app:destination="@id/prescriptionDetailFragment" />
     </fragment>
     <!--    Vaccine record detail-->
     <fragment
