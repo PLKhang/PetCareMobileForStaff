@@ -72,6 +72,7 @@ public class AddPrescriptionFragment extends Fragment {
             adapter.notifyItemRangeChanged(position, adapter.getItemCount()); // optional
         });
 
+
         recyclerMedication.setAdapter(adapter);
     }
 

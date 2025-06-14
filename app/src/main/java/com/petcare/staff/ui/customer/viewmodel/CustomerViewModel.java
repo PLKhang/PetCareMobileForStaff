@@ -46,16 +46,6 @@ public class CustomerViewModel extends AndroidViewModel {
     public LiveData<List<Customer>> getAllCustomers() {
         return customers;
     }
-
-    public Customer getCustomerById(String customerId)
-    {
-        for (Customer c: customers.getValue())
-        {
-            if (c.getId().equals(customerId))
-                return c;
-        }
-        return null;
-    }
 }
 
 

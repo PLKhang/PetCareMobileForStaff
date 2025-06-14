@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class DateTime implements Comparable<DateTime>{
+public class DateTime {
     private java.util.Date date;
 
     public DateTime() {
@@ -93,11 +93,4 @@ public class DateTime implements Comparable<DateTime>{
         }
     }
 
-    @Override
-    public int compareTo(DateTime other) {
-        if (other == null || other.date == null) {
-            return 1; // null coi là nhỏ hơn
-        }
-        return this.date.compareTo(other.date);
-    }
 }

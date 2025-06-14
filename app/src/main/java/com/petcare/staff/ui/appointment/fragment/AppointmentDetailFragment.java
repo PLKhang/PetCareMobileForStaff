@@ -199,10 +199,8 @@ public class AppointmentDetailFragment extends Fragment {
     private void observerViewModel() {
         SelectedCustomerViewModel selectedCustomerVM = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
         selectedCustomerVM.getSelectedCustomer().observe(getViewLifecycleOwner(), customer -> {
-            if (customer != null) {
-                this.customer = customer;
-                showCustomerInfo();
-            }
+            this.customer = customer;
+            showCustomerInfo();
         });
 
         viewModel = new ViewModelProvider(requireActivity()).get(AppointmentDetailViewModel.class);
@@ -227,13 +225,6 @@ public class AppointmentDetailFragment extends Fragment {
             if (list != null) {
                 viewModel.setServiceList(list);
             }
-        });
-
-        // 3. Quan sát user đăng nhập
-        UserProfileViewModel userVM = new ViewModelProvider(requireActivity()).get(UserProfileViewModel.class);
-        userVM.getUser().observe(getViewLifecycleOwner(), user -> {
-            currentUser = user;
-            checkAssignUI(viewModel.getAppointmentDetail().getValue());
         });
 
         viewModel.loadAppointmentDetail(appointmentId);
@@ -261,6 +252,15 @@ public class AppointmentDetailFragment extends Fragment {
             }
 
             viewModel.loadAssignedUser(); // luôn gọi để gán user nếu có
+
+            checkAssignUI(appointment); // xử lý enable/disable
+        });
+
+        // 3. Quan sát user đăng nhập
+        UserProfileViewModel userVM = new ViewModelProvider(requireActivity()).get(UserProfileViewModel.class);
+        userVM.getUser().observe(getViewLifecycleOwner(), user -> {
+            currentUser = user;
+            checkAssignUI(viewModel.getAppointmentDetail().getValue());
         });
 
         // 4. Quan sát nhân viên phụ trách
@@ -268,8 +268,6 @@ public class AppointmentDetailFragment extends Fragment {
             if (user != null) {
                 assignedUser = user;
                 txtAssign.setText("Assign to: " + user.getName() + " (ID: " + user.getId() + ")");
-
-                checkAssignUI(viewModel.getAppointmentDetail().getValue()); // xử lý enable/disable
             }
         });
 

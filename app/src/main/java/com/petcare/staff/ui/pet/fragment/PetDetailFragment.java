@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.petcare.staff.MainActivity;
 import com.petcare.staff.R;
 import com.petcare.staff.data.model.ui.Pet;
+import com.petcare.staff.data.model.ui.Prescription;
 import com.petcare.staff.ui.customer.fragment.CustomerDetailFragment;
 import com.petcare.staff.ui.pet.adapter.MedicalAdapter;
 import com.petcare.staff.ui.pet.adapter.VaccineAdapter;

@@ -68,6 +68,7 @@ public class MedicalRecordDetailFragment extends Fragment {
     private void observeViewModel() {
         viewModel = new ViewModelProvider(requireActivity()).get(MedicalRecordViewModel.class);
         prescriptionViewModel = new ViewModelProvider(requireActivity()).get(PrescriptionViewModel.class);
+        prescriptionViewModel.resetClearFlag();
         prescriptionViewModel.clearPrescriptionList();
 
         viewModel.loadUser(record.getVetId());

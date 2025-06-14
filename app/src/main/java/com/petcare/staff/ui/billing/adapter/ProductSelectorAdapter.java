@@ -111,7 +111,7 @@ public class ProductSelectorAdapter extends RecyclerView.Adapter<ProductSelector
             boolean isExited = false;
             for (Product p: selectedProducts)
             {
-                if (p.getId().equals(product.getId())){
+                if (p.getId().equals(product.getId()) && p.getType().equals(product.getType())){
                     isExited = true;
                     break;
                 }

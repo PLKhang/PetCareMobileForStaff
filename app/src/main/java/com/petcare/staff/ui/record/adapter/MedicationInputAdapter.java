@@ -104,8 +104,8 @@ public class MedicationInputAdapter extends RecyclerView.Adapter<MedicationInput
                 etEndDate.setText((new DateTime()).toString());
             }
 
-            etStartDate.setOnClickListener(v-> showDatePickerDialog(etStartDate));
-            etEndDate.setOnClickListener(v-> showDatePickerDialog(etEndDate));
+            etStartDate.setOnClickListener(v -> showDatePickerDialog(etStartDate));
+            etEndDate.setOnClickListener(v -> showDatePickerDialog(etEndDate));
         }
     }
 
