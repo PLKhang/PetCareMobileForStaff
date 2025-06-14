@@ -21,7 +21,9 @@ public class SharedAppointmentViewModel extends ViewModel {
     }
 
     public void setAppointmentLiveData(Appointment appointment) {
-        this.appointmentLiveData.setValue(appointment);
+        for (Service s: appointment.getServices()) {
+            Log.d("Appointment", "set live data service: " + s.toString());
+        }this.appointmentLiveData.setValue(appointment);
     }
 
     public LiveData<String> getSelectedDate() {

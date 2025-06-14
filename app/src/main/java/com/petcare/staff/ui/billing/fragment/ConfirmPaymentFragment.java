@@ -152,7 +152,7 @@ public class ConfirmPaymentFragment extends Fragment {
         if (haveAppointment) {
             Appointment appointment = appointmentViewModel.getAppointmentLiveData().getValue();
 
-            txtAddress.setText("Address: " + appointment.getCustomerAddress());
+            txtAddress.setText("Address" + appointment.getCustomerAddress());
             txtTime.setText("Time: " + appointment.getScheduledTime().toDateTimeString());
             txtNote.setText("Note: " + appointment.getNote());
         } else {

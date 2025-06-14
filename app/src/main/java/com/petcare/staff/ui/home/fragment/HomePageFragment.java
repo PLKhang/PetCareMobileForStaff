@@ -28,7 +28,6 @@ import com.petcare.staff.data.model.ui.User;
 import com.petcare.staff.ui.billing.viewmodel.SharedProductViewModel;
 import com.petcare.staff.ui.billing.viewmodel.SharedServiceViewModel;
 import com.petcare.staff.ui.customer.CustomerSelectionMode;
-import com.petcare.staff.ui.customer.viewmodel.CustomerViewModel;
 import com.petcare.staff.ui.customer.viewmodel.SelectedCustomerViewModel;
 import com.petcare.staff.ui.userprofile.viewmodel.UserProfileViewModel;
 
@@ -76,8 +75,6 @@ public class HomePageFragment extends Fragment {
         productViewModel.resetClearFlag();
         serviceViewModel.clearSelectedService();
         serviceViewModel.resetClearFlag();
-        CustomerViewModel customerListVM = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
-        customerListVM.loadAllCustomers();
 
         viewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             image.setImageResource(R.drawable.temp_avatar);
