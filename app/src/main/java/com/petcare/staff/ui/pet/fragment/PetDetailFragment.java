@@ -28,6 +28,7 @@ import com.petcare.staff.ui.pet.adapter.MedicalAdapter;
 import com.petcare.staff.ui.pet.adapter.VaccineAdapter;
 import com.petcare.staff.ui.pet.viewmodel.PetDetailViewModel;
 import com.petcare.staff.ui.pet.viewmodel.SelectedPetViewModel;
+import com.petcare.staff.ui.record.viewmodel.PrescriptionViewModel;
 
 public class PetDetailFragment extends Fragment {
     private PetDetailViewModel viewModel;
@@ -100,6 +101,8 @@ public class PetDetailFragment extends Fragment {
                 Toast.makeText(requireActivity(), "Lịch sử tiêm phòng rỗng", Toast.LENGTH_SHORT).show();
             }
         });
+        PrescriptionViewModel prescriptionViewModel = new ViewModelProvider(requireActivity()).get(PrescriptionViewModel.class);
+        prescriptionViewModel.resetClearFlag();
     }
 
     private void initList() {

@@ -84,7 +84,7 @@
     <fragment
         android:id="@+id/petListFragment"
         android:name="com.petcare.staff.ui.pet.fragment.PetListFragment"
-        android:label="List of pets" />
+        android:label="List of Pets" />
     <!--    Select Service-->
     <fragment
         android:id="@+id/selectServiceFragment"
@@ -176,22 +176,22 @@
     <fragment
         android:id="@+id/editPetInfoFragment"
         android:name="com.petcare.staff.ui.pet.fragment.EditPetProfileFragment"
-        android:label="Edit pet info" />
+        android:label="Edit Pet" />
     <!--    Add prescription-->
     <fragment
         android:id="@+id/addPrescriptionFragment"
         android:name="com.petcare.staff.ui.record.fragment.AddPrescriptionFragment"
-        android:label="Add medical prescription" />
+        android:label="Add Medications" />
     <!--    Prescription detail-->
     <fragment
         android:id="@+id/prescriptionDetailFragment"
         android:name="com.petcare.staff.ui.record.fragment.PrescriptionDetailFragment"
-        android:label="Prescription Detail" />
+        android:label="Prescription" />
     <!--    Add new medical record-->
     <fragment
         android:id="@+id/addMedicalRecordFragment"
         android:name="com.petcare.staff.ui.record.fragment.AddMedicalRecordFragment"
-        android:label="Add Medical Record">
+        android:label="Add Examination">
         <action
             android:id="@+id/action_addMedicalRecord_to_AddPrescription"
             app:destination="@+id/addPrescriptionFragment" />
@@ -200,12 +200,12 @@
     <fragment
         android:id="@+id/addVaccineRecordFragment"
         android:name="com.petcare.staff.ui.record.fragment.AddVaccineRecordFragment"
-        android:label="Add Vaccine Record" />
+        android:label="Add Vaccination" />
     <!--    Medical record detail-->
     <fragment
         android:id="@+id/medicalRecordDetail"
         android:name="com.petcare.staff.ui.record.fragment.MedicalRecordDetailFragment"
-        android:label="Medical Record Detail">
+        android:label="Examination Detail">
         <action
             android:id="@+id/action_medicalRecordDetail_to_prescriptionDetail"
             app:destination="@+id/addPrescriptionFragment" />
@@ -214,7 +214,7 @@
     <fragment
         android:id="@+id/vaccineRecordDetail"
         android:name="com.petcare.staff.ui.record.fragment.VaccineRecordDetailFragment"
-        android:label="Vaccine Record Detail" />
+        android:label="Vaccination Detail" />
     <!--    Inventory -->
     <fragment
         android:id="@+id/inventoryFragment"
