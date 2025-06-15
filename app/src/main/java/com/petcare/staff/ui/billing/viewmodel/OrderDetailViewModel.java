@@ -42,13 +42,13 @@ public class OrderDetailViewModel extends AndroidViewModel {
         Observer<Order> observer = new Observer<Order>() {
             @Override
             public void onChanged(Order order) {
-                if (!loadedAppointment && order.getAppointment_id() != "null") {
-                    Log.d("ORDER_DETAIL_VM", "appointment id: " + order.getAppointment_id());
-                    loadAppointmentDetail(order.getAppointment_id());
-                }
-                else {
-                    appointment.setValue(null);
-                }
+//                if (!loadedAppointment && order.getAppointment_id() != "null") {
+//                    Log.d("ORDER_DETAIL_VM", "appointment id: " + order.getAppointment_id());
+//                    loadAppointmentDetail(order.getAppointment_id());
+//                }
+//                else {
+//                    appointment.setValue(null);
+//                }
                 updateOrderProduct(order);
                 orderLiveData.setValue(order);
                 for (Product p: order.getProducts()) {
@@ -137,5 +137,10 @@ public class OrderDetailViewModel extends AndroidViewModel {
 
     public void setProductList(List<Product> list) {
         allProduct = new ArrayList<>(list);
+    }
+
+    public void clear() {
+        orderLiveData.setValue(null);
+        appointment.setValue(null);
     }
 }

@@ -180,32 +180,26 @@ public class CustomerDetailFragment extends Fragment {
             showCustomerInfo();
         });
         customerDetailVM = new ViewModelProvider(requireActivity()).get(CustomerDetailViewModel.class);
+        customerDetailVM.clear();
+
         customerDetailVM.getPets().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
                 petAdapter.setData(list);
-            } else {
-                Toast.makeText(requireActivity(), "Danh sách thú cưng rỗng", Toast.LENGTH_SHORT).show();
             }
         });
         customerDetailVM.getAppointments().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
                 appointmentAdapter.setData(list);
-            } else {
-                Toast.makeText(requireActivity(), "Danh sách lịch hẹn rỗng", Toast.LENGTH_SHORT).show();
             }
         });
         customerDetailVM.getOrders().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
                 orderAdapter.setData(list);
-            } else {
-                Toast.makeText(requireActivity(), "Danh sách đơn hàng rỗng", Toast.LENGTH_SHORT).show();
             }
         });
         customerDetailVM.getBills().observe(getViewLifecycleOwner(), list -> {
             if (list != null) {
                 billAdapter.setData(list);
-            } else {
-                Toast.makeText(requireActivity(), "Danh sách hóa đơn  rỗng", Toast.LENGTH_SHORT).show();
             }
         });
     }

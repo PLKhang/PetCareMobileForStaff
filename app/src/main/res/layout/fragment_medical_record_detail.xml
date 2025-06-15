@@ -55,7 +55,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:text="Name: Lucky"
-                        android:textColor="#000000"
+                        android:textColor="@color/txt_normal"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -65,6 +65,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:text="Dog: Poodle"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
 
                     <TextView
@@ -73,6 +74,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:text="Birth: 22/12/2023"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -119,8 +121,9 @@
             android:background="@drawable/draw_edit_text"
             android:gravity="center|start"
             android:hint="Enter diagnosis"
+            android:paddingHorizontal="10dp"
             android:textColor="@color/txt_input"
-            android:paddingHorizontal="10dp" />
+            android:textSize="14dp" />
 
         <!-- Date -->
         <TextView

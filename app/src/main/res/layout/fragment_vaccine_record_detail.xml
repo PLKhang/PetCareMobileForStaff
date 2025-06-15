@@ -37,9 +37,9 @@
                         android:id="@+id/petImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitCenter"
                         android:background="@drawable/draw_round_only"
                         android:clipToOutline="true"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/ic_animal" />
                 </FrameLayout>
 
@@ -55,8 +55,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Name: Lucky"
-                        android:textColor="#000000"
+                        android:text="Name:"
+                        android:textColor="@color/txt_normal"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -65,7 +65,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Dog: Poodle"
+                        android:text="Dog:"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
 
                     <TextView
@@ -73,7 +74,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Birth: 22/12/2023"
+                        android:text="Birth:"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
 
                     <TextView
@@ -81,7 +83,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Weight: 5.2Kg"
+                        android:text="Weight:"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -128,8 +131,8 @@
             android:background="@drawable/draw_edit_text"
             android:gravity="center|start"
             android:hint="Enter vaccine label"
-            android:textColor="@color/txt_input"
-            android:paddingHorizontal="10dp" />
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/txt_input" />
 
         <!-- Date -->
         <TextView
@@ -152,7 +155,8 @@
             android:gravity="center|start"
             android:hint="Select date"
             android:inputType="date"
-            android:paddingHorizontal="10dp" />
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/txt_input" />
 
         <!-- Date -->
         <TextView
@@ -164,6 +168,7 @@
             android:textColor="@color/txt_normal"
             android:textSize="16sp"
             android:textStyle="bold" />
+
         <TextView
             android:id="@+id/etNextDose"
             android:layout_width="match_parent"
@@ -174,7 +179,8 @@
             android:gravity="center|start"
             android:hint="Select date"
             android:inputType="date"
-            android:paddingHorizontal="10dp" />
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/txt_input" />
 
         <!-- Notes -->
         <TextView
@@ -197,6 +203,7 @@
             android:inputType="textMultiLine"
             android:minLines="3"
             android:paddingHorizontal="10dp"
-            android:paddingTop="5dp" />
+            android:paddingTop="5dp"
+            android:textColor="@color/txt_input" />
     </LinearLayout>
 </ScrollView>

@@ -67,13 +67,14 @@ public class OrderDetailFragment extends Fragment {
     public void onResume() {
         super.onResume();
     }
+
     @Override
     public void onDestroy() {
-
         super.onDestroy();
         productViewModel.resetClearFlag();
         serviceViewModel.resetClearFlag();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -189,6 +190,7 @@ public class OrderDetailFragment extends Fragment {
         createBillViewModel.resetOrderLiveData();
         appointmentViewModel.resetAppointmentLiveData();
 
+        viewModel.clear();
         serviceViewModel = new ViewModelProvider(requireActivity()).get(SharedServiceViewModel.class);
         productViewModel = new ViewModelProvider(requireActivity()).get(SharedProductViewModel.class);
 
@@ -214,7 +216,9 @@ public class OrderDetailFragment extends Fragment {
             if (order != null) {
                 if (!loadedBranch) {
                     temp.getBranchInfoById(order.getBranch_id()).observe(getViewLifecycleOwner(), info -> {
-                        txtAddress.setText("Address: " + info.getLocation());
+                        if (info != null) {
+                            txtAddress.setText("Address: " + info.getLocation());
+                        }
                     });
                     loadedBranch = true;
                 }
@@ -231,26 +235,25 @@ public class OrderDetailFragment extends Fragment {
                         productAdapter.setData(list);
                     }
                 });
+                if (order.getAppointment_id() != "null") {
+                    viewModel.loadAppointmentDetail(order.getAppointment_id());
+                    viewModel.getApointmentDetail().observe(getViewLifecycleOwner(), appointment -> {
+                        if (appointment != null && appointment.getServices() != null) {
+                            serviceViewModel.setSelectedServicesById(appointment.getServices());
+                            serviceViewModel.getSelectedServices().observe(getViewLifecycleOwner(), list -> {
+                                if (list != null) {
+                                    Log.d("DEBUG", "Selected Service Size: " + list.size());
 
-
-                viewModel.getApointmentDetail().observe(getViewLifecycleOwner(), appointment -> {
-                    if (appointment != null &&appointment.getServices() != null) {
-                        serviceViewModel.setSelectedServicesById(appointment.getServices());
-                        serviceViewModel.getSelectedServices().observe(getViewLifecycleOwner(), list -> {
-                            if (list != null) {
-                                Log.d("DEBUG", "Selected Service Size: " + list.size());
-
-                                serviceAdapter.setData(list);
-                            }
-                        });
-                        checkUI(order);
-                    }
-                });
-
+                                    serviceAdapter.setData(list);
+                                }
+                            });
+                            updateTotalPrice();
+                        }
+                    });
+                }
                 checkUI(order);
             }
         });
-
 //        productViewModel.getSelectedProducts().observe(getViewLifecycleOwner(), list -> {
 //            if (list != null) {
 //                Log.d("DEBUG", "Selected Products Size: " + list.size());

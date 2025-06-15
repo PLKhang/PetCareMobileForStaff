@@ -36,6 +36,8 @@
                         android:id="@+id/petImage"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
+                        android:background="@drawable/draw_round_only"
+                        android:clipToOutline="true"
                         android:scaleType="fitCenter"
                         android:src="@drawable/temp_avatar" />
                 </FrameLayout>
@@ -52,8 +54,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Name: Lucky"
-                        android:textColor="#000000"
+                        android:text="Name:"
+                        android:textColor="@color/txt_normal"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -62,7 +64,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Dog: Poodle"
+                        android:text="Dog:"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
 
                     <TextView
@@ -70,7 +73,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Birth: 22/12/2023"
+                        android:text="Birth:"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
 
                     <TextView
@@ -78,7 +82,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Weight: 5.2Kg"
+                        android:text="Weight:"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -119,8 +124,8 @@
                     android:layout_weight="1"
                     android:text="Medical Records"
                     android:textColor="@color/txt_title"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
 
                 <ImageButton
                     android:id="@+id/btnToggleMedicalRecord"
@@ -137,16 +142,16 @@
                 android:id="@+id/listOfMedicalRecords"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/draw_background_list_item"
                 android:orientation="vertical"
                 android:padding="5dp"
-                android:background="@drawable/draw_background_list_item"
                 android:visibility="gone">
 
                 <!-- Sample item 1 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerMedicalRecords"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <!-- Footer -->
                 <LinearLayout
@@ -197,8 +202,8 @@
                     android:layout_weight="1"
                     android:text="Vaccination"
                     android:textColor="@color/txt_title"
-                    android:textStyle="bold"
-                    android:textSize="18dp"/>
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
 
                 <ImageButton
                     android:id="@+id/btnToggleVaccination"
@@ -215,16 +220,16 @@
                 android:id="@+id/listOfVaccination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/draw_background_list_item"
                 android:orientation="vertical"
                 android:padding="5dp"
-                android:background="@drawable/draw_background_list_item"
                 android:visibility="gone">
 
                 <!-- Sample item 2 -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerVaccineRecords"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <!-- Footer -->
                 <LinearLayout

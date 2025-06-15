@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/background"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -42,13 +42,15 @@
                             android:id="@+id/customerImage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@drawable/draw_round_only"
+                            android:clipToOutline="true"
                             android:scaleType="fitCenter"
                             android:src="@drawable/temp_avatar" />
                     </FrameLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="90dp"
                         android:layout_marginStart="12dp"
                         android:layout_toEndOf="@id/image"
                         android:orientation="vertical">
@@ -58,7 +60,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="4"
-                            android:text="Name: Le Phuc Khang"
+                            android:text="Name:"
                             android:textColor="@color/txt_normal"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -68,7 +70,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="4"
-                            android:text="Email: email@gmail.com"
+                            android:text="Email:"
+                            android:textColor="@color/txt_normal"
                             android:textSize="16sp" />
 
                         <TextView
@@ -76,9 +79,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="4"
-                            android:text="Phone: 0123456789"
+                            android:text="Phone:"
+                            android:textColor="@color/txt_normal"
                             android:textSize="16sp" />
                     </LinearLayout>
+
                     <Button
                         android:id="@+id/btnStatus"
                         android:layout_width="wrap_content"

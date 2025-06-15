@@ -14,20 +14,20 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_marginBottom="10dp"
             android:elevation="4dp"
             android:padding="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:background="@color/background">
 
                 <FrameLayout
                     android:id="@+id/image"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/draw_image_view"
                     android:clipToOutline="true"
@@ -37,15 +37,16 @@
                         android:id="@+id/petImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitCenter"
+                        android:layout_marginTop="5dp"
                         android:background="@drawable/draw_round_only"
                         android:clipToOutline="true"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/ic_animal" />
                 </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="80dp"
+                    android:layout_height="1000dp"
                     android:layout_marginStart="12dp"
                     android:layout_toEndOf="@id/image"
                     android:orientation="vertical">
@@ -56,7 +57,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:text="Name: Lucky"
-                        android:textColor="#000000"
+                        android:textColor="@color/txt_normal"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -66,6 +67,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:text="Dog: Poodle"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
 
                     <TextView
@@ -74,6 +76,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:text="Birth: 22/12/2023"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
 
                     <TextView
@@ -82,6 +85,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:text="Weight: 5.2Kg"
+                        android:textColor="@color/txt_normal"
                         android:textSize="16sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -128,8 +132,8 @@
             android:background="@drawable/draw_edit_text"
             android:gravity="center|start"
             android:hint="Enter vaccine label"
-            android:textColor="@color/txt_input"
-            android:paddingHorizontal="10dp" />
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/txt_input" />
 
         <!-- Date -->
         <TextView
@@ -152,7 +156,8 @@
             android:gravity="center|start"
             android:hint="Select date"
             android:inputType="date"
-            android:paddingHorizontal="10dp" />
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/txt_input" />
 
         <!-- Date -->
         <TextView
@@ -164,6 +169,7 @@
             android:textColor="@color/txt_normal"
             android:textSize="16sp"
             android:textStyle="bold" />
+
         <TextView
             android:id="@+id/etNextDose"
             android:layout_width="match_parent"
@@ -174,7 +180,8 @@
             android:gravity="center|start"
             android:hint="Select date"
             android:inputType="date"
-            android:paddingHorizontal="10dp" />
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/txt_input" />
 
         <!-- Notes -->
         <TextView
@@ -197,15 +204,16 @@
             android:inputType="textMultiLine"
             android:minLines="3"
             android:paddingHorizontal="10dp"
-            android:paddingTop="5dp" />
+            android:paddingTop="5dp"
+            android:textColor="@color/txt_input" />
         <!-- Submit Button -->
         <Button
             android:id="@+id/btnSubmitMedicalRecord"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:padding="0dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/draw_enable_button"
+            android:padding="0dp"
             android:text="Submit Record"
             android:textColor="@color/txt_button"
             android:textSize="18sp" />

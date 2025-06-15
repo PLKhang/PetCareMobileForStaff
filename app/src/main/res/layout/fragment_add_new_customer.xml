@@ -3,8 +3,8 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#4DB6AC">
+    android:background="#4DB6AC"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,109 +14,118 @@
 
         <!-- Name -->
         <TextView
-            android:text="Name *"
-            android:textStyle="bold"
-            android:textSize="16sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Name *"
+            android:textColor="@color/txt_normal"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
-            android:paddingStart="10dp"
             android:background="@drawable/draw_edit_text"
-            android:hint="Enter customer's name" />
+            android:hint="Enter customer's name"
+            android:paddingStart="10dp"
+            android:textColor="@color/txt_input" />
 
         <!-- Phone number -->
         <TextView
-            android:text="Phone number *"
-            android:textStyle="bold"
-            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:text="Phone number *"
+            android:textColor="@color/txt_normal"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/etPhone"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/draw_edit_text"
+            android:hint="Enter phone number"
             android:inputType="phone"
             android:paddingStart="10dp"
-            android:background="@drawable/draw_edit_text"
-            android:hint="Enter phone number" />
+            android:textColor="@color/txt_input" />
 
         <!-- Email -->
         <TextView
-            android:text="Email *"
-            android:textStyle="bold"
-            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:text="Email *"
+            android:textColor="@color/txt_normal"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/draw_edit_text"
+            android:hint="Enter email"
             android:inputType="textEmailAddress"
             android:paddingStart="10dp"
-            android:background="@drawable/draw_edit_text"
-            android:hint="Enter email" />
+            android:textColor="@color/txt_input" />
 
-<!--        &lt;!&ndash; Birthday &ndash;&gt;-->
-<!--        <TextView-->
-<!--            android:text="Birthday"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textSize="16sp"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="12dp" />-->
-<!--        <EditText-->
-<!--            android:id="@+id/etBirthday"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:hint="DD/MM/YYYY"-->
-<!--            android:focusable="false"-->
-<!--            android:paddingHorizontal="10dp"-->
-<!--            android:background="@drawable/draw_edit_text"-->
-<!--            android:drawableEnd="@drawable/ic_calendar" />-->
+        <!--        &lt;!&ndash; Birthday &ndash;&gt;-->
+        <!--        <TextView-->
+        <!--            android:text="Birthday"-->
+        <!--            android:textStyle="bold"-->
+        <!--            android:textSize="16sp"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="12dp" />-->
+        <!--        <EditText-->
+        <!--            android:id="@+id/etBirthday"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:hint="DD/MM/YYYY"-->
+        <!--            android:focusable="false"-->
+        <!--            android:paddingHorizontal="10dp"-->
+        <!--            android:background="@drawable/draw_edit_text"-->
+        <!--            android:drawableEnd="@drawable/ic_calendar" />-->
 
-<!--        &lt;!&ndash; Address &ndash;&gt;-->
-<!--        <TextView-->
-<!--            android:text="Address"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textSize="16sp"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="12dp" />-->
-<!--        <EditText-->
-<!--            android:id="@+id/etAddress"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:hint="Enter customer's address"-->
-<!--            android:paddingStart="10dp"-->
-<!--            android:background="@drawable/draw_edit_text" />-->
+        <!--        &lt;!&ndash; Address &ndash;&gt;-->
+        <!--        <TextView-->
+        <!--            android:text="Address"-->
+        <!--            android:textStyle="bold"-->
+        <!--            android:textSize="16sp"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="12dp" />-->
+        <!--        <EditText-->
+        <!--            android:id="@+id/etAddress"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:hint="Enter customer's address"-->
+        <!--            android:paddingStart="10dp"-->
+        <!--            android:background="@drawable/draw_edit_text" />-->
 
         <!-- Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
             android:gravity="center"
-            android:layout_marginTop="24dp">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/draw_enable_button"
-                android:textColor="@color/txt_button"
                 android:padding="0dp"
-                android:text="Cancel" />
+                android:text="Cancel"
+                android:textColor="@color/txt_button" />
 
             <View
                 android:layout_width="16dp"
@@ -125,12 +134,12 @@
             <Button
                 android:id="@+id/btnCreate"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/draw_enable_button"
-                android:textColor="@color/txt_button"
                 android:padding="0dp"
-                android:text="Create" />
+                android:text="Create"
+                android:textColor="@color/txt_button" />
         </LinearLayout>
 
     </LinearLayout>

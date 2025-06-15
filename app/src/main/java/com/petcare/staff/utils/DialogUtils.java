@@ -42,7 +42,7 @@ public class DialogUtils {
         showConfirmationDialog(
                 context,
                 "Create Record",
-                "Do you want to create this medical record?",
+                "Do you want to create this record?",
                 "Create",
                 "Cancel",
                 listener

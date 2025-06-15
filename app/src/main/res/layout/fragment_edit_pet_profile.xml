@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
-        <!-- Top profile -->
+    <!-- Top profile -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,9 +29,9 @@
                     android:id="@+id/petImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
                     android:background="@drawable/draw_round_only"
                     android:clipToOutline="true"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/temp_avatar" />
             </FrameLayout>
 
@@ -48,7 +48,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="Name: Lucky"
-                    android:textColor="#000000"
+                    android:textColor="@color/txt_normal"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -58,6 +58,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="Dog: Poodle"
+                    android:textColor="@color/txt_normal"
                     android:textSize="16sp" />
 
                 <TextView
@@ -66,6 +67,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="Birth: 22/12/2023"
+                    android:textColor="@color/txt_normal"
                     android:textSize="16sp" />
             </LinearLayout>
         </RelativeLayout>
@@ -90,7 +92,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Weight *"
+                android:text="Weight (Kg) *"
+                android:textColor="@color/txt_normal"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -101,13 +104,15 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/draw_edit_text"
                 android:hint="Enter pet's weight"
-                android:paddingStart="10dp" />
+                android:paddingStart="10dp"
+                android:textColor="@color/txt_input" />
             <!-- Color -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Color"
+                android:textColor="@color/txt_normal"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -118,13 +123,15 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/draw_edit_text"
                 android:hint="Enter pet's color"
-                android:paddingStart="10dp" />
+                android:paddingStart="10dp"
+                android:textColor="@color/txt_input" />
             <!-- Identity mark -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Identity mark"
+                android:textColor="@color/txt_normal"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -135,7 +142,8 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/draw_edit_text"
                 android:hint="Enter identity mark"
-                android:paddingStart="10dp" />
+                android:paddingStart="10dp"
+                android:textColor="@color/txt_input" />
 
             <!-- Buttons -->
             <LinearLayout

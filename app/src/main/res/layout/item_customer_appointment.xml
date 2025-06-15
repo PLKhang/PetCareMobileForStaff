@@ -10,7 +10,7 @@
         android:id="@+id/appointmentSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:text="15/05/2025 12:30PM"
         android:textColor="@color/txt_normal"
         android:textSize="16sp"
@@ -22,7 +22,7 @@
         android:id="@+id/appointmentAddress"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="97 Man Thien, Hiep Phu, Thu Duc"
@@ -35,13 +35,14 @@
         android:id="@+id/appointmentStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
         android:text="Status: Created"
         android:textColor="@color/txt_normal"
+        android:textStyle="bold"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appointmentAddress" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <Button
         android:id="@+id/btnAppointmentInfo"
