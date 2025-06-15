@@ -21,11 +21,13 @@ public class SharedOrderViewModel extends ViewModel {
     }
 
     public void setOrderLiveData(Order order) {
-        for (Product p: order.getProducts()){
-        Log.d("SetOrderLiveData", "Product: " +p.toString());
-        }
+        if (order != null) {
+            for (Product p : order.getProducts()) {
+                Log.d("SetOrderLiveData", "Product: " + p.toString());
+            }
 
-        this.orderLiveData.setValue(order);
+            this.orderLiveData.setValue(order);
+        }
     }
 
 
@@ -57,12 +59,11 @@ public class SharedOrderViewModel extends ViewModel {
         return total;
     }
 
-    public void setTotal(float total)
-    {
+    public void setTotal(float total) {
         this.total.setValue(total);
     }
 
-    public void resetOrderLiveData(){
+    public void resetOrderLiveData() {
         this.orderLiveData.setValue(null);
     }
 }
