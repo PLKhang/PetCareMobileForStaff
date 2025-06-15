@@ -233,7 +233,7 @@ public class OrderDetailFragment extends Fragment {
                 });
 
 
-                viewModel.getApointmentDetail().observeForever(appointment -> {
+                viewModel.getApointmentDetail().observe(getViewLifecycleOwner(), appointment -> {
                     if (appointment != null &&appointment.getServices() != null) {
                         serviceViewModel.setSelectedServicesById(appointment.getServices());
                         serviceViewModel.getSelectedServices().observe(getViewLifecycleOwner(), list -> {

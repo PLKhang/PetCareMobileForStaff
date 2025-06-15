@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "584560514257",
+    "project_id": "petcare-55411",
+    "storage_bucket": "petcare-55411.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584560514257:android:e01995ba987f9bc46a61f0",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1QUXQJdKyXzoAjr2RtCGdVkWC7w0GvgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584560514257:android:3b056ad5e99de98d6a61f0",
+        "android_client_info": {
+          "package_name": "com.petcare.appointment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1QUXQJdKyXzoAjr2RtCGdVkWC7w0GvgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584560514257:android:bb655c20253610316a61f0",
+        "android_client_info": {
+          "package_name": "com.petcare.staff"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1QUXQJdKyXzoAjr2RtCGdVkWC7w0GvgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

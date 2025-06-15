@@ -24,7 +24,6 @@ import java.util.List;
 public class OrderDetailViewModel extends AndroidViewModel {
     private final OrderRepository orderRepository;
     private final AppointmentRepository appointmentRepository;
-
     private final MutableLiveData<Order> orderLiveData = new MutableLiveData<>();
     private final MutableLiveData<Appointment> appointment = new MutableLiveData<>();
     private boolean loadedAppointment = false;

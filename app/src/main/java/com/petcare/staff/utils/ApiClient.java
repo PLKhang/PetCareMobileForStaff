@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.petcare.staff.data.remote.NotificationApi;
 import com.petcare.staff.data.remote.AppointmentApi;
 import com.petcare.staff.data.remote.OrderApi;
 import com.petcare.staff.data.remote.PaymentApi;
@@ -20,45 +21,60 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClient {
-    private static Retrofit retrofit;
+    private static Retrofit defaultRetrofit;
+    private static Retrofit notificationRetrofit;
 
-    public static Retrofit getInstance(Context context) {
-        if (retrofit == null) {
-            String token = SharedPrefManager.getToken(context);
+    private static OkHttpClient createClient(Context context) {
+        return new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request original = chain.request();
 
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(chain -> {
-                        Request original = chain.request();
+                    String latestToken = SharedPrefManager.getToken(context);
+                    Log.d("TOKEN_DEBUG", "Using token: " + latestToken);
 
-                        // Lấy token mỗi lần thực hiện request
-                        String latestToken = SharedPrefManager.getToken(context);
-                        Log.d("TOKEN_DEBUG", "Using token: " + latestToken);
+                    Request.Builder builder = original.newBuilder();
+                    if (latestToken != null && !latestToken.isEmpty()) {
+                        builder.header("Authorization", "Bearer " + latestToken);
+                    }
 
-                        Request.Builder builder = original.newBuilder();
-                        if (latestToken != null && !latestToken.isEmpty()) {
-                            builder.header("Authorization", "Bearer " + latestToken);
-                        }
-
-                        Request request = builder.build();
-                        return chain.proceed(request);
-                    })
-                    .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                    .build();
-
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapterFactory(new CaseInsensitiveEnumAdapterFactory())
-                    .create();
-
-            retrofit = new Retrofit.Builder()
-                    .baseUrl("http://10.0.2.2:8080/") //10.0.2.2 // http://26.199.48.182:8080/  http://192.168.1.8:8080/ http://127.0.0.1:8080/
-                    .client(client)
-                    .addConverterFactory(ScalarsConverterFactory.create()) //health check
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build();
-        }
-        return retrofit;
+                    Request request = builder.build();
+                    return chain.proceed(request);
+                })
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
     }
 
+    private static Gson getGson() {
+        return new GsonBuilder()
+                .registerTypeAdapterFactory(new CaseInsensitiveEnumAdapterFactory())
+                .create();
+    }
+
+    public static Retrofit getInstance(Context context) {
+        if (defaultRetrofit == null) {
+            defaultRetrofit = new Retrofit.Builder()
+                    .baseUrl("http://26.199.48.182:8080/")
+                    .client(createClient(context))
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(getGson()))
+                    .build();
+        }
+        return defaultRetrofit;
+    }
+
+    public static Retrofit getNotificationInstance(Context context) {
+        if (notificationRetrofit == null) {
+            notificationRetrofit = new Retrofit.Builder()
+                    .baseUrl("http://26.199.48.182:8088") //
+                    .client(createClient(context))
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(getGson()))
+                    .build();
+        }
+        return notificationRetrofit;
+    }
+
+    // Các API sử dụng base chính
     public static UserApi getUserApi(Context context) {
         return getInstance(context).create(UserApi.class);
     }
@@ -81,5 +97,10 @@ public class ApiClient {
 
     public static RecordApi getRecordApi(Context context) {
         return getInstance(context).create(RecordApi.class);
+    }
+
+    // Notification API riêng
+    public static NotificationApi getNotificationApi(Context context) {
+        return getNotificationInstance(context).create(NotificationApi.class);
     }
 }

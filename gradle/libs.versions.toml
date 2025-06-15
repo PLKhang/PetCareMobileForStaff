@@ -15,6 +15,7 @@ retrofit = "3.0.0"
 roomCommonJvm = "2.7.1"
 picasso = "2.71828"
 volley = "1.2.1"
+firebaseMessaging = "24.1.1"
 
 [libraries]
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
@@ -34,6 +35,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

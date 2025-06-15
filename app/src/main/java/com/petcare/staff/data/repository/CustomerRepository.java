@@ -42,10 +42,8 @@ public class CustomerRepository {
                     customerLiveData.setValue(null);
                 }
             }
-
             @Override
             public void onFailure(Call<List<CustomerResponse>> call, Throwable t) {
-
                 Log.d("API_DEBUG", "Failure to get all customer");
                 customerLiveData.setValue(null);
             }
@@ -80,5 +78,4 @@ public class CustomerRepository {
             }
         });
     }
-
 }

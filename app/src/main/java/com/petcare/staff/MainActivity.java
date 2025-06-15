@@ -26,9 +26,13 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.petcare.staff.data.model.api.notification.NotificationApiRequest;
 import com.petcare.staff.ui.activity.LoginActivity;
 import com.petcare.staff.ui.appointment.viewmodel.AppointmentListViewModel;
+import com.petcare.staff.ui.common.repository.RepositoryCallback;
 import com.petcare.staff.ui.home.viewmodel.BranchViewModel;
+import com.petcare.staff.ui.home.viewmodel.NotificationViewModel;
 import com.petcare.staff.ui.userprofile.viewmodel.UserProfileViewModel;
 import com.petcare.staff.utils.SharedPrefManager;
 
@@ -50,7 +54,39 @@ public class MainActivity extends AppCompatActivity {
         userProfileViewModel.loadCurrentUser(); //load user từ repository và lưu vào LiveData
         BranchViewModel branchViewModel = new ViewModelProvider(this).get(BranchViewModel.class);
         AppointmentListViewModel appointmentListViewModel = new ViewModelProvider(this).get(AppointmentListViewModel.class);
+        NotificationViewModel notificationViewModel = new ViewModelProvider(this).get(NotificationViewModel.class);
 
+
+        // notification
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("FCM", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+
+                    // Get new FCM registration token
+                    String token = task.getResult();
+                    Log.d("FCM", "FCM Token: " + token);
+
+                    userProfileViewModel.getUser().observe(this, user -> {
+                    NotificationApiRequest request = new NotificationApiRequest(user.getId(), user.getBranchId(), token);
+
+                    notificationViewModel.sendNotificationRequest(request, new RepositoryCallback() {
+                        @Override
+                        public void onSuccess(String message) {
+                            Log.d("Notification", "Success: " + message);
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            Log.d("Notification", "Fail: " + t.getMessage());
+                        }
+                    });
+                    });
+                });
+
+        FirebaseMessaging.getInstance().subscribeToTopic("staff");
 
         // Set up NavController
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);

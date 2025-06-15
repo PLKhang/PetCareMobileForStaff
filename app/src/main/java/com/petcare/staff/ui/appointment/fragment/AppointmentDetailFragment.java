@@ -169,6 +169,8 @@ public class AppointmentDetailFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("fromOrder", false);
                     bundle.putBoolean("fromAppointment", true);
+                    SharedOrderViewModel orderViewModel = new ViewModelProvider(requireActivity()).get(SharedOrderViewModel.class);
+                    orderViewModel.setOrderLiveData(viewModel.getAppointmentDetail().getValue().getOrder());
                     appointmentViewModel.setAppointmentLiveData(viewModel.getAppointmentDetail().getValue());
 
                     productViewModel.resetClearFlag();
