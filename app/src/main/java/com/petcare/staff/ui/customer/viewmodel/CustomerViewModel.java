@@ -1,6 +1,7 @@
 package com.petcare.staff.ui.customer.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -49,9 +50,13 @@ public class CustomerViewModel extends AndroidViewModel {
 
     public Customer getCustomerById(String customerId) {
         for (Customer c : customers.getValue()) {
-            if (c.getId().equals(customerId))
+            if (c.getId().equals(customerId)) {
+                Log.d("CustomerSelected", "Customer id: " + c.getId());
                 return c;
+            }
         }
+        Log.d("CustomerSelected", "NULL for id: " + customerId);
+
         return null;
     }
 }

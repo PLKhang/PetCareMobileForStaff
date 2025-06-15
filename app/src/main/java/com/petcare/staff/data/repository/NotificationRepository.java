@@ -8,11 +8,14 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.petcare.staff.data.model.api.notification.NotificationApiRequest;
 import com.petcare.staff.data.model.api.notification.NotificationApiResponse;
+import com.petcare.staff.data.model.mapper.NotificationMapper;
+import com.petcare.staff.data.model.ui.Notification;
 import com.petcare.staff.data.remote.NotificationApi;
 import com.petcare.staff.data.model.api.notification.NotificationResponse;
 import com.petcare.staff.ui.common.repository.RepositoryCallback;
 import com.petcare.staff.utils.ApiClient;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,19 +32,23 @@ public class NotificationRepository {
     }
 
     public LiveData<List<NotificationResponse>> getNotifications() {
+        MutableLiveData <List<Notification>> liveData = new MutableLiveData<>();
         notificationApi.getNotifications().enqueue(new Callback<List<NotificationResponse>>() {
             @Override
             public void onResponse(Call<List<NotificationResponse>> call, Response<List<NotificationResponse>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    notifications.postValue(response.body());
+                    List<Notification> notificationList = NotificationMapper.toNotificationList(response.body());
+                    Log.e("NotificationRepo", "Notifications: " + notificationList.size());
+                    liveData.setValue(notificationList);
                 } else {
-                    notifications.postValue(Collections.emptyList());
+                    Log.e("NotificationRepo", "API call fail, code: " + response.code());
+                    liveData.setValue(new ArrayList<>());
                 }
             }
 
             @Override
             public void onFailure(Call<List<NotificationResponse>> call, Throwable t) {
-                notifications.postValue(Collections.emptyList());
+                liveData.setValue(new ArrayList<>());
                 Log.e("NotificationRepo", "API call failed: " + t.getMessage());
             }
         });

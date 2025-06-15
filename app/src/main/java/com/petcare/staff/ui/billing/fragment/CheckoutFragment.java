@@ -112,8 +112,11 @@ public class CheckoutFragment extends Fragment {
         createBillViewModel = new ViewModelProvider(requireActivity()).get(SharedOrderViewModel.class);
         appointmentViewModel = new ViewModelProvider(requireActivity()).get(SharedAppointmentViewModel.class);
         customerViewModel.getSelectedCustomer().observe(getViewLifecycleOwner(), customer -> {
-            this.customer = customer;
-            showCustomerInfo();
+            if (customer != null)
+            {
+                this.customer = customer;
+                showCustomerInfo();
+            }
         });
 
         createBillViewModel.getOrderLiveData().observe(getViewLifecycleOwner(), order -> {

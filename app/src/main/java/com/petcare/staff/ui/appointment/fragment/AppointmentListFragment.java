@@ -156,7 +156,7 @@ public class AppointmentListFragment extends Fragment {
             bundle.putSerializable("appointmentId", appointment.getId());
             CustomerViewModel customerViewModel = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
             SelectedCustomerViewModel selectedCustomerViewModel = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
-            selectedCustomerViewModel.setSelectedCustomer(customerViewModel.getCustomerById(appointment.getId()));
+            selectedCustomerViewModel.setSelectedCustomer(customerViewModel.getCustomerById(appointment.getCustomerId()));
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.appointmentDetailFragment, bundle);
         });
         branchAppointmentAdapter = new AppointmentAdapter(appointment -> {
@@ -165,7 +165,7 @@ public class AppointmentListFragment extends Fragment {
             bundle.putSerializable("appointmentId", appointment.getId());
             CustomerViewModel customerViewModel = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
             SelectedCustomerViewModel selectedCustomerViewModel = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
-            selectedCustomerViewModel.setSelectedCustomer(customerViewModel.getCustomerById(appointment.getId()));
+            selectedCustomerViewModel.setSelectedCustomer(customerViewModel.getCustomerById(appointment.getCustomerId()));
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.appointmentDetailFragment, bundle);
         });
         otherAppointmentAdapter = new AppointmentAdapter(appointment -> {
@@ -174,7 +174,7 @@ public class AppointmentListFragment extends Fragment {
             bundle.putSerializable("appointmentId", appointment.getId());
             CustomerViewModel customerViewModel = new ViewModelProvider(requireActivity()).get(CustomerViewModel.class);
             SelectedCustomerViewModel selectedCustomerViewModel = new ViewModelProvider(requireActivity()).get(SelectedCustomerViewModel.class);
-            selectedCustomerViewModel.setSelectedCustomer(customerViewModel.getCustomerById(appointment.getId()));
+            selectedCustomerViewModel.setSelectedCustomer(customerViewModel.getCustomerById(appointment.getCustomerId()));
             ((MainActivity) requireActivity()).navigateToWithBackStack(R.id.appointmentDetailFragment, bundle);
         });
 

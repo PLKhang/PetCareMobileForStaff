@@ -31,6 +31,7 @@ import com.petcare.staff.data.model.api.notification.NotificationApiRequest;
 import com.petcare.staff.ui.activity.LoginActivity;
 import com.petcare.staff.ui.appointment.viewmodel.AppointmentListViewModel;
 import com.petcare.staff.ui.common.repository.RepositoryCallback;
+import com.petcare.staff.ui.customer.viewmodel.CustomerViewModel;
 import com.petcare.staff.ui.home.viewmodel.BranchViewModel;
 import com.petcare.staff.ui.home.viewmodel.NotificationViewModel;
 import com.petcare.staff.ui.userprofile.viewmodel.UserProfileViewModel;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         UserProfileViewModel userProfileViewModel = new ViewModelProvider(this).get(UserProfileViewModel.class);
         userProfileViewModel.loadCurrentUser(); //load user từ repository và lưu vào LiveData
+        CustomerViewModel customerViewModel = new ViewModelProvider(this).get(CustomerViewModel.class);
+        customerViewModel.loadAllCustomers();
         BranchViewModel branchViewModel = new ViewModelProvider(this).get(BranchViewModel.class);
         AppointmentListViewModel appointmentListViewModel = new ViewModelProvider(this).get(AppointmentListViewModel.class);
         NotificationViewModel notificationViewModel = new ViewModelProvider(this).get(NotificationViewModel.class);
